@@ -506,7 +506,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 <!-- TRUST BAR -->
 <div class="trust">
   <div class="ti"><div class="ti-icon">⚗️</div><div><div class="ti-t">Pureza 99%+</div><div class="ti-s">COA por cada lote</div></div></div>
-  <div class="ti"><div class="ti-icon">🚚</div><div><div class="ti-t">Envío express</div><div class="ti-s">Toda la república · 2–5 días</div></div></div>
+  <div class="ti"><div class="ti-icon">🚚</div><div><div class="ti-t">Envío gratis +$3,000</div><div class="ti-s">Toda la república · 2–5 días</div></div></div>
   <div class="ti"><div class="ti-icon">🔒</div><div><div class="ti-t">Pago seguro</div><div class="ti-s">Mercado Pago · SPEI</div></div></div>
   <div class="ti"><div class="ti-icon">📋</div><div><div class="ti-t">Research Use Only</div><div class="ti-s">Uso exclusivo científico</div></div></div>
 </div>
@@ -518,7 +518,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <div class="sec-tag">Catálogo completo</div>
       <div class="sec-title">Nuestros péptidos</div>
     </div>
-    <div class="prod-count">12 productos disponibles</div>
+    <div class="prod-count">13 productos disponibles</div>
   </div>
 
   <div class="grid" id="main-grid">
@@ -541,6 +541,23 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <div class="p-foot">
         <div class="p-price"><span id="reta-price">$1,699</span><small>MXN por vial</small></div>
         <button class="btn-add" id="reta-add">Agregar</button>
+      </div>
+    </div>
+
+    <!-- BUNDLE BIENVENIDA -->
+    <div class="card featured fade-in" id="card-bundle" style="grid-column:span 1;border:1px solid rgba(201,168,76,0.35)">
+      <div class="badge" style="background:#E07070">🎁 OFERTA</div>
+      <div class="p-cat">Bundle de bienvenida · Primera compra</div>
+      <div class="p-name">Retatrutide + BAC Water</div>
+      <div class="p-dose">10 mg + 3 mL · Pack completo</div>
+      <p class="p-desc">Todo lo que necesitas para empezar tu investigación. Incluye Retatrutide 10 mg (el péptido metabólico más avanzado) + Agua bacteriostática 3 mL para reconstitución. Ahorras $99 MXN.</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--muted);text-decoration:line-through">$1,798</span>
+        <span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#E07070;font-weight:500">BAC Water GRATIS</span>
+      </div>
+      <div class="p-foot">
+        <div class="p-price">$1,699<small>MXN por pack</small></div>
+        <button class="btn-add" onclick="openModal('Bundle Retatrutide + BAC Water','10 mg + 3 mL · Pack completo',1699)">Agregar</button>
       </div>
     </div>
 
@@ -573,8 +590,8 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <a class="vml" href="peptide_detail.html?p=nad">Ver información detallada →</a>
       <a class="vml" style="color:var(--gold);font-weight:500" href="javascript:void(0)" onclick="goToTiendanube('nad')">🛒 Comprar en tienda →</a>
       <div class="p-foot">
-        <div class="p-price">$1,399<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('NAD+','500 mg · Alta concentración',1399)">Agregar</button>
+        <div class="p-price">$1,190<small>MXN por vial</small></div>
+        <button class="btn-add" onclick="openModal('NAD+','500 mg · Alta concentración',1190)">Agregar</button>
       </div>
     </div>
 
@@ -785,7 +802,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Cómo verifico la pureza del producto?</div><div class="faq-a">Cada producto incluye un COA (Certificado de Análisis) con un ID único verificable públicamente en finnrick.com/verify o janoshik.com/verify. Puedes confirmar la pureza, lote y método de análisis de forma independiente.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Cómo se reconstituyen los péptidos liofilizados?</div><div class="faq-a">Se añade agua bacteriostática estéril al vial liofilizado con una jeringa. La cantidad depende de la dosis deseada — usa nuestra calculadora de reconstitución en la sección Recursos para calcular exactamente cuántos μL corresponden a tu dosis.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Cuáles son las condiciones de almacenamiento?</div><div class="faq-a">Los péptidos liofilizados se almacenan a 2°C–8°C (refrigerador). No congelar. Proteger de la luz. Una vez reconstituidos, usar dentro de 30 días manteniendo refrigeración.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Hacen envíos a toda la república?</div><div class="faq-a">Sí, enviamos a toda la república mexicana. El tiempo de entrega es de 2 a 5 días hábiles dependiendo de tu ubicación. El envío es gratuito en pedidos mayores a $1,000 MXN.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Hacen envíos a toda la república?</div><div class="faq-a">Sí, enviamos a toda la república mexicana. El tiempo de entrega es de 2 a 5 días hábiles dependiendo de tu ubicación. El envío es gratuito en pedidos mayores a $3,000 MXN.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Qué métodos de pago aceptan?</div><div class="faq-a">Aceptamos tarjetas de crédito y débito (Visa, Mastercard, AMEX), transferencia SPEI, y pago en efectivo en OXXO a través de Mercado Pago.</div></div>
   </div>
 </section>
@@ -1332,11 +1349,11 @@ function updateShippingBar() {
   if(!bar) return;
   if(!cart.length){ bar.style.display='none'; return; }
   bar.style.display='block';
-  var pct=Math.min(100,Math.round(t.raw/7000*100));
+  var pct=Math.min(100,Math.round(t.raw/3000*100));
   fill.style.width=pct+'%';
-  if(t.raw>=7000){ msg.innerHTML='🎉 <span style="color:var(--gold)">¡Envío gratis desbloqueado!</span>'; }
+  if(t.raw>=3000){ msg.innerHTML='🎉 <span style="color:var(--gold)">¡Envío gratis desbloqueado!</span>'; }
   else{
-    var falta=(7000-t.raw).toLocaleString('es-MX');
+    var falta=(3000-t.raw).toLocaleString('es-MX');
     msg.innerHTML='Agrega <strong style="color:var(--cream)">$'+falta+' MXN</strong> más para <span style="color:var(--gold)">envío gratis</span>';
   }
   // Discount row
