@@ -313,11 +313,11 @@
 <body>
 
 <nav>
-  <a class="nav-back" href="aurum_peptides.html">
+  <a class="nav-back" href="index.html">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
     Catálogo
   </a>
-  <a class="nav-logo" href="aurum_peptides.html">AURUM</a>
+  <a class="nav-logo" href="index.html">AURUM</a>
   <div style="width:80px"></div>
 </nav>
 
@@ -330,8 +330,8 @@
     <div class="hero-dose" id="p-dose">10 mg · Polvo liofilizado</div>
     <p class="hero-desc" id="p-desc">El péptido metabólico más avanzado disponible. Triple mecanismo de acción sobre receptores GIP, GLP-1 y Glucagón.</p>
     <div class="hero-actions">
-      <button class="btn-primary" id="btn-add">Agregar al carrito</button>
-      <a class="btn-secondary" href="aurum_peptides.html">Ver catálogo completo</a>
+      <button class="btn-primary" id="btn-add">💳 Pagar con Mercado Pago</button>
+      <a class="btn-secondary" href="index.html">Ver catálogo completo</a>
     </div>
   </div>
   <div class="price-badge">
@@ -815,10 +815,20 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('p-desc').textContent = p.desc;
   document.getElementById('p-price').textContent = p.price;
 
-  // Add to cart button
+  // Add to cart button - redirect to Mercado Pago
+  var mpLinks = {
+    'Retatrutide': 'https://mpago.la/28H5xsS',
+    'Tirzepatide': 'https://mpago.la/2t2891v',
+    'GHK-Cu': 'https://mpago.la/2sakWxD',
+    'Mots-C': 'https://mpago.la/1V1XBHm',
+    'SS-31': 'https://mpago.la/1Ke46Hi',
+    'NAD+': 'https://mpago.la/27YDc4H',
+    'Ipamorelin': 'https://mpago.la/1KrgeMi',
+    'BAC Water': 'https://mpago.la/2SoDkcs'
+  };
+  var mpUrl = mpLinks[p.name] || 'index.html#catalogo';
   document.getElementById('btn-add').addEventListener('click', () => {
-    // Go back to main page with cart intent
-    window.location.href = 'aurum_peptides.html#catalogo';
+    window.open(mpUrl, '_blank');
   });
 
   // Specs
