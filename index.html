@@ -922,7 +922,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <div class="ship-track"><div class="ship-fill" id="ship-fill"></div></div>
     </div>
     <div class="cart-sub"><span>Subtotal</span><span class="cart-sub-v" id="cart-total">$0</span></div>
-    <button class="btn-checkout" onclick="window.open(CONFIG.tiendanube, '_blank')">Comprar en Tienda</button>
+    <button class="btn-checkout" onclick="checkoutTiendanube()">🛒 Finalizar en Tiendanube</button>
     <button class="btn-wa" onclick="sendWhatsApp()">Pedir por WhatsApp</button>
   </div>
 </div>
@@ -992,6 +992,52 @@ var CONFIG = {
 function goToTiendanube(productKey) {
   var path = CONFIG.productLinks[productKey] || '';
   window.open(CONFIG.tiendanube + path, '_blank');
+}
+
+// ── SMART TIENDANUBE CHECKOUT ──
+var TIENDANUBE_MAP = {
+  'Retatrutide': '/productos/retatrutide-10-mg-peptido-triple-agonista-gip-glp-1-glucagon/',
+  'Tirzepatide': '/productos/tirzepatide-10-mg/',
+  'GHK-Cu': '/productos/ghk-cu-50-mg/',
+  'Mots-C': '/productos/mots-c-10-mg/',
+  'SS-31': '/productos/ss-31-10-mg-elamipeptide-cardioproteccion-mitocondrial/',
+  'NAD+': '/productos/nad-500-mg-coenzima-energia-celular-y-longevidad/',
+  'Ipamorelin': '/productos/ipamorelin-5-mg/',
+  'Bundle Retatrutide + BAC Water': '/productos/retatrutide-10-mg-peptido-triple-agonista-gip-glp-1-glucagon/'
+};
+
+function checkoutTiendanube() {
+  if (cart.length === 0) {
+    showToast('Tu carrito está vacío');
+    return;
+  }
+  // Si hay 1 solo producto, ir directo a ese producto en Tiendanube
+  if (cart.length === 1) {
+    var item = cart[0];
+    var path = TIENDANUBE_MAP[item.name] || '/productos/';
+    window.open(CONFIG.tiendanube + path, '_blank');
+    showToast('✓ Redirigiendo a Tiendanube...');
+    return;
+  }
+  // Si hay múltiples productos, enviar pedido por WhatsApp con detalle
+  // y abrir Tiendanube para que el cliente complete la compra
+  var msg = '🛒 *Pedido desde aurumpeptides.mx*\n\n';
+  cart.forEach(function(item) {
+    msg += '• ' + item.name + ' (' + item.dose + ') x' + item.qty + ' — $' + (item.price * item.qty).toLocaleString('es-MX') + '\n';
+  });
+  var t = getCartTotals();
+  if (t.discount > 0) {
+    msg += '\n🏷 Código: ' + t.code + ' (-$' + t.discount.toLocaleString('es-MX') + ')';
+  }
+  msg += '\n💰 *Total: $' + t.total.toLocaleString('es-MX') + ' MXN*';
+  msg += '\n\n_Quiero finalizar mi compra con estos productos._';
+  var url = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(msg);
+  window.open(url, '_blank');
+  // También abrir Tiendanube carrito
+  setTimeout(function() {
+    window.open(CONFIG.tiendanube + '/productos/', '_blank');
+  }, 1000);
+  showToast('✓ Pedido enviado — completa tu compra en Tiendanube');
 }
 
 // ── MOBILE MENU ──
