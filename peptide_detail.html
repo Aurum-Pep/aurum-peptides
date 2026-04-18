@@ -187,6 +187,98 @@
   }
   .verify-btn:hover { background: var(--gold-pale); border-color: var(--gold); }
 
+  /* ── BENEFITS / PROTOCOL / PRECAUTIONS (NEW) ── */
+  .info-cols {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+    padding: 60px 48px; max-width: 1200px; margin: 0 auto;
+  }
+  .info-card {
+    background: var(--black3); border: 1px solid rgba(201,168,76,0.12);
+    padding: 32px;
+  }
+  .info-card h3 {
+    font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400;
+    color: var(--gold); margin-bottom: 20px; letter-spacing: 0.5px;
+  }
+  .benefit-list, .recommended-list {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .benefit-list li, .recommended-list li {
+    color: var(--lite); font-size: 14px; line-height: 1.6;
+    padding-left: 24px; position: relative;
+  }
+  .benefit-list li::before {
+    content: '✓'; position: absolute; left: 0; color: var(--gold); font-weight: 600;
+  }
+  .recommended-list li::before {
+    content: '•'; position: absolute; left: 8px; color: var(--gold); font-size: 18px;
+  }
+  .application-block {
+    background: rgba(201,168,76,0.06); padding: 20px;
+    border-left: 3px solid var(--gold); margin-top: 16px;
+  }
+  .application-block strong { color: var(--gold); }
+
+  /* ── DOSAGE TABLE (NEW) ── */
+  .protocol-section { padding: 60px 48px; max-width: 1200px; margin: 0 auto; }
+  .protocol-table-wrap {
+    background: var(--black3); border: 1px solid rgba(201,168,76,0.12);
+    padding: 32px; overflow-x: auto;
+  }
+  .protocol-table {
+    width: 100%; border-collapse: collapse; min-width: 600px;
+  }
+  .protocol-table th {
+    text-align: left; padding: 12px 16px;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); font-weight: 500;
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+  }
+  .protocol-table td {
+    padding: 14px 16px; border-bottom: 1px solid rgba(201,168,76,0.06);
+    color: var(--lite); font-size: 14px;
+  }
+  .protocol-table tr:last-child td { border-bottom: none; }
+  .protocol-table tr:hover td { background: rgba(201,168,76,0.04); }
+  .protocol-table .stage {
+    font-family: 'Cormorant Garamond', serif; color: var(--gold);
+    font-style: italic; font-size: 15px;
+  }
+  .protocol-note {
+    margin-top: 20px; padding: 16px;
+    background: rgba(201,168,76,0.06); font-size: 12px;
+    color: var(--muted); line-height: 1.7; font-style: italic;
+  }
+
+  /* ── PRECAUTIONS (NEW) ── */
+  .precautions-section { padding: 60px 48px 80px; max-width: 1200px; margin: 0 auto; }
+  .precautions-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .precaution-card {
+    background: var(--black2); border: 1px solid rgba(201,168,76,0.1);
+    padding: 24px;
+  }
+  .precaution-card .icon {
+    font-size: 24px; margin-bottom: 12px; color: var(--gold);
+  }
+  .precaution-card h4 {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px; font-weight: 500;
+  }
+  .precaution-card p {
+    color: var(--lite); font-size: 13px; line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .info-cols { grid-template-columns: 1fr; padding: 40px 20px; gap: 20px; }
+    .info-card { padding: 24px; }
+    .protocol-section, .precautions-section { padding: 40px 20px; }
+    .protocol-table-wrap { padding: 20px; }
+  }
+
   /* ── REVIEWS ── */
   .reviews-section { padding: 0 48px 100px; max-width: 1100px; margin: 0 auto; }
   .reviews-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 48px; }
@@ -366,6 +458,50 @@
   </div>
 </div>
 
+<!-- BENEFITS & RECOMMENDED FOR (NEW) -->
+<div class="info-cols" id="benefits-section" style="display:none">
+  <div class="info-card">
+    <h3>Beneficios principales</h3>
+    <ul class="benefit-list" id="benefits-list"></ul>
+  </div>
+  <div class="info-card">
+    <h3>Recomendado para</h3>
+    <ul class="recommended-list" id="recommended-list"></ul>
+    <div class="application-block" id="application-block" style="display:none">
+      <strong>Vía de aplicación:</strong>
+      <div id="application-text" style="margin-top:6px;font-size:13px;line-height:1.6"></div>
+    </div>
+  </div>
+</div>
+
+<!-- DOSAGE PROTOCOL TABLE (NEW) -->
+<div class="protocol-section" id="protocol-section" style="display:none">
+  <div class="section-label">Protocolo de dosis y escalamiento</div>
+  <div class="protocol-table-wrap">
+    <table class="protocol-table">
+      <thead>
+        <tr>
+          <th>Semanas</th>
+          <th>Dosis</th>
+          <th>Volumen</th>
+          <th>Unidades (U-100)</th>
+          <th>Etapa</th>
+        </tr>
+      </thead>
+      <tbody id="protocol-tbody"></tbody>
+    </table>
+    <div class="protocol-note">
+      * Las dosis se ajustan de forma progresiva según tolerancia, respuesta y objetivos del protocolo de investigación. El incremento gradual permite optimizar resultados y reducir efectos secundarios.
+    </div>
+  </div>
+</div>
+
+<!-- PRECAUTIONS & STORAGE (NEW) -->
+<div class="precautions-section" id="precautions-section" style="display:none">
+  <div class="section-label">Precauciones e información importante</div>
+  <div class="precautions-grid" id="precautions-grid"></div>
+</div>
+
 <!-- COA -->
 <div class="coa-section" id="coa-section" style="display:none">
   <div class="coa-section-title">Certificado de Análisis</div>
@@ -439,6 +575,33 @@ const PRODUCTS = {
       'Activación de termogénesis en tejido adiposo marrón',
     ],
     research: 'Investigado en modelos de composición corporal, regulación del apetito y metabolismo energético. Su triple mecanismo de acción lo distingue de análogos de primera generación en estudios comparativos.<br><br>Los ensayos en modelos preclínicos muestran una respuesta metabólica superior en reducción de adiposidad visceral comparado con agonistas duales.',
+    benefits: [
+      'Triple mecanismo metabólico (GIP + GLP-1 + Glucagón)',
+      'Reducción profunda del apetito y mejora de saciedad',
+      'Modulación del metabolismo lipídico y termogénesis',
+      'Resultados superiores vs agonistas duales en estudios comparativos',
+      'Apoyo en control glucémico avanzado',
+    ],
+    recommendedFor: [
+      'Protocolos de investigación en obesidad severa',
+      'Estudios de resistencia a insulina y diabetes tipo 2',
+      'Investigación metabólica de vanguardia',
+      'Modelos donde GLP-1 tradicionales no respondieron',
+    ],
+    application: 'Vía subcutánea (SC) en abdomen o grasa periférica. No se recomienda vía intradérmica ni mesoterapia.',
+    dosageTable: [
+      ['Semanas 1-4', '2 mg', '0.10 ml', '10 unidades', 'Inicio y tolerancia'],
+      ['Semanas 5-8', '4 mg', '0.20 ml', '20 unidades', 'Adaptación metabólica'],
+      ['Semanas 9-12', '6 mg', '0.30 ml', '30 unidades', 'Optimización'],
+      ['Semanas 13-16', '8 mg', '0.40 ml', '40 unidades', 'Escalada controlada'],
+      ['Semana 17+', '12 mg', '0.60 ml', '60 unidades', 'Mantenimiento avanzado'],
+    ],
+    precautions: {
+      contraindicaciones: 'No usar si existe historia personal o familiar de carcinoma medular de tiroides, síndrome MEN2 o alergia al activo. No usar en embarazo ni lactancia.',
+      interacciones: 'Puede potenciar el efecto de medicamentos para diabetes y retrasar el vaciamiento gástrico, lo que puede modificar la absorción de otros fármacos.',
+      precauciones: 'Puede causar molestias digestivas (náusea, distensión). Existe riesgo de hipoglucemia si se combina con medicamentos para diabetes.',
+      almacenamiento: 'Lugar fresco y seco antes de reconstituir. Una vez reconstituido, mantener en refrigeración (2-8°C) hasta 28 días.',
+    },
     coa: { lab:'Krause Analytical', purity:'99.5% HPLC-UV/MS', lot:'WTSBX5G', date:'ENE 2026', id:'wtsbx5g', url:'https://finnrick.com/verify' },
   },
   ipamorelin: {
@@ -456,11 +619,38 @@ const PRODUCTS = {
       'Vida media ~2 horas con pico de GH a los 60 minutos',
     ],
     research: 'Modelo de referencia para estudios de secreción selectiva de GH. Su selectividad de receptor lo hace ideal para investigación donde se requiere aislamiento del eje somatotrópico sin interferencia con el eje corticoadrenal.',
+    benefits: [
+      'Secretagogo de GH más selectivo del mercado',
+      'Sin efecto sobre cortisol, prolactina o ACTH',
+      'Pulsos fisiológicos de GH (60 min pico)',
+      'Apoyo en recuperación, sueño profundo y composición corporal',
+      'Excelente perfil de tolerancia',
+    ],
+    recommendedFor: [
+      'Investigación de eje somatotrópico aislado',
+      'Estudios de recuperación muscular y reparación tisular',
+      'Protocolos de antienvejecimiento y longevidad',
+      'Modelos de mejora de calidad de sueño',
+    ],
+    application: 'Vía subcutánea (SC) en abdomen. Mejor administración antes de dormir o post-entrenamiento, lejos de comidas con carbohidratos.',
+    dosageTable: [
+      ['Semanas 1-2', '200 mcg', '0.10 ml', '10 unidades', 'Inicio'],
+      ['Semanas 3-4', '300 mcg', '0.15 ml', '15 unidades', 'Adaptación'],
+      ['Semanas 5-8', '300 mcg x2/día', '0.15 ml', '15 unidades', 'Optimización (am/pm)'],
+      ['Semanas 9-12', '300 mcg x3/día', '0.15 ml', '15 unidades', 'Pulsos máximos'],
+      ['Descanso', '4 semanas off', '—', '—', 'Sensibilización del receptor'],
+    ],
+    precautions: {
+      contraindicaciones: 'No usar en personas con cáncer activo, embarazo o lactancia. Precaución en casos de retinopatía diabética avanzada.',
+      interacciones: 'Puede potenciarse con CJC-1295 (sinergia GHRH+GHRP). Evitar carbohidratos 1h antes/después por interferencia con liberación de GH.',
+      precauciones: 'Puede causar enrojecimiento facial transitorio, hambre aumentada, hormigueo en manos. Efectos suelen disminuir con el uso continuo.',
+      almacenamiento: 'Lugar fresco y seco antes de reconstituir. Reconstituido: refrigeración (2-8°C) hasta 30 días.',
+    },
     coa: { lab:'Janoshik', purity:'99.926% HPLC', lot:'#106236', date:'26 FEB 2026', id:'LA2JN96V9R73', url:'https://www.janoshik.com/verify/' },
   },
   nad: {
     name: 'NAD+', cat: 'Longevidad · Energía mitocondrial',
-    dose: '500 mg · Alta concentración', price: '$1,399',
+    dose: '500 mg · Alta concentración', price: '$1,190',
     desc: 'Coenzima esencial investigada en reparación de ADN, producción de energía celular y procesos de longevidad. Presentación de alta concentración para investigación avanzada.',
     specs: [
       ['Compuesto','Nicotinamide Adenine Dinucleotide'], ['Dosis','500 mg / vial'], ['Forma','Polvo liofilizado'],
@@ -473,6 +663,33 @@ const PRODUCTS = {
       'Activación de CD38 y regulación del ciclo circadiano celular',
     ],
     research: 'Ampliamente investigado en el contexto del envejecimiento celular. Estudios en modelos animales han documentado efectos sobre la función mitocondrial, la sensibilidad a la insulina y la neuroplasticidad mediante el eje NAD+/sirtuinas.',
+    benefits: [
+      'Restaura los niveles celulares de NAD+ que declinan con la edad',
+      'Apoya la reparación del ADN mediante activación de PARPs',
+      'Mejora la función mitocondrial y producción de ATP',
+      'Activa sirtuinas para regulación epigenética y longevidad',
+      'Apoya la claridad mental y función cognitiva',
+    ],
+    recommendedFor: [
+      'Investigación en antienvejecimiento y longevidad celular',
+      'Estudios de función mitocondrial y bioenergética',
+      'Protocolos de optimización cognitiva y neuroprotección',
+      'Modelos de estrés oxidativo y reparación de ADN',
+    ],
+    application: 'Vía subcutánea (SC) o intravenosa (IV) según el protocolo de investigación. La vía SC es más práctica para administración frecuente.',
+    dosageTable: [
+      ['Semanas 1-2', '100 mg', '0.20 ml', '20 unidades', 'Inicio y tolerancia'],
+      ['Semanas 3-4', '200 mg', '0.40 ml', '40 unidades', 'Adaptación'],
+      ['Semanas 5-8', '250 mg', '0.50 ml', '50 unidades', 'Optimización'],
+      ['Semanas 9-12', '500 mg', '1.00 ml', '100 unidades', 'Dosis plena'],
+      ['Mantenimiento', '250 mg 2x/sem', '0.50 ml', '50 unidades', 'Mantenimiento'],
+    ],
+    precautions: {
+      contraindicaciones: 'No usar en embarazo o lactancia. Precaución en pacientes con cáncer activo ya que NAD+ puede estimular la proliferación celular.',
+      interacciones: 'Puede interactuar con medicamentos metabolizados por enzimas dependientes de NAD+. Precaución al combinar con suplementos de niacina/NMN.',
+      precauciones: 'Puede causar enrojecimiento facial, náusea leve o sensación de calor. Efectos transitorios que disminuyen con el uso.',
+      almacenamiento: 'Conservar liofilizado a -20°C para máxima estabilidad. Reconstituido: refrigeración (2-8°C) máximo 14 días.',
+    },
     coa: null,
   },
   ghkcu: {
@@ -490,6 +707,32 @@ const PRODUCTS = {
       'Inducción de factores de crecimiento TGF-β y VEGF',
     ],
     research: 'Uno de los péptidos más estudiados en biología de la piel y regeneración tisular. Documentado en modelos de cicatrización, angiogénesis y diferenciación de células madre mesenquimales.',
+    benefits: [
+      'Estimula la producción de colágeno I, III y IV',
+      'Mejora la firmeza, elasticidad y textura de la piel',
+      'Promueve la cicatrización acelerada de heridas',
+      'Actividad antioxidante y reducción de daño por radicales libres',
+      'Apoya la densidad capilar y grosor del cabello',
+    ],
+    recommendedFor: [
+      'Investigación en regeneración tisular y antienvejecimiento cutáneo',
+      'Estudios de cicatrización y reparación de tejidos blandos',
+      'Protocolos de densidad capilar y salud del cabello',
+      'Modelos de producción de colágeno y elastina',
+    ],
+    application: 'Vía subcutánea (SC) en zona cercana al área de interés. También investigado en aplicación tópica para estudios dermatológicos.',
+    dosageTable: [
+      ['Semanas 1-2', '1 mg', '0.10 ml', '10 unidades', 'Inicio'],
+      ['Semanas 3-4', '2 mg', '0.20 ml', '20 unidades', 'Adaptación'],
+      ['Semanas 5-12', '2-3 mg', '0.20-0.30 ml', '20-30 unidades', 'Protocolo activo'],
+      ['Descanso', '4 semanas off', '—', '—', 'Ciclo de descanso'],
+    ],
+    precautions: {
+      contraindicaciones: 'No usar en embarazo, lactancia o alergia al cobre. Precaución en enfermedad de Wilson u otros trastornos del metabolismo del cobre.',
+      interacciones: 'No combinar con quelantes de cobre. Puede potenciar efectos de tratamientos tópicos de regeneración.',
+      precauciones: 'Puede causar enrojecimiento o sensibilidad en el sitio de inyección. Raro: sabor metálico transitorio.',
+      almacenamiento: 'Lugar fresco y seco. Reconstituido: refrigeración (2-8°C) hasta 21 días. Proteger de la luz.',
+    },
     coa: { lab:'Krause Analytical', purity:'>99.9% HPLC-UV/MS', lot:'kmbxy76', date:'2025', id:'kmbxy76', url:'https://finnrick.com/verify' },
   },
   motsc: {
@@ -507,6 +750,32 @@ const PRODUCTS = {
       'Inducción de resistencia al estrés metabólico celular',
     ],
     research: 'Péptido mitocondrial de descubrimiento relativamente reciente. Investigado como posible regulador del metabolismo sistémico con efectos documentados en modelos de obesidad, resistencia a la insulina y envejecimiento.',
+    benefits: [
+      'Activa AMPK — el sensor energético maestro del cuerpo',
+      'Mejora la sensibilidad a insulina en tejido muscular',
+      'Promueve la homeostasis metabólica sistémica',
+      'Investigado en modelos de envejecimiento y longevidad',
+      'Apoya el rendimiento físico y resistencia al estrés metabólico',
+    ],
+    recommendedFor: [
+      'Investigación en longevidad y biología del envejecimiento',
+      'Estudios de metabolismo energético mitocondrial',
+      'Protocolos de sensibilidad a insulina y composición corporal',
+      'Modelos de estrés metabólico y ejercicio',
+    ],
+    application: 'Vía subcutánea (SC) en abdomen. Puede administrarse antes del ejercicio para estudiar sinergia con activación de AMPK.',
+    dosageTable: [
+      ['Semanas 1-2', '5 mg/semana', '0.25 ml', '25 unidades', 'Inicio'],
+      ['Semanas 3-8', '10 mg/semana', '0.50 ml', '50 unidades', 'Protocolo activo'],
+      ['Semanas 9-12', '10 mg/semana', '0.50 ml', '50 unidades', 'Mantenimiento'],
+      ['Descanso', '4 semanas off', '—', '—', 'Ciclo de descanso'],
+    ],
+    precautions: {
+      contraindicaciones: 'No usar en embarazo ni lactancia. Compuesto relativamente nuevo — se recomienda supervisión.',
+      interacciones: 'Puede potenciar efectos de metformina y otros activadores de AMPK. Precaución con medicamentos hipoglucemiantes.',
+      precauciones: 'Al ser un péptido de investigación reciente, los datos de seguridad a largo plazo son limitados. Monitorear glucosa si se combina con antidiabéticos.',
+      almacenamiento: 'Conservar liofilizado a -20°C. Reconstituido: refrigeración (2-8°C) máximo 21 días.',
+    },
     coa: null,
   },
   ss31: {
@@ -524,6 +793,32 @@ const PRODUCTS = {
       'Preservación de la actividad de la ATP sintasa bajo condiciones de estrés',
     ],
     research: 'Investigado extensamente en modelos de isquemia-reperfusión cardíaca, insuficiencia renal y envejecimiento muscular. Su selectividad mitocondrial lo diferencia de otros antioxidantes en estudios de bioenergética.',
+    benefits: [
+      'Penetración directa a la membrana mitocondrial interna',
+      'Reducción selectiva de ROS sin afectar señalización redox fisiológica',
+      'Protección cardíaca documentada en modelos de isquemia',
+      'Preserva la función de ATP sintasa bajo estrés',
+      'Apoya la salud renal y función muscular en envejecimiento',
+    ],
+    recommendedFor: [
+      'Investigación en cardioprotección y función mitocondrial',
+      'Estudios de isquemia-reperfusión y estrés oxidativo',
+      'Protocolos de envejecimiento muscular y sarcopenia',
+      'Modelos de insuficiencia renal y nefroprotección',
+    ],
+    application: 'Vía subcutánea (SC) o intraperitoneal (IP) según modelo de investigación. Administración diaria en protocolos estándar.',
+    dosageTable: [
+      ['Semanas 1-2', '1 mg/día', '0.10 ml', '10 unidades', 'Inicio'],
+      ['Semanas 3-4', '2 mg/día', '0.20 ml', '20 unidades', 'Adaptación'],
+      ['Semanas 5-12', '3-5 mg/día', '0.30-0.50 ml', '30-50 unidades', 'Protocolo activo'],
+      ['Mantenimiento', '2 mg/día', '0.20 ml', '20 unidades', 'Mantenimiento prolongado'],
+    ],
+    precautions: {
+      contraindicaciones: 'No usar en embarazo ni lactancia. Precaución en pacientes con trastornos mitocondriales primarios sin supervisión.',
+      interacciones: 'Puede interactuar con otros antioxidantes mitocondriales (CoQ10, MitoQ). Datos limitados sobre interacciones farmacológicas.',
+      precauciones: 'Compuesto de investigación avanzada. Efectos a largo plazo no completamente documentados. Monitorear función cardíaca y renal.',
+      almacenamiento: 'Conservar liofilizado a -20°C protegido de la luz. Reconstituido: refrigeración (2-8°C) máximo 14 días.',
+    },
     coa: { lab:'BTLabs', purity:'99.9% HPLC', lot:'227CKAP', date:'2025', id:'227ckap', url:'https://finnrick.com/verify' },
   },
   tirzepatide: {
@@ -541,6 +836,34 @@ const PRODUCTS = {
       'Modulación del metabolismo lipídico en tejido adiposo',
     ],
     research: 'Uno de los péptidos más estudiados en investigación metabólica actual. Los estudios comparativos con análogos GLP-1 de primera generación muestran respuestas superiores en reducción de peso y control glucémico en modelos preclínicos.',
+    benefits: [
+      'Modula dos rutas metabólicas clave (GIP y GLP-1)',
+      'Reduce el apetito y mejora la saciedad',
+      'Apoya el control glucémico superior',
+      'Favorece pérdida de peso profunda y sostenida',
+      'Mejora la sensibilidad a insulina',
+    ],
+    recommendedFor: [
+      'Investigación en obesidad o sobrepeso con comorbilidades',
+      'Estudios de resistencia a insulina o diabetes tipo 2',
+      'Protocolos de control de peso y optimización metabólica',
+      'Modelos donde GLP-1 tradicionales fueron insuficientes',
+    ],
+    application: 'Vía subcutánea (SC) en abdomen o grasa periférica. No se recomienda vía intradérmica ni mesoterapia para agonistas GIP/GLP-1.',
+    dosageTable: [
+      ['Semanas 1-4', '2.5 mg', '0.125 ml', '12.5 unidades', 'Inicio y tolerancia'],
+      ['Semanas 5-8', '5 mg', '0.25 ml', '25 unidades', 'Control metabólico'],
+      ['Semanas 9-12', '7.5 mg', '0.375 ml', '37.5 unidades', 'Mejora de resistencia'],
+      ['Semanas 13-16', '10 mg', '0.5 ml', '50 unidades', 'Optimización'],
+      ['Semanas 17-20', '12.5 mg', '0.625 ml', '62.5 unidades', 'Escalada intensa'],
+      ['Semana 21+', '15 mg', '0.75 ml', '75 unidades', 'Mantenimiento avanzado'],
+    ],
+    precautions: {
+      contraindicaciones: 'No usar si existe historia personal o familiar de carcinoma medular de tiroides, síndrome MEN2 o alergia al activo. No usar en embarazo ni lactancia.',
+      interacciones: 'Puede potenciar el efecto de medicamentos para diabetes y retrasar el vaciamiento gástrico, lo que puede modificar la absorción de otros fármacos.',
+      precauciones: 'Puede causar molestias digestivas. Existe riesgo de hipoglucemia si se combina con medicamentos para diabetes.',
+      almacenamiento: 'Lugar fresco y seco antes de reconstituir. Una vez reconstituido, mantener en refrigeración (2-8°C) hasta 28 días.',
+    },
     coa: { lab:'Krause Analytical', purity:'>99.9% HPLC-UV/MS', lot:'j9f35yh', date:'FEB 2026', id:'j9f35yh', url:'https://finnrick.com/verify' },
   },
   cjc1295: {
@@ -558,6 +881,31 @@ const PRODUCTS = {
       'Frecuentemente combinado con Ipamorelin en modelos de sinergismo',
     ],
     research: 'Investigado en modelos de secreción de GH que requieren replicar la liberación pulsátil fisiológica. La ausencia del DAC permite estudiar el efecto agudo del GHRH sin acumulación de depósito.',
+    benefits: [
+      'Pulsos fisiológicos de GH (vida media ~30 min)',
+      'Sinergia potente al combinar con Ipamorelin',
+      'No altera los patrones naturales de liberación de GH',
+      'Apoya la recuperación, masa muscular y reducción de grasa',
+    ],
+    recommendedFor: [
+      'Investigación de eje GH/IGF-1 con pulsos fisiológicos',
+      'Protocolos combinados CJC-1295 + Ipamorelin',
+      'Estudios de composición corporal y rendimiento',
+      'Modelos de anti-envejecimiento y recuperación tisular',
+    ],
+    application: 'Vía subcutánea (SC) en abdomen. Administración 2-3 veces al día (mañana, post-entrenamiento, antes de dormir) para maximizar pulsos de GH.',
+    dosageTable: [
+      ['Semanas 1-4', '100 mcg x2/día', '0.10 ml', '10 unidades', 'Inicio'],
+      ['Semanas 5-12', '100 mcg x3/día', '0.10 ml', '10 unidades', 'Protocolo activo (am/pm/noche)'],
+      ['Con Ipamorelin', '100 mcg + 300 mcg Ipa', 'Combinado', '—', 'Sinergia GHRH+GHRP'],
+      ['Descanso', '4 semanas off', '—', '—', 'Sensibilización'],
+    ],
+    precautions: {
+      contraindicaciones: 'No usar en cáncer activo, embarazo o lactancia. Precaución en pacientes con acromegalia o tumores hipofisarios.',
+      interacciones: 'Potencia efectos de GHRP (Ipamorelin, GHRP-6). Evitar uso conjunto con somatotropina exógena.',
+      precauciones: 'Puede causar retención de agua temporal, hormigueo, somnolencia. Estos efectos indican actividad de GH y suelen ser transitorios.',
+      almacenamiento: 'Conservar liofilizado a 2-8°C. Reconstituido: refrigeración máximo 21 días.',
+    },
     coa: null,
   },
   tesamorelin: {
@@ -575,6 +923,32 @@ const PRODUCTS = {
       'Vida media prolongada vs GHRH nativo por modificación trans-3-hexenoyl',
     ],
     research: 'Cuenta con documentación clínica extensa en reducción de grasa visceral. Investigado en modelos metabólicos donde el eje GH/IGF-1 juega un rol central. Pureza >99.95% certificada por Krause Analytical.',
+    benefits: [
+      'Reducción documentada de grasa visceral abdominal',
+      'Estimulación fisiológica del eje GH/IGF-1',
+      'Uno de los secretagogos con más documentación clínica',
+      'Mejora del perfil metabólico y marcadores inflamatorios',
+      'Apoyo en composición corporal y calidad de masa muscular',
+    ],
+    recommendedFor: [
+      'Investigación en reducción de adiposidad visceral',
+      'Estudios del eje GH/IGF-1 y metabolismo',
+      'Protocolos de recomposición corporal avanzada',
+      'Modelos de lipodistrofia y síndrome metabólico',
+    ],
+    application: 'Vía subcutánea (SC) en abdomen. Administración diaria, preferiblemente en la mañana en ayunas o antes de dormir.',
+    dosageTable: [
+      ['Semanas 1-4', '1 mg/día', '0.10 ml', '10 unidades', 'Inicio y tolerancia'],
+      ['Semanas 5-8', '2 mg/día', '0.20 ml', '20 unidades', 'Optimización'],
+      ['Semanas 9-26', '2 mg/día', '0.20 ml', '20 unidades', 'Protocolo completo (6 meses)'],
+      ['Evaluación', 'Medir IGF-1', '—', '—', 'Evaluar resultados'],
+    ],
+    precautions: {
+      contraindicaciones: 'No usar en cáncer activo, embarazo, lactancia. Contraindicado en hipersensibilidad al GHRH o sus análogos.',
+      interacciones: 'No combinar con somatotropina exógena. Puede modificar niveles de glucosa — precaución con antidiabéticos.',
+      precauciones: 'Puede causar artralgias, edema periférico, parestesias. Monitorear niveles de IGF-1 y glucosa durante el protocolo.',
+      almacenamiento: 'Conservar liofilizado a 2-8°C. Reconstituido: refrigeración máximo 14 días. No congelar una vez reconstituido.',
+    },
     coa: { lab:'Krause Analytical', purity:'>99.95% HPLC-UV/MS', lot:'ah59t69', date:'OCT 2025', id:'ah59t69', url:'https://finnrick.com/verify' },
   },
   bpc157: {
@@ -592,6 +966,32 @@ const PRODUCTS = {
       'Modulación de la expresión de genes de reparación de matriz extracelular',
     ],
     research: 'Uno de los péptidos con mayor volumen de investigación publicada en regeneración. Documentado en modelos de lesión tendinosa, muscular, gástrica y neurológica. Derivado de la BPC (Body Protection Compound) endógena.',
+    benefits: [
+      'Aceleración de la curación de tendones, músculos y ligamentos',
+      'Protección y regeneración de la mucosa gastrointestinal',
+      'Propiedades antiinflamatorias documentadas',
+      'Apoya la recuperación post-quirúrgica y post-lesión',
+      'Potencial neuroprotector y de regeneración neural',
+    ],
+    recommendedFor: [
+      'Investigación en regeneración de tejidos blandos',
+      'Estudios de curación tendinosa y muscular',
+      'Protocolos de protección gastrointestinal',
+      'Modelos de recuperación post-quirúrgica',
+    ],
+    application: 'Vía subcutánea (SC) cercana al área de lesión, o intramuscular (IM). Para estudios gastrointestinales, vía oral también ha sido investigada.',
+    dosageTable: [
+      ['Semanas 1-2', '250 mcg x2/día', '0.10 ml', '10 unidades', 'Inicio'],
+      ['Semanas 3-8', '500 mcg x2/día', '0.20 ml', '20 unidades', 'Protocolo activo (am/pm)'],
+      ['Semanas 9-12', '250 mcg x2/día', '0.10 ml', '10 unidades', 'Reducción gradual'],
+      ['Con TB-500', '500 mcg BPC + 2 mg TB', 'Combinado', '—', 'Stack de regeneración'],
+    ],
+    precautions: {
+      contraindicaciones: 'No usar en embarazo, lactancia o cáncer activo. Precaución en personas con trastornos de coagulación (promueve angiogénesis).',
+      interacciones: 'Puede potenciar efectos de TB-500 (sinergia regenerativa). Precaución con anticoagulantes por efectos sobre la angiogénesis.',
+      precauciones: 'Generalmente bien tolerado. Puede causar ligera náusea transitoria. Administrar lejos de comidas para mejor absorción SC.',
+      almacenamiento: 'Conservar liofilizado a 2-8°C. Reconstituido: refrigeración máximo 14 días. BPC-157 es sensible al ácido — usar agua bacteriostática.',
+    },
     coa: { lab:'Krause Analytical', purity:'99.90% HPLC-UV/MS', lot:'kdbvnvt', date:'ENE 2026', id:'kdbvnvt', url:'https://finnrick.com/verify' },
   },
   semax: {
@@ -609,6 +1009,32 @@ const PRODUCTS = {
       'Modulación dopaminérgica y serotoninérgica en sistemas de atención',
     ],
     research: 'Investigado extensamente en contextos de neuroplasticidad y función cognitiva. Documentado en modelos de neuroprotección tras isquemia, potenciación de memoria y modulación del eje dopaminérgico.',
+    benefits: [
+      'Aumento de BDNF y NGF para neuroplasticidad',
+      'Mejora de concentración, memoria y claridad mental',
+      'Propiedades neuroprotectoras documentadas',
+      'No genera dependencia ni efectos estimulantes',
+      'Apoyo en recuperación neurológica post-estrés',
+    ],
+    recommendedFor: [
+      'Investigación en neuroplasticidad y función cognitiva',
+      'Estudios de neuroprotección y accidente cerebrovascular',
+      'Protocolos de optimización cognitiva y concentración',
+      'Modelos de TDAH y déficits de atención',
+    ],
+    application: 'Vía intranasal (preferida para acción directa en SNC) o subcutánea (SC). La vía nasal permite cruzar la barrera hematoencefálica más eficientemente.',
+    dosageTable: [
+      ['Semanas 1-2', '200 mcg/día', 'Intranasal', '1-2 sprays', 'Inicio y tolerancia'],
+      ['Semanas 3-4', '400 mcg/día', 'Intranasal', '2-3 sprays', 'Optimización'],
+      ['Semanas 5-12', '600 mcg/día', 'Intranasal', '3-4 sprays', 'Protocolo completo'],
+      ['Descanso', '2-4 semanas off', '—', '—', 'Ciclo de descanso'],
+    ],
+    precautions: {
+      contraindicaciones: 'No usar en embarazo, lactancia o trastornos convulsivos no controlados. Precaución en trastornos del ánimo severos.',
+      interacciones: 'Puede potenciar efectos de otros nootrópicos (racetams, modafinilo). No se recomienda combinar con estimulantes del SNC sin supervisión.',
+      precauciones: 'Generalmente bien tolerado. Puede causar ligera congestión nasal (vía intranasal). Raro: leve irritabilidad en dosis altas.',
+      almacenamiento: 'Conservar liofilizado a -20°C para máxima estabilidad. Solución nasal reconstituida: refrigeración (2-8°C) máximo 14 días.',
+    },
     coa: null,
   },
 };
@@ -851,6 +1277,64 @@ document.addEventListener('DOMContentLoaded', () => {
   // Research
   document.getElementById('research-text').innerHTML =
     p.research.split('<br><br>').map(t => `<p>${t}</p>`).join('');
+
+  // Benefits & Recommended (new)
+  if (p.benefits || p.recommendedFor) {
+    document.getElementById('benefits-section').style.display = 'grid';
+    if (p.benefits) {
+      const bl = document.getElementById('benefits-list');
+      p.benefits.forEach(b => { const li = document.createElement('li'); li.textContent = b; bl.appendChild(li); });
+    }
+    if (p.recommendedFor) {
+      const rl = document.getElementById('recommended-list');
+      p.recommendedFor.forEach(r => { const li = document.createElement('li'); li.textContent = r; rl.appendChild(li); });
+    }
+    if (p.application) {
+      document.getElementById('application-block').style.display = 'block';
+      document.getElementById('application-text').textContent = p.application;
+    }
+  }
+
+  // Dosage Protocol Table (new)
+  if (p.dosageTable) {
+    document.getElementById('protocol-section').style.display = 'block';
+    const tbody = document.getElementById('protocol-tbody');
+    p.dosageTable.forEach(row => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${row[0]}</td>
+        <td><strong style="color:var(--gold)">${row[1]}</strong></td>
+        <td>${row[2]}</td>
+        <td>${row[3]}</td>
+        <td class="stage">${row[4]}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  // Precautions (new)
+  if (p.precautions) {
+    document.getElementById('precautions-section').style.display = 'block';
+    const grid = document.getElementById('precautions-grid');
+    const items = [
+      { key: 'contraindicaciones', icon: '⚠', title: 'Contraindicaciones' },
+      { key: 'interacciones', icon: '⚙', title: 'Interacciones' },
+      { key: 'precauciones', icon: '⓵', title: 'Precauciones' },
+      { key: 'almacenamiento', icon: '❄', title: 'Almacenamiento' },
+    ];
+    items.forEach(item => {
+      if (p.precautions[item.key]) {
+        const card = document.createElement('div');
+        card.className = 'precaution-card';
+        card.innerHTML = `
+          <div class="icon">${item.icon}</div>
+          <h4>${item.title}</h4>
+          <p>${p.precautions[item.key]}</p>
+        `;
+        grid.appendChild(card);
+      }
+    });
+  }
 
   // COA
   if (p.coa) {
