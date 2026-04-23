@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:image" content="logo_cuadrado.png">
 <link rel="icon" type="image/png" href="favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.chom">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -922,7 +922,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <div class="ship-track"><div class="ship-fill" id="ship-fill"></div></div>
     </div>
     <div class="cart-sub"><span>Subtotal</span><span class="cart-sub-v" id="cart-total">$0</span></div>
-    <button class="btn-checkout" onclick="checkoutTiendanube()">🛒 Finalizar en Tiendanube</button>
+    <button class="btn-checkout" onclick="checkout()">Proceder al pago</button>
     <button class="btn-wa" onclick="sendWhatsApp()">Pedir por WhatsApp</button>
   </div>
 </div>
@@ -1640,7 +1640,29 @@ function sendWhatsApp() {
   var msg = '¡Hola Aurum Peptides! Quiero hacer el siguiente pedido:\n\n' + lines.join('\n') + '\n\n*Total: $' + total.toLocaleString('es-MX') + ' MXN*\n\n¿Me pueden confirmar disponibilidad?';
   window.open('https://wa.me/526572844902?text=' + encodeURIComponent(msg), '_blank');
 }
-function checkout() { sendWhatsApp(); }
+var NETLIFY_FUNCTION_URL = 'https://aurumpeptides.netlify.app';
+
+async function checkout() {
+  if (cart.length === 0) { showToast('El carrito está vacío'); return; }
+  var btn = document.querySelector('.btn-checkout');
+  if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; btn.style.opacity = '0.7'; }
+  try {
+    var itemsPayload = cart.map(function(item) {
+      return { name: item.name, dose: item.dose, qty: item.qty, price: item.price };
+    });
+    var response = await fetch(NETLIFY_FUNCTION_URL + '/.netlify/functions/create-preference', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: itemsPayload }),
+    });
+    var data = await response.json();
+    if (!data.checkoutUrl) throw new Error('Sin URL de pago');
+    window.location.href = data.checkoutUrl;
+  } catch (err) {
+    if (btn) { btn.textContent = 'Proceder al pago'; btn.disabled = false; btn.style.opacity = ''; }
+    if (confirm('❌ Error al conectar con el pago. ¿Continuar por WhatsApp?')) sendWhatsApp();
+  }
+}
 
 // ── TOAST ──
 function showToast(msg) {
