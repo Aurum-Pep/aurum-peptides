@@ -421,6 +421,30 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
   .inv-table{font-size:11px}
   .inv-input{width:55px}
 }
+
+/* ── SHIPPING MODAL ── */
+.ship-modal-ov{position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;padding:20px}
+.ship-modal-ov.open{opacity:1;pointer-events:all}
+.ship-modal{background:var(--black2);border:1px solid rgba(201,168,76,0.2);width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+.ship-modal-hdr{padding:24px 28px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ship-modal-hdr h2{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--cream)}
+.ship-modal-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.ship-modal-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:24px;line-height:1;padding:4px}
+.ship-modal-close:hover{color:var(--cream)}
+.ship-modal-body{padding:24px 28px}
+.ship-field{margin-bottom:16px}
+.ship-field label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.ship-field input{width:100%;background:var(--black3);border:1px solid rgba(201,168,76,0.15);color:var(--cream);padding:12px 14px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:300;outline:none;transition:border-color .2s}
+.ship-field input:focus{border-color:rgba(201,168,76,0.5)}
+.ship-field input::placeholder{color:var(--muted)}
+.ship-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ship-save{display:flex;align-items:center;gap:10px;margin:4px 0 20px;cursor:pointer;font-size:13px;color:var(--muted)}
+.ship-save input{width:16px;height:16px;accent-color:var(--gold);cursor:pointer}
+.ship-modal-ftr{display:flex;gap:12px;padding:0 28px 28px}
+.ship-btn-cancel{flex:1;padding:14px;background:transparent;color:var(--muted);border:1px solid rgba(201,168,76,0.15);font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
+.ship-btn-ok{flex:2;padding:14px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;font-weight:500}
+.ship-field-err{border-color:rgba(220,60,60,0.6)!important}
+.ship-err-msg{font-size:11px;color:#E07070;margin-top:4px;display:none}
 </style>
 </head>
 <body>
@@ -1642,27 +1666,114 @@ function sendWhatsApp() {
 }
 var NETLIFY_FUNCTION_URL = 'https://aurumpeptides.netlify.app';
 
-async function checkout() {
-  if (cart.length === 0) { showToast('El carrito está vacío'); return; }
+function openShipModal() {
+  if (cart.length === 0) { showToast('El carrito esta vacio'); return; }
+  try {
+    var saved = JSON.parse(localStorage.getItem('aurum_shipping') || '{}');
+    if (saved.nombre) {
+      ['nombre','tel','calle','colonia','cp','ciudad','estado'].forEach(function(f){
+        var el = document.getElementById('ship-'+f);
+        if (el && saved[f]) el.value = saved[f];
+      });
+    }
+  } catch(e) {}
+  document.getElementById('ship-modal-ov').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(function(){ document.getElementById('ship-nombre').focus(); }, 100);
+}
+
+function closeShipModal() {
+  document.getElementById('ship-modal-ov').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function validateShipField(id, errId, fn) {
+  var val = document.getElementById(id).value.trim();
+  var ok = fn(val);
+  document.getElementById(id).classList.toggle('ship-field-err', !ok);
+  document.getElementById(errId).style.display = ok ? 'none' : 'block';
+  return ok;
+}
+
+function confirmShipping() {
+  var ok = true;
+  ok = validateShipField('ship-nombre','err-nombre',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-tel','err-tel',function(v){return /^[0-9]{10}$/.test(v);}) && ok;
+  ok = validateShipField('ship-calle','err-calle',function(v){return v.length>3;}) && ok;
+  ok = validateShipField('ship-colonia','err-colonia',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-cp','err-cp',function(v){return /^[0-9]{5}$/.test(v);}) && ok;
+  ok = validateShipField('ship-ciudad','err-ciudad',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-estado','err-estado',function(v){return v.length>2;}) && ok;
+  if (!ok) { showToast('Por favor completa todos los campos'); return; }
+  var shipping = {
+    nombre: document.getElementById('ship-nombre').value.trim(),
+    tel: document.getElementById('ship-tel').value.trim(),
+    calle: document.getElementById('ship-calle').value.trim(),
+    colonia: document.getElementById('ship-colonia').value.trim(),
+    cp: document.getElementById('ship-cp').value.trim(),
+    ciudad: document.getElementById('ship-ciudad').value.trim(),
+    estado: document.getElementById('ship-estado').value.trim(),
+  };
+  if (document.getElementById('ship-guardar').checked) {
+    try { localStorage.setItem('aurum_shipping', JSON.stringify(shipping)); } catch(e) {}
+  }
+  try { localStorage.setItem('aurum_last_shipping', JSON.stringify(shipping)); } catch(e) {}
+  closeShipModal();
+  proceedToPayment(shipping);
+}
+
+function saveOrderToSheets(shipping, orderRef, total) {
+  if (typeof SHEETS_CONFIG === 'undefined' || SHEETS_CONFIG.webAppUrl.includes('TU_GOOGLE')) return;
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', SHEETS_CONFIG.webAppUrl, true);
+    xhr.setRequestHeader('Content-Type','application/json');
+    xhr.send(JSON.stringify({
+      action:'addOrder', secret: SHEETS_CONFIG.secretKey || 'aurum2026secret', sheet:'Pedidos',
+      ref: orderRef, fecha: new Date().toLocaleDateString('es-MX'),
+      nombre: shipping.nombre, tel: shipping.tel, calle: shipping.calle,
+      colonia: shipping.colonia, cp: shipping.cp, ciudad: shipping.ciudad, estado: shipping.estado,
+      total: total, items: cart.map(function(i){return i.name+' x'+i.qty;}).join(', ')
+    }));
+  } catch(e) {}
+}
+
+function notifyWhatsApp(shipping, orderRef) {
+  var total = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
+  var items = cart.map(function(i){return '%E2%80%A2 '+encodeURIComponent(i.name+' x'+i.qty+' $'+(i.price*i.qty).toLocaleString('es-MX')+' MXN');}).join('%0A');
+  var dir = encodeURIComponent(shipping.calle+', Col. '+shipping.colonia+', CP '+shipping.cp+', '+shipping.ciudad+', '+shipping.estado);
+  var msg = '%F0%9F%A7%AC *Nuevo pedido Aurum Peptides*%0A%0A*Ref:* '+orderRef+'%0A*Cliente:* '+encodeURIComponent(shipping.nombre)+'%0A*Tel:* '+shipping.tel+'%0A%0A*Productos:*%0A'+items+'%0A%0A*Total:* $'+total.toLocaleString('es-MX')+' MXN%0A%0A*Direccion:*%0A'+dir;
+  try { window.open('https://wa.me/526572844902?text='+msg,'_blank','noopener'); } catch(e) {}
+}
+
+async function proceedToPayment(shipping) {
   var btn = document.querySelector('.btn-checkout');
   if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; btn.style.opacity = '0.7'; }
+  var orderRef = 'AURUM-' + Date.now();
+  var total = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
+  saveOrderToSheets(shipping, orderRef, total);
+  notifyWhatsApp(shipping, orderRef);
   try {
-    var itemsPayload = cart.map(function(item) {
-      return { name: item.name, dose: item.dose, qty: item.qty, price: item.price };
-    });
+    var itemsPayload = cart.map(function(item){return {name:item.name,dose:item.dose,qty:item.qty,price:item.price};});
+    var buyerEmail = null;
+    try { buyerEmail = localStorage.getItem('aurum_client_email'); } catch(e) {}
     var response = await fetch(NETLIFY_FUNCTION_URL + '/.netlify/functions/create-preference', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: itemsPayload }),
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail}),
     });
+    if (!response.ok) throw new Error('Error servidor: '+response.status);
     var data = await response.json();
     if (!data.checkoutUrl) throw new Error('Sin URL de pago');
+    try { localStorage.setItem('aurum_last_cart', JSON.stringify(cart)); } catch(e) {}
     window.location.href = data.checkoutUrl;
-  } catch (err) {
+  } catch(err) {
+    console.error('Checkout error:', err);
     if (btn) { btn.textContent = 'Proceder al pago'; btn.disabled = false; btn.style.opacity = ''; }
-    if (confirm('❌ Error al conectar con el pago. ¿Continuar por WhatsApp?')) sendWhatsApp();
+    if (confirm('Error al procesar el pago. Continuar por WhatsApp?')) sendWhatsApp();
   }
 }
+
+function checkout() { openShipModal(); }
 
 // ── TOAST ──
 function showToast(msg) {
@@ -1708,6 +1819,34 @@ window.addEventListener('load', function() {
 });
 
 </script>
+
+<!-- SHIPPING MODAL -->
+<div class="ship-modal-ov" id="ship-modal-ov">
+  <div class="ship-modal">
+    <div class="ship-modal-hdr">
+      <div><div class="ship-modal-tag">Paso 1 de 2</div><h2>Datos de envio</h2></div>
+      <button class="ship-modal-close" onclick="closeShipModal()">x</button>
+    </div>
+    <div class="ship-modal-body">
+      <div class="ship-field"><label>Nombre completo *</label><input type="text" id="ship-nombre" placeholder="Ej: Juan Garcia Lopez" autocomplete="name"><div class="ship-err-msg" id="err-nombre">Campo requerido</div></div>
+      <div class="ship-field"><label>Telefono *</label><input type="tel" id="ship-tel" placeholder="Ej: 6141234567" maxlength="10" autocomplete="tel"><div class="ship-err-msg" id="err-tel">Ingresa un telefono de 10 digitos</div></div>
+      <div class="ship-field"><label>Calle y numero *</label><input type="text" id="ship-calle" placeholder="Ej: Av. Insurgentes 1234 Int. 5" autocomplete="street-address"><div class="ship-err-msg" id="err-calle">Campo requerido</div></div>
+      <div class="ship-row">
+        <div class="ship-field"><label>Colonia *</label><input type="text" id="ship-colonia" placeholder="Ej: Centro" autocomplete="address-level3"><div class="ship-err-msg" id="err-colonia">Campo requerido</div></div>
+        <div class="ship-field"><label>Codigo Postal *</label><input type="text" id="ship-cp" placeholder="Ej: 31000" maxlength="5" autocomplete="postal-code"><div class="ship-err-msg" id="err-cp">CP de 5 digitos</div></div>
+      </div>
+      <div class="ship-row">
+        <div class="ship-field"><label>Ciudad *</label><input type="text" id="ship-ciudad" placeholder="Ej: Chihuahua" autocomplete="address-level2"><div class="ship-err-msg" id="err-ciudad">Campo requerido</div></div>
+        <div class="ship-field"><label>Estado *</label><input type="text" id="ship-estado" placeholder="Ej: Chihuahua" autocomplete="address-level1"><div class="ship-err-msg" id="err-estado">Campo requerido</div></div>
+      </div>
+      <label class="ship-save"><input type="checkbox" id="ship-guardar" checked> Guardar direccion para mi proxima compra</label>
+    </div>
+    <div class="ship-modal-ftr">
+      <button class="ship-btn-cancel" onclick="closeShipModal()">Cancelar</button>
+      <button class="ship-btn-ok" onclick="confirmShipping()">Continuar al pago</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
  
