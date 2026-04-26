@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0A0A08">
+<title>Mi Cuenta — Aurum Peptides</title>
+<meta name="description" content="Consulta tus pedidos y guías de envío en Aurum Peptides.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A84C;--gold2:rgba(201,168,76,0.15);--gold3:rgba(201,168,76,0.08);
+  --black:#0A0A08;--black2:#111110;--black3:#1A1A16;
+  --cream:#F5F0E8;--muted:#6B6B5E;--lite:#A8A290;
+  --border:rgba(201,168,76,0.12);--border2:rgba(201,168,76,0.25);
+  --green:#4CAF6B;--green2:rgba(76,175,107,0.12);
+  --amber:#E8A83C;--amber2:rgba(232,168,60,0.12);
+  --red:#E07070;--red2:rgba(224,112,112,0.1);
+  --blue:#5B9BD5;--blue2:rgba(91,155,213,0.12);
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.6;overflow-x:hidden;min-height:100vh}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(10,10,8,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo img{height:44px;display:block}
+.logo-text{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold);letter-spacing:2px}
+.nav-back{display:flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:color .2s}
+.nav-back:hover{color:var(--gold)}
+.nav-back svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.5;fill:none}
+
+/* ── PAGE ── */
+.page{padding:100px 24px 60px;max-width:860px;margin:0 auto}
+
+/* ── HEADER ── */
+.ph{margin-bottom:48px}
+.ph-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.ph-tag::after{content:'';flex:1;height:1px;max-width:48px;background:rgba(201,168,76,0.3)}
+.ph h1{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,52px);font-weight:300;line-height:1.1;margin-bottom:8px}
+.ph p{font-size:13px;color:var(--muted)}
+
+/* ── SEARCH / LOOKUP ── */
+.lookup-card{background:var(--black2);border:1px solid var(--border);padding:28px 28px 24px;margin-bottom:40px}
+.lookup-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.lookup-title svg{width:14px;height:14px;stroke:var(--gold);stroke-width:1.5;fill:none;flex-shrink:0}
+.lookup-row{display:flex;gap:10px;flex-wrap:wrap}
+.lookup-input{flex:1;min-width:200px;background:var(--black3);border:1px solid var(--border);color:var(--cream);padding:12px 16px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:300;outline:none;transition:border-color .2s;letter-spacing:.5px}
+.lookup-input::placeholder{color:var(--muted)}
+.lookup-input:focus{border-color:rgba(201,168,76,0.4)}
+.lookup-btn{padding:12px 24px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;font-weight:500;transition:opacity .2s;white-space:nowrap;flex-shrink:0}
+.lookup-btn:hover{opacity:.85}
+.lookup-hint{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.5}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:32px}
+.tab{padding:12px 0;margin-right:28px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;background:none;border-left:none;border-right:none;border-top:none;font-family:'Outfit',sans-serif}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab:hover:not(.active){color:var(--cream)}
+
+/* ── PANEL ── */
+.panel{display:none}
+.panel.active{display:block}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:60px 24px}
+.empty-icon{font-size:36px;margin-bottom:16px;opacity:.4}
+.empty-t{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:8px;color:var(--lite)}
+.empty-s{font-size:13px;color:var(--muted);margin-bottom:24px}
+.btn-g{padding:12px 28px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;font-weight:500;text-decoration:none;display:inline-block;transition:opacity .2s}
+.btn-g:hover{opacity:.85}
+.btn-o{padding:12px 28px;background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.4);font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.btn-o:hover{border-color:var(--gold)}
+
+/* ── ORDER CARD ── */
+.order-card{background:var(--black2);border:1px solid var(--border);margin-bottom:12px;transition:border-color .2s}
+.order-card:hover{border-color:var(--border2)}
+.order-hdr{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;gap:12px;cursor:pointer;flex-wrap:wrap}
+.order-ref{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--cream)}
+.order-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.order-date{font-size:11px;color:var(--muted);letter-spacing:.5px}
+.order-total{font-size:13px;color:var(--gold)}
+.status-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;border-radius:2px}
+.status-pill .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.s-completed{background:var(--green2);color:var(--green)}
+.s-completed .dot{background:var(--green)}
+.s-pending{background:var(--amber2);color:var(--amber)}
+.s-pending .dot{background:var(--amber)}
+.s-processing{background:var(--blue2);color:var(--blue)}
+.s-processing .dot{background:var(--blue);animation:pulse 1.5s ease-in-out infinite}
+.s-cancelled{background:var(--red2);color:var(--red)}
+.s-cancelled .dot{background:var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.order-chevron{color:var(--muted);font-size:16px;transition:transform .25s;flex-shrink:0}
+.order-card.open .order-chevron{transform:rotate(180deg)}
+
+/* ── ORDER BODY ── */
+.order-body{display:none;padding:0 20px 20px}
+.order-card.open .order-body{display:block}
+.order-divider{height:1px;background:var(--border);margin-bottom:20px}
+
+.order-items{margin-bottom:20px}
+.order-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(201,168,76,0.06);gap:12px}
+.order-item:last-child{border-bottom:none}
+.oi-name{font-size:13px;color:var(--cream)}
+.oi-dose{font-size:11px;color:var(--muted);margin-top:2px}
+.oi-right{text-align:right;flex-shrink:0}
+.oi-price{font-size:13px;color:var(--gold)}
+.oi-qty{font-size:11px;color:var(--muted)}
+
+.order-total-row{display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border);font-size:14px}
+.order-total-lbl{color:var(--muted)}
+.order-total-val{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold)}
+
+/* ── SHIPPING INFO ── */
+.ship-section{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.ship-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.ship-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ship-field{font-size:12px}
+.ship-key{color:var(--muted);margin-bottom:3px;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.ship-val{color:var(--cream);font-size:13px}
+
+/* ── GUIA BLOCK ── */
+.guia-block{margin-top:16px;background:var(--black3);border:1px solid var(--border);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.guia-left{display:flex;align-items:center;gap:12px}
+.guia-icon{font-size:20px}
+.guia-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.guia-num{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--cream)}
+.guia-carrier{font-size:11px;color:var(--muted);margin-top:2px}
+.guia-btn{padding:10px 20px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:500;text-decoration:none;display:inline-block;white-space:nowrap;transition:opacity .2s}
+.guia-btn:hover{opacity:.85}
+.no-guia{font-size:12px;color:var(--muted);margin-top:16px;padding:12px 16px;border:1px dashed rgba(201,168,76,0.15);text-align:center}
+
+/* ── ACTIONS ── */
+.order-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+
+/* ── LOOKUP RESULT ── */
+.lookup-result{background:var(--black2);border:1px solid var(--border2);padding:20px;margin-top:16px;display:none}
+.lookup-result.show{display:block}
+.lr-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.lr-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(201,168,76,0.06);font-size:12px}
+.lr-row:last-child{border-bottom:none}
+.lr-key{color:var(--muted)}
+.lr-val{color:var(--cream);text-align:right;max-width:60%}
+.lr-error{color:var(--red);font-size:12px;margin-top:10px;display:none}
+.lr-error.show{display:block}
+
+/* ── INFO SECTION ── */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--border)}
+.info-card{background:var(--black2);padding:24px 20px}
+.info-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);margin-bottom:8px}
+.info-t{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--cream);margin-bottom:6px;font-weight:500}
+.info-d{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* ── CONTACT ── */
+.contact-strip{background:var(--black3);border:1px solid var(--border);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:40px}
+.cs-text h3{font-size:14px;font-weight:500;margin-bottom:4px}
+.cs-text p{font-size:12px;color:var(--muted)}
+.cs-btns{display:flex;gap:10px;flex-wrap:wrap}
+.wa-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;background:#25D366;color:#fff;border:none;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:500;text-decoration:none;transition:opacity .2s}
+.wa-btn:hover{opacity:.85}
+.wa-btn svg{width:16px;height:16px;fill:white}
+
+/* ── LOADING ── */
+.loading{text-align:center;padding:40px;color:var(--muted);font-size:13px}
+.spinner{display:inline-block;width:20px;height:20px;border:1.5px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px;display:block;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── FOOTER ── */
+.foot{padding:24px;border-top:1px solid var(--border);text-align:center;font-size:11px;color:var(--muted);margin-top:60px}
+.foot a{color:var(--gold);text-decoration:none}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--black3);border:1px solid var(--border);color:var(--cream);padding:12px 24px;font-size:12px;letter-spacing:1px;opacity:0;pointer-events:none;transition:all .3s;white-space:nowrap;z-index:500}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── RESP ── */
+@media(max-width:600px){
+  .page{padding:88px 16px 40px}
+  .ship-grid{grid-template-columns:1fr}
+  .order-hdr{padding:14px 16px}
+  .order-body{padding:0 16px 16px}
+  .lookup-card{padding:20px 16px}
+  .guia-block{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <img src="logo_cuadrado.png" alt="Aurum Peptides" onerror="this.style.display='none'">
+    <span class="logo-text">AURUM</span>
+  </a>
+  <a href="index.html" class="nav-back">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Volver a la tienda
+  </a>
+</nav>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="ph">
+    <div class="ph-tag">Portal de clientes</div>
+    <h1>Mis <em style="font-style:italic;color:var(--gold)">pedidos</em></h1>
+    <p>Consulta el estatus de tus órdenes y guías de envío.</p>
+  </div>
+
+  <!-- LOOKUP POR REFERENCIA / EMAIL -->
+  <div class="lookup-card">
+    <div class="lookup-title">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Buscar pedido por referencia
+    </div>
+    <div class="lookup-row">
+      <input class="lookup-input" id="lookup-ref" type="text" placeholder="Ej: AURUM-1745712345678" maxlength="30" autocomplete="off" onkeydown="if(event.key==='Enter')lookupOrder()">
+      <button class="lookup-btn" onclick="lookupOrder()">Buscar</button>
+    </div>
+    <p class="lookup-hint">Ingresa tu número de referencia. Lo encontrarás en tu mensaje de confirmación de WhatsApp o en el correo de Mercado Pago.</p>
+    <div class="lr-error" id="lookup-error">No encontramos un pedido con esa referencia. Verifica el número o contáctanos por WhatsApp.</div>
+    <div class="lookup-result" id="lookup-result">
+      <div class="lr-title">Pedido encontrado</div>
+      <div id="lookup-content"></div>
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-g" onclick="saveFoundOrder()">Guardar en mi historial</button>
+        <button class="btn-o" onclick="closeResult()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('orders',this)">Mis pedidos</button>
+    <button class="tab" onclick="switchTab('info',this)">Información de envíos</button>
+  </div>
+
+  <!-- ORDERS PANEL -->
+  <div class="panel active" id="panel-orders">
+    <div id="orders-container">
+      <div class="loading"><div class="spinner"></div>Cargando pedidos...</div>
+    </div>
+  </div>
+
+  <!-- INFO PANEL -->
+  <div class="panel" id="panel-info">
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-num">2–5</div>
+        <div class="info-t">Días de entrega</div>
+        <div class="info-d">Envíos a toda la república mexicana. Tiempo estimado desde la confirmación del pago.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-num">48h</div>
+        <div class="info-t">Guía disponible</div>
+        <div class="info-d">Recibirás tu número de guía por WhatsApp dentro de las 48 hrs hábiles de tu compra.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-num">$0</div>
+        <div class="info-t">Envío gratis</div>
+        <div class="info-d">En pedidos mayores a $3,000 MXN. Pedidos menores tienen costo de envío estándar.</div>
+      </div>
+    </div>
+    <div style="background:var(--black2);border:1px solid var(--border);padding:24px;margin-top:1px">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px">¿Cómo rastrear mi paquete?</div>
+      <div style="font-size:13px;color:var(--lite);line-height:1.9">
+        <div style="margin-bottom:10px">① Recibirás un mensaje de WhatsApp con tu número de guía cuando tu pedido sea despachado.</div>
+        <div style="margin-bottom:10px">② Visita el sitio del transportista (Estafeta, FedEx o Redpack según tu zona) e ingresa el número de guía.</div>
+        <div style="margin-bottom:10px">③ Si después de 48 hrs hábiles no tienes tu guía, contáctanos directamente por WhatsApp.</div>
+        <div>④ Los productos son empacados de forma discreta. La etiqueta no menciona el contenido.</div>
+      </div>
+    </div>
+    <div style="background:var(--black2);border:1px solid var(--border);padding:24px;margin-top:1px">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Rastreo rápido por transportista</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <a href="https://www.estafeta.com/rastreo" target="_blank" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1px solid var(--border);color:var(--cream);text-decoration:none;font-size:12px;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span>Estafeta</span><span style="color:var(--gold);font-size:10px;letter-spacing:1px">RASTREAR →</span>
+        </a>
+        <a href="https://www.fedex.com/es-mx/tracking.html" target="_blank" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1px solid var(--border);color:var(--cream);text-decoration:none;font-size:12px;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(201,168,60,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span>FedEx</span><span style="color:var(--gold);font-size:10px;letter-spacing:1px">RASTREAR →</span>
+        </a>
+        <a href="https://www.redpack.com.mx/es/rastreo/" target="_blank" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1px solid var(--border);color:var(--cream);text-decoration:none;font-size:12px;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(201,168,60,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span>Redpack</span><span style="color:var(--gold);font-size:10px;letter-spacing:1px">RASTREAR →</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-strip">
+    <div class="cs-text">
+      <h3>¿Necesitas ayuda con tu pedido?</h3>
+      <p>Respuesta en menos de 2 horas en horario hábil.</p>
+    </div>
+    <div class="cs-btns">
+      <a href="https://wa.me/526572844902?text=Hola%2C%20necesito%20ayuda%20con%20mi%20pedido%20de%20Aurum%20Peptides" target="_blank" class="wa-btn">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<footer class="foot">
+  <a href="index.html">← Volver a Aurum Peptides</a> &nbsp;·&nbsp; Todos los productos son para uso exclusivo de investigación científica.
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STORAGE KEY ──
+var ORDERS_KEY = 'aurum_orders';
+var FOUND_ORDER = null;
+
+// ── STATUS LABELS ──
+var STATUS = {
+  completed: { label: 'Completado', cls: 's-completed' },
+  paid:      { label: 'Pagado', cls: 's-completed' },
+  pending:   { label: 'Pendiente', cls: 's-pending' },
+  processing:{ label: 'En preparación', cls: 's-processing' },
+  shipped:   { label: 'En camino', cls: 's-processing' },
+  cancelled: { label: 'Cancelado', cls: 's-cancelled' },
+  unknown:   { label: 'En proceso', cls: 's-pending' },
+};
+
+function getStatus(s) {
+  return STATUS[s] || STATUS.unknown;
+}
+
+// ── LOAD ORDERS FROM LOCALSTORAGE ──
+function getOrders() {
+  try {
+    var raw = localStorage.getItem(ORDERS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch(e) { return []; }
+}
+
+function saveOrder(order) {
+  var orders = getOrders();
+  var idx = orders.findIndex(function(o){ return o.ref === order.ref; });
+  if (idx >= 0) {
+    orders[idx] = Object.assign(orders[idx], order);
+  } else {
+    orders.unshift(order);
+  }
+  try { localStorage.setItem(ORDERS_KEY, JSON.stringify(orders)); } catch(e) {}
+}
+
+// ── CHECK URL PARAMS (from MP callback) ──
+function checkUrlParams() {
+  var params = new URLSearchParams(window.location.search);
+  var extRef = params.get('external_reference');
+  var status = params.get('collection_status') || params.get('status') || 'pending';
+  var pmtId  = params.get('payment_id') || params.get('collection_id') || '';
+
+  if (extRef && extRef.startsWith('AURUM-')) {
+    // Try to pull cart from localStorage
+    var lastCart = null;
+    try { lastCart = JSON.parse(localStorage.getItem('aurum_last_cart')); } catch(e) {}
+
+    var order = {
+      ref: extRef,
+      date: new Date().toLocaleDateString('es-MX', {year:'numeric',month:'long',day:'numeric'}),
+      dateTs: Date.now(),
+      status: status,
+      paymentId: pmtId,
+      items: lastCart || [],
+      total: lastCart ? lastCart.reduce(function(s,i){ return s + i.price * i.qty; }, 0) : 0,
+      guia: '',
+      carrier: '',
+    };
+
+    // Try to pull shipping from localStorage
+    try {
+      var ship = JSON.parse(localStorage.getItem('aurum_last_shipping'));
+      if (ship) order.shipping = ship;
+    } catch(e) {}
+
+    saveOrder(order);
+
+    // Clean URL
+    window.history.replaceState({}, '', 'mi-cuenta.html');
+    showToast('✓ Pedido guardado en tu historial');
+  }
+}
+
+// ── RENDER ORDERS ──
+function renderOrders() {
+  var orders = getOrders();
+  var container = document.getElementById('orders-container');
+
+  if (!orders.length) {
+    container.innerHTML = '<div class="empty">' +
+      '<div class="empty-icon">🧪</div>' +
+      '<div class="empty-t">Sin pedidos registrados</div>' +
+      '<div class="empty-s">Tus compras aparecerán aquí automáticamente después de pagar.<br>También puedes buscar un pedido con tu número de referencia arriba.</div>' +
+      '<a href="index.html" class="btn-g" style="margin-right:10px">Ver catálogo</a>' +
+      '</div>';
+    return;
+  }
+
+  container.innerHTML = orders.map(function(o, i) {
+    return buildOrderCard(o, i);
+  }).join('');
+}
+
+function buildOrderCard(o, i) {
+  var st = getStatus(o.status);
+  var total = o.total ? '$' + Number(o.total).toLocaleString('es-MX') + ' MXN' : '—';
+
+  var itemsHtml = '';
+  if (o.items && o.items.length) {
+    itemsHtml = o.items.map(function(it) {
+      return '<div class="order-item">' +
+        '<div><div class="oi-name">' + escHtml(it.name) + '</div><div class="oi-dose">' + escHtml(it.dose||'') + '</div></div>' +
+        '<div class="oi-right"><div class="oi-price">$' + Number(it.price).toLocaleString('es-MX') + '</div><div class="oi-qty">x' + (it.qty||1) + '</div></div>' +
+      '</div>';
+    }).join('');
+  } else {
+    itemsHtml = '<div style="font-size:12px;color:var(--muted);padding:10px 0">Detalle de productos no disponible.</div>';
+  }
+
+  var shippingHtml = '';
+  if (o.shipping) {
+    var s = o.shipping;
+    shippingHtml = '<div class="ship-section">' +
+      '<div class="ship-label">Datos de envío</div>' +
+      '<div class="ship-grid">' +
+        '<div class="ship-field"><div class="ship-key">Nombre</div><div class="ship-val">' + escHtml(s.nombre||'—') + '</div></div>' +
+        '<div class="ship-field"><div class="ship-key">Teléfono</div><div class="ship-val">' + escHtml(s.tel||'—') + '</div></div>' +
+        '<div class="ship-field"><div class="ship-key">Dirección</div><div class="ship-val">' + escHtml((s.calle||'') + ', Col. ' + (s.colonia||'')) + '</div></div>' +
+        '<div class="ship-field"><div class="ship-key">Ciudad</div><div class="ship-val">' + escHtml((s.ciudad||'') + ', ' + (s.estado||'') + ' CP ' + (s.cp||'')) + '</div></div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  var guiaHtml = '';
+  if (o.guia) {
+    var trackUrl = getTrackUrl(o.carrier, o.guia);
+    guiaHtml = '<div class="guia-block">' +
+      '<div class="guia-left"><div class="guia-icon">📦</div><div>' +
+        '<div class="guia-label">Guía de envío</div>' +
+        '<div class="guia-num">' + escHtml(o.guia) + '</div>' +
+        '<div class="guia-carrier">' + escHtml(o.carrier || 'Transportista') + '</div>' +
+      '</div></div>' +
+      (trackUrl ? '<a href="' + trackUrl + '" target="_blank" class="guia-btn">Rastrear paquete →</a>' : '') +
+    '</div>';
+  } else if (o.status !== 'cancelled') {
+    guiaHtml = '<div class="no-guia">📬 Guía de envío en proceso — la recibirás por WhatsApp en 48 hrs hábiles</div>';
+  }
+
+  var waText = encodeURIComponent('Hola, quiero preguntar sobre mi pedido ' + o.ref);
+
+  return '<div class="order-card" id="oc-' + i + '">' +
+    '<div class="order-hdr" onclick="toggleOrder(' + i + ')">' +
+      '<div>' +
+        '<div class="order-ref">' + escHtml(o.ref) + '</div>' +
+        '<div class="order-date">' + escHtml(o.date||'') + (o.paymentId ? ' · Pago #' + o.paymentId : '') + '</div>' +
+      '</div>' +
+      '<div class="order-meta">' +
+        '<span class="status-pill ' + st.cls + '"><span class="dot"></span>' + st.label + '</span>' +
+        '<span class="order-total">' + total + '</span>' +
+        '<span class="order-chevron">▾</span>' +
+      '</div>' +
+    '</div>' +
+    '<div class="order-body">' +
+      '<div class="order-divider"></div>' +
+      '<div class="order-items">' + itemsHtml + '</div>' +
+      (o.total ? '<div class="order-total-row"><span class="order-total-lbl">Total pagado</span><span class="order-total-val">' + total + '</span></div>' : '') +
+      shippingHtml +
+      guiaHtml +
+      '<div class="order-actions">' +
+        '<a href="https://wa.me/526572844902?text=' + waText + '" target="_blank" class="btn-o" style="font-size:10px">Consultar por WhatsApp</a>' +
+        '<button class="btn-o" style="font-size:10px" onclick="deleteOrder(\'' + escHtml(o.ref) + '\')">Eliminar de historial</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function getTrackUrl(carrier, guia) {
+  if (!carrier || !guia) return null;
+  var c = carrier.toLowerCase();
+  if (c.includes('estafeta')) return 'https://www.estafeta.com/rastreo?waybill=' + encodeURIComponent(guia);
+  if (c.includes('fedex'))    return 'https://www.fedex.com/apps/fedextrack/?tracknumbers=' + encodeURIComponent(guia);
+  if (c.includes('redpack'))  return 'https://www.redpack.com.mx/es/rastreo/?guia=' + encodeURIComponent(guia);
+  return null;
+}
+
+function toggleOrder(i) {
+  var card = document.getElementById('oc-' + i);
+  if (card) card.classList.toggle('open');
+}
+
+function deleteOrder(ref) {
+  if (!confirm('¿Eliminar el pedido ' + ref + ' de tu historial?')) return;
+  var orders = getOrders().filter(function(o){ return o.ref !== ref; });
+  try { localStorage.setItem(ORDERS_KEY, JSON.stringify(orders)); } catch(e) {}
+  renderOrders();
+  showToast('Pedido eliminado del historial');
+}
+
+// ── LOOKUP ──
+async function lookupOrder() {
+  var ref = document.getElementById('lookup-ref').value.trim().toUpperCase();
+  if (!ref) { showToast('Ingresa un número de referencia'); return; }
+  if (!ref.startsWith('AURUM-')) {
+    document.getElementById('lookup-error').classList.add('show');
+    document.getElementById('lookup-result').classList.remove('show');
+    return;
+  }
+
+  var btn = document.querySelector('.lookup-btn');
+  btn.textContent = 'Buscando...';
+  btn.disabled = true;
+
+  // First check localStorage
+  var orders = getOrders();
+  var local = orders.find(function(o){ return o.ref === ref; });
+
+  if (local) {
+    btn.textContent = 'Buscar';
+    btn.disabled = false;
+    document.getElementById('lookup-error').classList.remove('show');
+    FOUND_ORDER = local;
+    showLookupResult(local);
+    return;
+  }
+
+  // Try MP API via Netlify function
+  try {
+    var resp = await fetch('/.netlify/functions/get-order?ref=' + encodeURIComponent(ref));
+    if (resp.ok) {
+      var data = await resp.json();
+      FOUND_ORDER = data;
+      document.getElementById('lookup-error').classList.remove('show');
+      showLookupResult(data);
+    } else {
+      throw new Error('not found');
+    }
+  } catch(e) {
+    // Fallback: show basic info from reference
+    var ts = parseInt(ref.replace('AURUM-',''));
+    if (ts && !isNaN(ts) && ts > 1000000000000) {
+      FOUND_ORDER = {
+        ref: ref,
+        date: new Date(ts).toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'}),
+        status: 'unknown',
+        items: [],
+        total: 0
+      };
+      document.getElementById('lookup-error').classList.remove('show');
+      showLookupResult(FOUND_ORDER);
+    } else {
+      document.getElementById('lookup-error').classList.add('show');
+      document.getElementById('lookup-result').classList.remove('show');
+    }
+  }
+
+  btn.textContent = 'Buscar';
+  btn.disabled = false;
+}
+
+function showLookupResult(order) {
+  var st = getStatus(order.status);
+  var html =
+    '<div class="lr-row"><span class="lr-key">Referencia</span><span class="lr-val">' + escHtml(order.ref) + '</span></div>' +
+    '<div class="lr-row"><span class="lr-key">Fecha</span><span class="lr-val">' + escHtml(order.date||'—') + '</span></div>' +
+    '<div class="lr-row"><span class="lr-key">Estatus</span><span class="lr-val"><span class="status-pill ' + st.cls + '" style="margin:0"><span class="dot"></span>' + st.label + '</span></span></div>' +
+    (order.total ? '<div class="lr-row"><span class="lr-key">Total</span><span class="lr-val">$' + Number(order.total).toLocaleString('es-MX') + ' MXN</span></div>' : '') +
+    (order.guia ? '<div class="lr-row"><span class="lr-key">Guía</span><span class="lr-val">' + escHtml(order.guia) + '</span></div>' : '');
+
+  document.getElementById('lookup-content').innerHTML = html;
+  document.getElementById('lookup-result').classList.add('show');
+}
+
+function saveFoundOrder() {
+  if (!FOUND_ORDER) return;
+  saveOrder(FOUND_ORDER);
+  document.getElementById('lookup-result').classList.remove('show');
+  document.getElementById('lookup-ref').value = '';
+  FOUND_ORDER = null;
+  renderOrders();
+  showToast('✓ Pedido guardado en tu historial');
+}
+
+function closeResult() {
+  document.getElementById('lookup-result').classList.remove('show');
+  FOUND_ORDER = null;
+}
+
+// ── TABS ──
+function switchTab(id, el) {
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  el.classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+}
+
+// ── UTILS ──
+function escHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2800);
+}
+
+// ── INIT ──
+checkUrlParams();
+renderOrders();
+
+// Also auto-save cart if coming from index.html with cart data
+// (index.html saves to aurum_last_cart + aurum_last_shipping on checkout)
+</script>
+</body>
+</html>
