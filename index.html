@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:image" content="logo_cuadrado.png">
 <link rel="icon" type="image/png" href="favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.chom">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -187,6 +187,16 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 .btn-checkout{width:100%;padding:16px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;font-weight:500;margin-bottom:10px}
 .btn-wa{width:100%;padding:14px;background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.4);font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s}
 .btn-wa:hover{border-color:var(--gold)}
+.promo-input-wrap{display:flex;gap:8px;margin-bottom:14px}
+.promo-input-wrap input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.25);color:var(--lite);padding:10px 12px;font-family:'Outfit',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+.promo-input-wrap input::placeholder{color:var(--muted);text-transform:none;letter-spacing:0}
+.promo-input-wrap button{background:var(--gold);color:var(--black);border:none;padding:10px 16px;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:500;white-space:nowrap}
+.promo-applied{display:flex;justify-content:space-between;align-items:center;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);padding:10px 12px;margin-bottom:14px;font-size:12px}
+.promo-applied .code{color:var(--gold);font-weight:600;letter-spacing:1px}
+.promo-applied .discount{color:var(--gold)}
+.promo-applied .remove{color:var(--muted);cursor:pointer;font-size:14px;margin-left:8px}
+.promo-applied .remove:hover{color:var(--lite)}
+.cart-sub-discount{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;color:var(--gold)}
 
 /* ── MODAL ── */
 .modal-ov{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:400;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
@@ -421,30 +431,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
   .inv-table{font-size:11px}
   .inv-input{width:55px}
 }
-
-/* ── SHIPPING MODAL ── */
-.ship-modal-ov{position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;padding:20px}
-.ship-modal-ov.open{opacity:1;pointer-events:all}
-.ship-modal{background:var(--black2);border:1px solid rgba(201,168,76,0.2);width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
-.ship-modal-hdr{padding:24px 28px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.ship-modal-hdr h2{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--cream)}
-.ship-modal-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
-.ship-modal-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:24px;line-height:1;padding:4px}
-.ship-modal-close:hover{color:var(--cream)}
-.ship-modal-body{padding:24px 28px}
-.ship-field{margin-bottom:16px}
-.ship-field label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.ship-field input{width:100%;background:var(--black3);border:1px solid rgba(201,168,76,0.15);color:var(--cream);padding:12px 14px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:300;outline:none;transition:border-color .2s}
-.ship-field input:focus{border-color:rgba(201,168,76,0.5)}
-.ship-field input::placeholder{color:var(--muted)}
-.ship-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.ship-save{display:flex;align-items:center;gap:10px;margin:4px 0 20px;cursor:pointer;font-size:13px;color:var(--muted)}
-.ship-save input{width:16px;height:16px;accent-color:var(--gold);cursor:pointer}
-.ship-modal-ftr{display:flex;gap:12px;padding:0 28px 28px}
-.ship-btn-cancel{flex:1;padding:14px;background:transparent;color:var(--muted);border:1px solid rgba(201,168,76,0.15);font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
-.ship-btn-ok{flex:2;padding:14px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;font-weight:500}
-.ship-field-err{border-color:rgba(220,60,60,0.6)!important}
-.ship-err-msg{font-size:11px;color:#E07070;margin-top:4px;display:none}
 </style>
 </head>
 <body>
@@ -491,10 +477,10 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     <li><a href="#nosotros">Nosotros</a></li>
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#recursos">Recursos</a></li>
-    <li><a href="mi-cuenta.html" style="color:var(--gold)">Mi Cuenta</a></li>
+    <li><a href="https://aurumpeptides.mitiendanube.com/account/" target="_blank" style="color:var(--gold)">Mi Cuenta</a></li>
   </ul>
   <div class="nav-right">
-    <a href="mi-cuenta.html" class="cart-btn" aria-label="Mi Cuenta" title="Mi Cuenta">
+    <a href="https://aurumpeptides.mitiendanube.com/account/" target="_blank" class="cart-btn" aria-label="Mi Cuenta" title="Mi Cuenta">
       <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </a>
     <button class="hbg" id="hbg" onclick="toggleMenu()" aria-label="Menú">
@@ -513,7 +499,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
   <a href="#nosotros" onclick="closeMenu()">Nosotros</a>
   <a href="#faq" onclick="closeMenu()">FAQ</a>
   <a href="#recursos" onclick="closeMenu()">Recursos</a>
-  <a href="mi-cuenta.html" style="color:var(--gold)" onclick="closeMenu()">Mi Cuenta</a>
+  <a href="https://aurumpeptides.mitiendanube.com/account/" target="_blank" style="color:var(--gold)" onclick="closeMenu()">Mi Cuenta</a>
   <button class="mob-cta" onclick="closeMenu();document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver péptidos</button>
 </div>
 
@@ -569,7 +555,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       </div>
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">BTLabs</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.5%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">WTSBX5G</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: wtsbx5g →</a></div>
       <a class="vml" href="peptide_detail.html?p=retatrutide">Ver información detallada →</a>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/28H5xsS" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price"><span id="reta-price">$1,699</span><small>MXN por vial</small></div>
         <button class="btn-add" id="reta-add">Agregar</button>
@@ -587,7 +572,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
         <span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--muted);text-decoration:line-through">$1,798</span>
         <span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#E07070;font-weight:500">BAC Water GRATIS</span>
       </div>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/1GXfc3a" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price">$1,699<small>MXN por pack</small></div>
         <button class="btn-add" onclick="addBundle()">Agregar</button>
@@ -604,7 +588,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <p class="p-desc">El secretagogo de GH más selectivo. Sin efecto sobre cortisol ni prolactina en modelos de investigación. Perfil excepcionalmente limpio.</p>
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Janoshik</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.926%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">#106236</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">26 FEB 2026</span></div><a class="cl" href="https://www.janoshik.com/verify/" target="_blank">Verificar: LA2JN96V9R73 →</a></div>
       <a class="vml" href="peptide_detail.html?p=ipamorelin">Ver información detallada →</a>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/1KrgeMi" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price">$949<small>MXN por vial</small></div>
         <button class="btn-add" onclick="openModal('Ipamorelin','5 mg · Polvo liofilizado',949)">Agregar</button>
@@ -621,7 +604,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <p class="p-desc">Coenzima investigada en reparación de ADN, producción de energía celular y procesos de longevidad. Presentación de alta concentración.</p>
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Janoshik</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">≥99%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">H2YBDF</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">2025</span></div><a class="cl" href="https://www.janoshik.com/verify/" target="_blank">Verificar: H2YBDFJG9UGP →</a></div>
       <a class="vml" href="peptide_detail.html?p=nad">Ver información detallada →</a>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/27YDc4H" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price">$1,190<small>MXN por vial</small></div>
         <button class="btn-add" onclick="openModal('NAD+','500 mg · Alta concentración',1190)">Agregar</button>
@@ -638,7 +620,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <p class="p-desc">Complejo tripeptídico cobre-péptido. Investigado en síntesis de colágeno, regeneración tisular y actividad antioxidante.</p>
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Krause Analytical</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">>99.9%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">kmbxy76</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">2025</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: kmbxy76 →</a></div>
       <a class="vml" href="peptide_detail.html?p=ghkcu">Ver información detallada →</a>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/2sakWxD" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price">$699<small>MXN por vial</small></div>
         <button class="btn-add" onclick="openModal('GHK-Cu','50 mg · Polvo liofilizado',699)">Agregar</button>
@@ -654,7 +635,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <div class="low-stock"></div>
       <p class="p-desc">Derivado del ADN mitocondrial humano. Investigado en regulación del metabolismo energético y sensibilidad a la insulina en tejido muscular.</p>
       <a class="vml" href="peptide_detail.html?p=motsc">Ver información detallada →</a>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/1V1XBHm" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price">$1,799<small>MXN por vial</small></div>
         <button class="btn-add" onclick="openModal('Mots-C','10 mg · Polvo liofilizado',1799)">Agregar</button>
@@ -671,7 +651,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <p class="p-desc">Tetrapéptido de penetración mitocondrial directa. Actúa en la membrana interna para reducir ROS y mejorar la función bioenergética.</p>
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">BTLabs</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.9%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">227CKAP</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">2025</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: 227ckap →</a></div>
       <a class="vml" href="peptide_detail.html?p=ss31">Ver información detallada →</a>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/1Ke46Hi" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price">$2,199<small>MXN por vial</small></div>
         <button class="btn-add" onclick="openModal('SS-31','10 mg · Elamipeptide',2199)">Agregar</button>
@@ -698,7 +677,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
         <a class="cl" id="tc-link" href="https://finnrick.com/verify" target="_blank">Verificar: j9f35yh →</a>
       </div>
       <a class="vml" href="peptide_detail.html?p=tirzepatide">Ver información detallada →</a>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/2t2891v" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price"><span id="tirze-price">$1,099</span><small>MXN por vial</small></div>
         <button class="btn-add" id="tirze-add">Agregar</button>
@@ -784,7 +762,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
         <button class="vb" id="bb5" onclick="selBac(5)">5 mL</button>
         <button class="vb" id="bb10" onclick="selBac(10)">10 mL</button>
       </div>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/2SoDkcs" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price"><span id="bac-price">$99</span><small>MXN por vial</small></div>
         <button class="btn-add" id="bac-add">Agregar</button>
@@ -895,7 +872,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
   <p>Péptidos verificados, entrega rápida, soporte técnico. Todo lo que necesitas para tu investigación.</p>
   <div class="cta-btns">
     <a href="#catalogo" class="btn-g">Ver catálogo completo</a>
-    <a href="https://wa.me/526572844902" target="_blank" class="btn-o">Contactar por WhatsApp</a>
+    <a href="https://wa.me/526562844902" target="_blank" class="btn-o">Contactar por WhatsApp</a>
   </div>
 </section>
 
@@ -919,7 +896,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     <a href="#faq">Preguntas frecuentes</a>
     <a href="#recursos">Recursos</a>
     <a href="#sobre">Nosotros</a>
-    <a href="https://wa.me/526572844902" target="_blank">Contacto</a>
+    <a href="https://wa.me/526562844902" target="_blank">Contacto</a>
   </div>
 </footer>
 <div class="ft-disc">Para uso exclusivo en investigación científica · No aptos para consumo humano · No aprobados por COFEPRIS ni FDA · © 2026 Aurum Peptides · Todos los derechos reservados</div>
@@ -945,8 +922,21 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <div id="ship-msg" style="color:var(--muted)"></div>
       <div class="ship-track"><div class="ship-fill" id="ship-fill"></div></div>
     </div>
+    <!-- Código de descuento -->
+    <div class="promo-input-wrap" id="promo-input-wrap">
+      <input type="text" id="promo-input" placeholder="Código de descuento" maxlength="20">
+      <button onclick="applyPromoCode()">Aplicar</button>
+    </div>
+    <div class="promo-applied" id="promo-applied" style="display:none">
+      <div><span class="code" id="promo-applied-code"></span> — <span class="discount" id="promo-applied-pct"></span></div>
+      <span class="remove" onclick="removePromoCode()" title="Quitar código">✕</span>
+    </div>
+    <div class="cart-sub-discount" id="cart-discount-row" style="display:none">
+      <span>Descuento</span>
+      <span id="cart-discount-val">-$0</span>
+    </div>
     <div class="cart-sub"><span>Subtotal</span><span class="cart-sub-v" id="cart-total">$0</span></div>
-    <button class="btn-checkout" onclick="checkout()">Proceder al pago</button>
+    <button class="btn-checkout" onclick="checkoutTiendanube()">🛒 Finalizar en Tiendanube</button>
     <button class="btn-wa" onclick="sendWhatsApp()">Pedir por WhatsApp</button>
   </div>
 </div>
@@ -979,7 +969,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 <div class="toast" id="toast"></div>
 
 <!-- WSP FAB -->
-<a class="wsp" href="https://wa.me/526572844902" target="_blank" aria-label="WhatsApp">
+<a class="wsp" href="https://wa.me/526562844902" target="_blank" aria-label="WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
@@ -988,14 +978,12 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 var cart = [];
 var modalProduct = null;
 var modalQty = 1;
-var activePromoCode = null;
-var activePromoDiscount = 0;
 
 // ══════════════════════════════════════
 // CONFIGURACIÓN — EDITA ESTOS VALORES
 // ══════════════════════════════════════
 var CONFIG = {
-  whatsapp: '526572844902',
+  whatsapp: '526562844902',
   tiendanube: 'https://aurumpeptides.mitiendanube.com',
   productLinks: {
     'retatrutide':  '/productos/retatrutide-10-mg-peptido-triple-agonista-gip-glp-1-glucagon/',
@@ -1085,7 +1073,7 @@ function closeMenu() {
 // GOOGLE SHEETS CONFIG
 // ══════════════════════════════════════
 var SHEETS_CONFIG = {
-  webAppUrl: 'https://script.google.com/macros/s/AKfycbwIYuMzIQNVVeOi3R73ZhYH6ayW6vIW5vC6Gh66iDvE-3w6tPOaeH5L2-2Ch0N6V5qM/exec',
+  webAppUrl: 'TU_GOOGLE_APPS_SCRIPT_URL_AQUI',
   sheetName: 'Clientes',
   secretKey: 'aurum2026secret'
 };
@@ -1157,6 +1145,47 @@ function incrementOrders(email) {
 // ══════════════════════════════════════
 var activePromoCode = null;
 var activePromoDiscount = 0;
+
+// Códigos de descuento válidos
+var PROMO_CODES = {
+  'AURUM10': { discount: 0.10, label: '10% de descuento' },
+  'BIENVENIDO': { discount: 0.10, label: '10% de descuento' },
+  'AURUM15!': { discount: 0.15, label: '15% de descuento' },
+  'AURUM20$': { discount: 0.20, label: '20% de descuento' },
+};
+
+function applyPromoCode() {
+  var input = document.getElementById('promo-input');
+  var code = input.value.trim().toUpperCase();
+  if (!code) { showToast('Ingresa un código de descuento'); return; }
+  var promo = PROMO_CODES[code];
+  if (!promo) {
+    showToast('⚠ Código "' + code + '" no válido');
+    input.style.borderColor = 'rgba(224,112,112,0.6)';
+    setTimeout(function(){ input.style.borderColor = 'rgba(201,168,76,0.25)'; }, 2000);
+    return;
+  }
+  activePromoCode = code;
+  activePromoDiscount = promo.discount;
+  // Show applied state
+  document.getElementById('promo-input-wrap').style.display = 'none';
+  document.getElementById('promo-applied').style.display = 'flex';
+  document.getElementById('promo-applied-code').textContent = code;
+  document.getElementById('promo-applied-pct').textContent = promo.label;
+  updateCartUI();
+  showToast('✓ Código ' + code + ' aplicado — ' + promo.label);
+}
+
+function removePromoCode() {
+  activePromoCode = null;
+  activePromoDiscount = 0;
+  document.getElementById('promo-input-wrap').style.display = 'flex';
+  document.getElementById('promo-applied').style.display = 'none';
+  document.getElementById('promo-input').value = '';
+  document.getElementById('cart-discount-row').style.display = 'none';
+  updateCartUI();
+  showToast('Código de descuento removido');
+}
 
 function showEmailModal() { document.getElementById('email-modal-ov').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeEmailModal() { document.getElementById('email-modal-ov').classList.remove('open'); document.body.style.overflow=''; }
@@ -1659,125 +1688,16 @@ function closeCart() { document.getElementById('cart-overlay').classList.remove(
 
 function sendWhatsApp() {
   if (cart.length === 0) { showToast('El carrito está vacío'); return; }
-  var total = cart.reduce(function(s,i){ return s+i.price*i.qty; },0);
+  var t = getCartTotals();
   var lines = cart.map(function(i){ return '• '+i.name+' ('+i.dose+') × '+i.qty+' = $'+( i.price*i.qty).toLocaleString('es-MX')+' MXN'; });
-  var msg = '¡Hola Aurum Peptides! Quiero hacer el siguiente pedido:\n\n' + lines.join('\n') + '\n\n*Total: $' + total.toLocaleString('es-MX') + ' MXN*\n\n¿Me pueden confirmar disponibilidad?';
-  window.open('https://wa.me/526572844902?text=' + encodeURIComponent(msg), '_blank');
-}
-var NETLIFY_FUNCTION_URL = 'https://aurumpeptides.netlify.app';
-
-function openShipModal() {
-  if (cart.length === 0) { showToast('El carrito esta vacio'); return; }
-  try {
-    var saved = JSON.parse(localStorage.getItem('aurum_shipping') || '{}');
-    if (saved.nombre) {
-      ['nombre','tel','calle','colonia','cp','ciudad','estado'].forEach(function(f){
-        var el = document.getElementById('ship-'+f);
-        if (el && saved[f]) el.value = saved[f];
-      });
-    }
-  } catch(e) {}
-  document.getElementById('ship-modal-ov').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  setTimeout(function(){ document.getElementById('ship-nombre').focus(); }, 100);
-}
-
-function closeShipModal() {
-  document.getElementById('ship-modal-ov').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function validateShipField(id, errId, fn) {
-  var val = document.getElementById(id).value.trim();
-  var ok = fn(val);
-  document.getElementById(id).classList.toggle('ship-field-err', !ok);
-  document.getElementById(errId).style.display = ok ? 'none' : 'block';
-  return ok;
-}
-
-function confirmShipping() {
-  var ok = true;
-  ok = validateShipField('ship-nombre','err-nombre',function(v){return v.length>2;}) && ok;
-  ok = validateShipField('ship-tel','err-tel',function(v){return /^[0-9]{10}$/.test(v);}) && ok;
-  ok = validateShipField('ship-calle','err-calle',function(v){return v.length>3;}) && ok;
-  ok = validateShipField('ship-colonia','err-colonia',function(v){return v.length>2;}) && ok;
-  ok = validateShipField('ship-cp','err-cp',function(v){return /^[0-9]{5}$/.test(v);}) && ok;
-  ok = validateShipField('ship-ciudad','err-ciudad',function(v){return v.length>2;}) && ok;
-  ok = validateShipField('ship-estado','err-estado',function(v){return v.length>2;}) && ok;
-  if (!ok) { showToast('Por favor completa todos los campos'); return; }
-  var shipping = {
-    nombre: document.getElementById('ship-nombre').value.trim(),
-    tel: document.getElementById('ship-tel').value.trim(),
-    calle: document.getElementById('ship-calle').value.trim(),
-    colonia: document.getElementById('ship-colonia').value.trim(),
-    cp: document.getElementById('ship-cp').value.trim(),
-    ciudad: document.getElementById('ship-ciudad').value.trim(),
-    estado: document.getElementById('ship-estado').value.trim(),
-  };
-  if (document.getElementById('ship-guardar').checked) {
-    try { localStorage.setItem('aurum_shipping', JSON.stringify(shipping)); } catch(e) {}
+  var msg = '¡Hola Aurum Peptides! Quiero hacer el siguiente pedido:\n\n' + lines.join('\n');
+  if (t.discount > 0) {
+    msg += '\n\n🏷 Código: ' + t.code + ' (-$' + t.discount.toLocaleString('es-MX') + ')';
   }
-  try { localStorage.setItem('aurum_last_shipping', JSON.stringify(shipping)); } catch(e) {}
-  closeShipModal();
-  proceedToPayment(shipping);
+  msg += '\n\n*Total: $' + t.total.toLocaleString('es-MX') + ' MXN*\n\n¿Me pueden confirmar disponibilidad?';
+  window.open('https://wa.me/526562844902?text=' + encodeURIComponent(msg), '_blank');
 }
-
-function saveOrderToSheets(shipping, orderRef, total) {
-  if (typeof SHEETS_CONFIG === 'undefined' || SHEETS_CONFIG.webAppUrl.includes('TU_GOOGLE')) return;
-  try {
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', SHEETS_CONFIG.webAppUrl, true);
-    xhr.setRequestHeader('Content-Type','application/json');
-    xhr.send(JSON.stringify({
-      action:'addOrder', secret: SHEETS_CONFIG.secretKey || 'aurum2026secret', sheet:'Pedidos',
-      ref: orderRef, fecha: new Date().toLocaleDateString('es-MX'),
-      nombre: shipping.nombre, tel: shipping.tel, calle: shipping.calle,
-      colonia: shipping.colonia, cp: shipping.cp, ciudad: shipping.ciudad, estado: shipping.estado,
-      total: total, items: cart.map(function(i){return i.name+' x'+i.qty;}).join(', ')
-    }));
-  } catch(e) {}
-}
-
-function notifyWhatsApp(shipping, orderRef) {
-  var total = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
-  var items = cart.map(function(i){return '%E2%80%A2 '+encodeURIComponent(i.name+' x'+i.qty+' $'+(i.price*i.qty).toLocaleString('es-MX')+' MXN');}).join('%0A');
-  var dir = encodeURIComponent(shipping.calle+', Col. '+shipping.colonia+', CP '+shipping.cp+', '+shipping.ciudad+', '+shipping.estado);
-  var msg = '%F0%9F%A7%AC *Nuevo pedido Aurum Peptides*%0A%0A*Ref:* '+orderRef+'%0A*Cliente:* '+encodeURIComponent(shipping.nombre)+'%0A*Tel:* '+shipping.tel+'%0A%0A*Productos:*%0A'+items+'%0A%0A*Total:* $'+total.toLocaleString('es-MX')+' MXN%0A%0A*Direccion:*%0A'+dir;
-  try { window.open('https://wa.me/526572844902?text='+msg,'_blank','noopener'); } catch(e) {}
-}
-
-async function proceedToPayment(shipping) {
-  try { localStorage.setItem('aurum_last_shipping', JSON.stringify(shipping)); } catch(e) {}
-  var btn = document.querySelector('.btn-checkout');
-  if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; btn.style.opacity = '0.7'; }
-  var orderRef = 'AURUM-' + Date.now();
-  var total = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
-  saveOrderToSheets(shipping, orderRef, total);
-  notifyWhatsApp(shipping, orderRef);
-  try {
-    var itemsPayload = cart.map(function(item){return {name:item.name,dose:item.dose,qty:item.qty,price:item.price};});
-    var buyerEmail = null;
-    try { buyerEmail = localStorage.getItem('aurum_client_email'); } catch(e) {}
-    var response = await fetch(NETLIFY_FUNCTION_URL + '/.netlify/functions/create-preference', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail}),
-    });
-    if (!response.ok) throw new Error('Error servidor: '+response.status);
-    var data = await response.json();
-    if (!data.checkoutUrl) throw new Error('Sin URL de pago');
-    try { localStorage.setItem('aurum_last_cart', JSON.stringify(cart)); } catch(e) {}
-    window.location.href = data.checkoutUrl;
-  } catch(err) {
-    console.error('Checkout error:', err);
-    if (btn) { btn.textContent = 'Proceder al pago'; btn.disabled = false; btn.style.opacity = ''; }
-    if (confirm('Error al procesar el pago. Continuar por WhatsApp?')) sendWhatsApp();
-  }
-}
-
-function checkout() {
-  try { localStorage.setItem('aurum_last_cart', JSON.stringify(cart)); } catch(e) {}
-  openShipModal();
-}
+function checkout() { sendWhatsApp(); }
 
 // ── TOAST ──
 function showToast(msg) {
@@ -1823,35 +1743,5 @@ window.addEventListener('load', function() {
 });
 
 </script>
-
-<!-- SHIPPING MODAL -->
-<div class="ship-modal-ov" id="ship-modal-ov">
-  <div class="ship-modal">
-    <div class="ship-modal-hdr">
-      <div><div class="ship-modal-tag">Paso 1 de 2</div><h2>Datos de envio</h2></div>
-      <button class="ship-modal-close" onclick="closeShipModal()">x</button>
-    </div>
-    <div class="ship-modal-body">
-      <div class="ship-field"><label>Nombre completo *</label><input type="text" id="ship-nombre" placeholder="Ej: Juan Garcia Lopez" autocomplete="name"><div class="ship-err-msg" id="err-nombre">Campo requerido</div></div>
-      <div class="ship-field"><label>Telefono *</label><input type="tel" id="ship-tel" placeholder="Ej: 6141234567" maxlength="10" autocomplete="tel"><div class="ship-err-msg" id="err-tel">Ingresa un telefono de 10 digitos</div></div>
-      <div class="ship-field"><label>Calle y numero *</label><input type="text" id="ship-calle" placeholder="Ej: Av. Insurgentes 1234 Int. 5" autocomplete="street-address"><div class="ship-err-msg" id="err-calle">Campo requerido</div></div>
-      <div class="ship-row">
-        <div class="ship-field"><label>Colonia *</label><input type="text" id="ship-colonia" placeholder="Ej: Centro" autocomplete="address-level3"><div class="ship-err-msg" id="err-colonia">Campo requerido</div></div>
-        <div class="ship-field"><label>Codigo Postal *</label><input type="text" id="ship-cp" placeholder="Ej: 31000" maxlength="5" autocomplete="postal-code"><div class="ship-err-msg" id="err-cp">CP de 5 digitos</div></div>
-      </div>
-      <div class="ship-row">
-        <div class="ship-field"><label>Ciudad *</label><input type="text" id="ship-ciudad" placeholder="Ej: Chihuahua" autocomplete="address-level2"><div class="ship-err-msg" id="err-ciudad">Campo requerido</div></div>
-        <div class="ship-field"><label>Estado *</label><input type="text" id="ship-estado" placeholder="Ej: Chihuahua" autocomplete="address-level1"><div class="ship-err-msg" id="err-estado">Campo requerido</div></div>
-      </div>
-      <label class="ship-save"><input type="checkbox" id="ship-guardar" checked> Guardar direccion para mi proxima compra</label>
-    </div>
-    <div class="ship-modal-ftr">
-      <button class="ship-btn-cancel" onclick="closeShipModal()">Cancelar</button>
-      <button class="ship-btn-ok" onclick="confirmShipping()">Continuar al pago</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
- 
- 
