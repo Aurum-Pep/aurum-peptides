@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0A0A08">
+<title>Aurum Peptides — Péptidos de Investigación de Alta Pureza | México</title>
+<meta name="description" content="Péptidos de investigación de alta pureza verificados por laboratorios independientes. Retatrutide, Tirzepatide, BPC-157, NAD+ y más. Envío a toda la república mexicana.">
+<meta name="keywords" content="péptidos investigación, péptidos México, retatrutide, tirzepatide, BPC-157, NAD+, péptidos pureza 99">
+<meta property="og:title" content="Aurum Peptides — Péptidos de Investigación de Alta Pureza">
+<meta property="og:description" content="Péptidos verificados por laboratorios independientes. Pureza 99%+. Envío express a toda la república.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="logo_cuadrado.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.chom">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A84C;--gold2:rgba(201,168,76,0.15);--gold3:rgba(201,168,76,0.08);
+  --black:#0A0A08;--black2:#111110;--black3:#1A1A16;
+  --cream:#F5F0E8;--muted:#6B6B5E;--lite:#A8A290;
+  --border:rgba(201,168,76,0.12);
+  --r:0px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.6;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:fixed;top:40px;left:0;right:0;z-index:200;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(10,10,8,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo img{height:52px;display:block}
+.logo svg.nav-logo{height:48px;width:auto;display:block}
+.nav-center{display:flex;gap:28px;list-style:none}
+.nav-center a{color:var(--muted);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:color .2s}
+.nav-center a:hover{color:var(--gold)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.cart-btn{position:relative;background:none;border:none;cursor:pointer;padding:8px;display:flex;align-items:center}
+.cart-btn svg{width:22px;height:22px;stroke:var(--gold);stroke-width:1.5;fill:none}
+.cart-count{position:absolute;top:2px;right:2px;background:var(--gold);color:var(--black);font-size:9px;font-weight:600;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;display:none}
+.hbg{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;width:36px}
+.hbg span{display:block;height:1.5px;background:var(--gold);transition:all .3s}
+.hbg.open span:nth-child(1){transform:rotate(45deg) translate(4.7px,4.7px)}
+.hbg.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hbg.open span:nth-child(3){transform:rotate(-45deg) translate(4.7px,-4.7px)}
+
+/* ── MOBILE MENU ── */
+.mob-menu{display:none;position:fixed;inset:0;z-index:190;background:rgba(10,10,8,0.98);flex-direction:column;align-items:center;justify-content:center;gap:8px;padding-top:60px}
+.mob-menu.open{display:flex}
+.mob-menu a{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--cream);text-decoration:none;letter-spacing:2px;text-transform:uppercase;transition:color .2s}
+.mob-menu a:hover{color:var(--gold)}
+.mob-menu .mob-cta{margin-top:8px;padding:14px 40px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
+
+/* ── HERO ── */
+.hero{min-height:100svh;display:flex;align-items:center;padding:120px 24px 60px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 70% at 70% 50%,rgba(201,168,76,0.06) 0%,transparent 70%)}
+.hero-hex-svg{position:absolute;right:-60px;top:50%;transform:translateY(-50%);width:min(500px,60vw);opacity:0.06;pointer-events:none}
+.hero-inner{position:relative;z-index:1;max-width:680px}
+.hero-tag{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:24px}
+.hero-tag::before{content:'';width:28px;height:1px;background:var(--gold)}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(44px,8vw,96px);font-weight:300;line-height:1;letter-spacing:-1px;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:clamp(14px,2vw,17px);color:var(--lite);line-height:1.75;max-width:500px;margin-bottom:36px}
+.hero-btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn-g{padding:14px 32px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;font-weight:500;transition:opacity .2s;text-decoration:none;display:inline-block}
+.btn-g:hover{opacity:.85}
+.btn-o{padding:14px 32px;background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.4);font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.btn-o:hover{border-color:var(--gold);color:var(--cream)}
+
+/* ── TRUST ── */
+.trust{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--black2)}
+.ti{padding:20px 24px;display:flex;align-items:center;gap:14px;border-right:1px solid var(--border)}
+.ti:last-child{border-right:none}
+.ti-icon{font-size:22px;flex-shrink:0}
+.ti-t{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--cream);font-weight:500}
+.ti-s{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ── SECTION WRAPPER ── */
+.sec{padding:80px 24px}
+.sec-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.sec-tag::after{content:'';flex:1;height:1px;max-width:60px;background:rgba(201,168,76,0.3)}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,48px);font-weight:300;line-height:1.1;margin-bottom:48px}
+.sec-hdr{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:32px}
+.prod-count{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+
+/* ── CATALOG GRID ── */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.card{background:var(--black2);padding:28px 24px;position:relative;transition:background .2s;min-width:0}
+.card:hover{background:var(--black3)}
+.card.featured{background:var(--black3);border:1px solid rgba(201,168,76,0.2)}
+.badge{display:inline-block;background:var(--gold);color:var(--black);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;font-weight:600;margin-bottom:12px}
+.p-cat{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.p-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--cream);margin-bottom:6px;line-height:1.1}
+.p-dose{font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:14px}
+.p-desc{font-size:13px;color:var(--lite);line-height:1.65;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.var-btns{display:flex;gap:6px;margin-bottom:14px}
+.vb{flex:1;padding:8px 4px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:'Outfit',sans-serif;cursor:pointer;border:1px solid rgba(201,168,76,0.3);background:none;color:var(--gold);transition:all .2s;font-weight:400}
+.vb.sel{background:var(--gold);color:var(--black);border-color:var(--gold);font-weight:500}
+.coa{background:rgba(201,168,76,0.04);border:1px solid var(--border);padding:12px 14px;margin-bottom:14px}
+.cr{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(201,168,76,0.06)}
+.cr:last-of-type{border-bottom:none}
+.ck{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.cv{font-size:11px;color:var(--cream);text-align:right;max-width:60%}
+.cl{display:block;margin-top:8px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);text-decoration:none;transition:opacity .2s}
+.cl:hover{opacity:.7}
+.vml{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-decoration:none;margin-bottom:14px;transition:color .2s}
+.vml:hover{color:var(--gold)}
+.p-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:14px;border-top:1px solid var(--border)}
+.p-price{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--gold);line-height:1}
+.p-price small{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:1px;color:var(--muted);display:block;font-weight:300}
+.btn-add{padding:12px 20px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:500;transition:opacity .2s;white-space:nowrap}
+.btn-add:hover{opacity:.85}
+.spec-tbl{margin:12px 0;border-top:1px solid var(--border)}
+.sr{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:11px}
+.sl{color:var(--muted)}
+.sv{color:var(--cream);text-align:right}
+
+/* ── WHY ── */
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+.wi{background:var(--black2);padding:32px 24px}
+.wi-num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:12px}
+.wi-t{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--cream);margin-bottom:8px;font-weight:500}
+.wi-d{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* ── ABOUT ── */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.about-text h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,42px);font-weight:300;margin-bottom:20px}
+.about-text p{font-size:14px;color:var(--lite);line-height:1.8;margin-bottom:14px}
+.about-hex{display:flex;align-items:center;justify-content:center}
+.about-hex svg{width:min(300px,80%);opacity:.15}
+
+/* ── FAQ ── */
+.faq-list{display:flex;flex-direction:column;gap:1px;background:var(--border)}
+.faq-item{background:var(--black2)}
+.faq-q{padding:20px 24px;font-size:14px;font-weight:400;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;user-select:none}
+.faq-q::after{content:'+';color:var(--gold);font-size:18px;font-weight:300;flex-shrink:0;transition:transform .3s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{display:none;padding:0 24px 20px;font-size:13px;color:var(--lite);line-height:1.75}
+.faq-item.open .faq-a{display:block}
+
+/* ── RECURSOS ── */
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.rc{background:var(--black2);padding:28px 24px;text-decoration:none;transition:background .2s;display:block}
+.rc:hover{background:var(--black3)}
+.rc-num{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:rgba(201,168,76,0.3);margin-bottom:12px}
+.rc-t{font-size:13px;font-weight:500;color:var(--cream);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+.rc-d{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.rc-link{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+
+/* ── CTA BAND ── */
+.cta{text-align:center;padding:80px 24px;background:var(--black3);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.cta h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,52px);font-weight:300;margin-bottom:16px}
+.cta p{color:var(--muted);font-size:14px;margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto}
+.cta-btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+
+/* ── FOOTER ── */
+footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}
+.ft-brand{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);letter-spacing:3px;margin-bottom:8px}
+.ft-tag{font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:16px}
+.ft-copy{font-size:11px;color:var(--muted)}
+.ft-col h4{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);margin-bottom:14px}
+.ft-col a{display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px;transition:color .2s}
+.ft-col a:hover{color:var(--gold)}
+.ft-disc{text-align:center;padding:16px 24px;border-top:1px solid var(--border);font-size:10px;color:var(--muted);letter-spacing:1px}
+
+/* ── CART DRAWER ── */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:300;opacity:0;pointer-events:none;transition:opacity .3s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-drawer{position:fixed;top:0;right:-100%;width:min(400px,100%);height:100%;background:var(--black2);border-left:1px solid var(--border);z-index:301;display:flex;flex-direction:column;transition:right .3s ease}
+.cart-drawer.open{right:0}
+.cart-hdr{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cart-hdr-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300}
+.cart-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:22px;line-height:1;transition:color .2s}
+.cart-close:hover{color:var(--cream)}
+.cart-items{flex:1;overflow-y:auto;padding:16px}
+.cart-empty{text-align:center;padding:60px 24px;color:var(--muted);font-size:14px}
+.ci{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
+.ci-info{flex:1;min-width:0}
+.ci-name{font-size:13px;color:var(--cream);margin-bottom:4px}
+.ci-dose{font-size:11px;color:var(--muted)}
+.ci-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+.ci-price{font-size:14px;color:var(--gold)}
+.ci-rm{background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;transition:color .2s}
+.ci-rm:hover{color:#E07070}
+.cart-ftr{padding:20px 24px;border-top:1px solid var(--border)}
+.cart-sub{display:flex;justify-content:space-between;margin-bottom:16px;font-size:14px}
+.cart-sub-v{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold)}
+.btn-checkout{width:100%;padding:16px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;font-weight:500;margin-bottom:10px}
+.btn-wa{width:100%;padding:14px;background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.4);font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.btn-wa:hover{border-color:var(--gold)}
+
+/* ── MODAL ── */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:400;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-ov.open{opacity:1;pointer-events:all}
+.modal{background:var(--black2);border:1px solid var(--border);padding:32px 24px;width:92%;max-width:480px;border-radius:4px;margin:16px}
+.modal-name{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin-bottom:4px}
+.modal-dose{font-size:12px;color:var(--muted);margin-bottom:20px}
+.modal-qty{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.modal-lbl{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);flex:1}
+.qty-wrap{display:flex;align-items:center;gap:8px}
+.qb{width:36px;height:36px;background:var(--black3);border:1px solid var(--border);color:var(--cream);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif}
+.qn{width:40px;text-align:center;font-size:16px;color:var(--cream)}
+.modal-total{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid var(--border);margin-bottom:16px}
+.modal-total-v{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold)}
+.modal-actions{display:flex;gap:10px}
+.modal-actions .btn-add{flex:1;padding:14px}
+.btn-cancel{flex:1;padding:14px;background:transparent;color:var(--muted);border:1px solid var(--border);font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
+
+/* ── CALC ── */
+.calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.calc-field label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.calc-field input{width:100%;background:var(--black3);border:1px solid var(--border);color:var(--cream);padding:12px 14px;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
+.calc-field input:focus{border-color:rgba(201,168,76,0.4)}
+.calc-result{background:var(--black3);border:1px solid var(--border);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.calc-result-n{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold)}
+.calc-result-lbl{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+
+/* ── DISCLAIMER ── */
+.disc{padding:16px 24px;border-top:1px solid var(--border);text-align:center;font-size:10px;color:var(--muted);letter-spacing:0.5px;line-height:1.6}
+
+/* ── WSP FAB ── */
+.wsp{position:fixed;bottom:24px;right:24px;z-index:150;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.4);transition:transform .2s;text-decoration:none}
+.wsp:hover{transform:scale(1.08)}
+.wsp svg{width:28px;height:28px;fill:white}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--black3);border:1px solid var(--border);color:var(--cream);padding:12px 24px;font-size:13px;letter-spacing:1px;opacity:0;pointer-events:none;transition:all .3s;white-space:nowrap;z-index:500}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.out-of-stock{display:inline-block;background:rgba(224,112,112,0.08);border:1px solid rgba(224,112,112,0.2);color:#E07070;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;margin-bottom:10px;font-weight:500}
+.card.oos .btn-add{opacity:.4;pointer-events:none}
+/* ── FADE IN ── */
+.fade-in{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
+.fade-in.vis{opacity:1;transform:none}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — MOBILE FIRST
+   ══════════════════════════════════════ */
+@media (max-width:1024px){
+  :root { --grid-cols: repeat(2,1fr); }
+  .nav-center{display:none}
+  .hbg{display:flex}
+  .trust{grid-template-columns:repeat(2,1fr)}
+  .ti:nth-child(even){border-right:none}
+  .ti:nth-child(n+3){border-top:1px solid var(--border)}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .card.featured{grid-column:span 2}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+  .about{grid-template-columns:1fr;gap:36px}
+  .about-hex{display:none}
+  footer{grid-template-columns:1fr 1fr;gap:28px}
+  .res-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media (max-width:768px){
+  :root { --grid-cols: 1fr !important; }
+  /* NAV */
+  nav{padding:0 16px;height:60px}
+  .logo img{height:44px}
+  .nav-center{display:none}
+  .hbg{display:flex}
+
+  /* HERO */
+  .hero{padding:108px 16px 48px;min-height:100svh}
+  .hero h1{font-size:clamp(36px,10vw,56px)}
+  .hero-sub{font-size:14px}
+  .hero-btns{flex-direction:column}
+  .hero-btns .btn-g,.hero-btns .btn-o{width:100%;text-align:center;padding:16px}
+  .hero-hex-svg{display:none}
+
+  /* TRUST */
+  .trust{grid-template-columns:1fr 1fr}
+  .ti{padding:14px 12px;flex-direction:column;align-items:flex-start;gap:6px;border-right:none!important;border-bottom:1px solid var(--border)}
+  .ti:nth-child(odd){border-right:1px solid var(--border)!important}
+  .ti:last-child,.ti:nth-last-child(2){border-bottom:none}
+
+  /* SECTIONS */
+  .sec{padding:48px 16px}
+  .sec-hdr{flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:20px}
+  .sec-title{margin-bottom:24px}
+
+  /* GRID — 1 column, most important fix */
+  .grid{grid-template-columns:1fr!important}
+  .card{padding:20px 16px!important;min-width:0}
+  .card.featured{grid-column:span 1!important}
+  .p-name{font-size:24px}
+  .p-foot{flex-direction:column;align-items:flex-start;gap:10px}
+  .p-price{font-size:22px}
+  .btn-add{width:100%;padding:14px}
+  .vb{padding:10px 4px;font-size:9px}
+  .spec-tbl{display:none}
+  .coa{padding:10px 12px}
+
+  /* WHY */
+  .why-grid{grid-template-columns:1fr 1fr}
+  .wi{padding:22px 16px}
+  .wi-num{font-size:36px}
+
+  /* FAQ */
+  .faq-q{padding:16px 18px;font-size:13px}
+  .faq-a{padding:0 18px 16px;font-size:12px}
+
+  /* RECURSOS */
+  .res-grid{grid-template-columns:1fr}
+  .rc{padding:22px 16px}
+
+  /* CTA */
+  .cta{padding:52px 16px}
+  .cta-btns{flex-direction:column;align-items:center}
+  .cta-btns .btn-g,.cta-btns .btn-o{width:100%;max-width:320px;text-align:center}
+
+  /* MODAL — sheet from bottom */
+  .modal-ov{align-items:flex-end}
+  .modal{max-width:100%;border-left:none;border-right:none;padding:28px 16px 36px}
+  .modal-actions{flex-direction:column}
+  .modal-actions .btn-add,.modal-actions .btn-cancel{width:100%;flex:none}
+
+  /* CART */
+  .cart-drawer{width:100%}
+
+  /* CALC */
+  .calc-grid{grid-template-columns:1fr}
+
+  /* FOOTER */
+  footer{grid-template-columns:1fr;padding:36px 16px;gap:24px;text-align:center}
+  .ft-col a{display:inline-block;margin:0 8px 8px}
+
+  /* WSP */
+  .wsp{bottom:16px;right:16px;width:46px;height:46px}
+  .wsp svg{width:24px;height:24px}
+}
+
+@media (max-width:390px){
+  .hero h1{font-size:32px}
+  .grid{grid-template-columns:1fr!important}
+  .trust{grid-template-columns:1fr!important}
+  .ti{border-right:none!important}
+  .why-grid{grid-template-columns:1fr}
+  footer{padding:28px 14px}
+}
+
+.ci-qty-row{display:flex;align-items:center;gap:6px;margin-top:8px}
+.ci-qb{width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:var(--black3);border:1px solid var(--border);color:var(--cream);font-size:16px;cursor:pointer;line-height:1;transition:border-color .2s;font-family:'Outfit',sans-serif;flex-shrink:0}
+.ci-qb:hover{border-color:rgba(201,168,76,0.4);color:var(--gold)}
+.ci-qn{min-width:24px;text-align:center;font-size:14px;color:var(--cream)}
+.ci-rm{background:none;border:none;cursor:pointer;color:var(--muted);font-size:20px;line-height:1;transition:color .2s;padding:2px}
+.ci-rm:hover{color:#E07070}
+.ci-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+.ci-price{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold)}
+/* INVENTORY */
+.out-of-stock{display:none;background:rgba(224,112,112,0.1);border:1px solid rgba(224,112,112,0.3);color:#E07070;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 12px;text-align:center;margin-bottom:12px}
+.card.oos .out-of-stock{display:block}
+.card.oos .btn-add{opacity:.3;pointer-events:none;cursor:not-allowed}
+.card.oos .vb{opacity:.3;pointer-events:none}
+.low-stock{display:none;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#E0B870;margin-bottom:10px}
+.card.low .low-stock{display:block}
+/* PROMO BAR */
+.promo-bar{background:var(--gold);color:var(--black);text-align:center;padding:10px 48px;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:500;display:flex;align-items:center;justify-content:center;gap:16px;position:relative}
+.promo-bar span{font-weight:400;letter-spacing:1px;text-transform:none;font-size:13px}
+.promo-bar-close{position:absolute;right:16px;background:none;border:none;cursor:pointer;font-size:18px;line-height:1;color:var(--black);opacity:.6;transition:opacity .2s}
+.promo-bar-close:hover{opacity:1}
+/* EMAIL MODAL */
+.email-modal-ov{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s}
+.email-modal-ov.open{opacity:1;pointer-events:all}
+.email-modal{background:var(--black2);border:1px solid rgba(201,168,76,0.3);padding:48px 40px;max-width:480px;width:100%;position:relative;text-align:center}
+.email-modal-close{position:absolute;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;line-height:1}
+.email-modal-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.email-modal h2{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--cream);margin-bottom:8px;line-height:1.1}
+.email-modal h2 em{color:var(--gold);font-style:italic}
+.email-modal p{font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.7}
+.email-input-wrap{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.email-input{background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);color:var(--cream);padding:14px 16px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:300;outline:none;transition:border-color .2s;width:100%}
+.email-input:focus{border-color:rgba(201,168,76,0.5)}
+.email-input::placeholder{color:var(--muted)}
+.btn-claim{width:100%;padding:16px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;font-weight:500;transition:opacity .2s}
+.btn-claim:hover{opacity:.85}
+.email-skip{font-size:11px;color:var(--muted);cursor:pointer;margin-top:12px;display:block;transition:color .2s}
+.email-skip:hover{color:var(--cream)}
+.promo-code{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);letter-spacing:4px;font-weight:300}
+/* ADMIN */
+.admin-panel{display:none;position:fixed;inset:0;z-index:600;background:var(--black);overflow-y:auto;padding:32px 24px}
+.admin-panel.open{display:block}
+.admin-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;border-bottom:1px solid var(--border);padding-bottom:20px;flex-wrap:wrap;gap:12px}
+.admin-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--gold)}
+.admin-close{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif}
+.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-bottom:24px}
+.admin-stat{background:var(--black2);padding:20px}
+.admin-stat-n{font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--gold);font-weight:300}
+.admin-stat-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.admin-table{width:100%;border-collapse:collapse}
+.admin-table th{text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:10px 14px;border-bottom:1px solid var(--border);font-weight:400}
+.admin-table td{padding:12px 14px;border-bottom:1px solid rgba(201,168,76,0.06);font-size:12px;color:var(--lite);vertical-align:top}
+.admin-table tr:hover td{background:var(--black3)}
+.promo-tag{display:inline-block;background:rgba(201,168,76,0.12);color:var(--gold);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;margin:2px}
+.promo-used{opacity:.45;text-decoration:line-through}
+.admin-export{padding:10px 24px;background:transparent;border:1px solid var(--border);color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:border-color .2s;font-family:'Outfit',sans-serif}
+.admin-export:hover{border-color:var(--gold)}
+.admin-tab{padding:8px 20px;background:transparent;border:1px solid var(--border);color:var(--muted);font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif;margin-right:4px;margin-bottom:8px}
+.admin-tab.active{background:var(--gold);color:var(--black);border-color:var(--gold)}
+.admin-section{display:none}
+.admin-section.active{display:block}
+.inv-table{width:100%;border-collapse:collapse;margin-top:8px}
+.inv-table th{text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:10px 14px;border-bottom:1px solid var(--border);font-weight:400}
+.inv-table td{padding:10px 14px;border-bottom:1px solid rgba(201,168,76,0.06);font-size:13px;vertical-align:middle}
+.inv-table tr:hover td{background:var(--black3)}
+.inv-input{width:70px;background:var(--black3);border:1px solid var(--border);color:var(--cream);padding:6px 10px;font-family:'Outfit',sans-serif;font-size:13px;text-align:center;outline:none;transition:border-color .2s}
+.inv-input:focus{border-color:rgba(201,168,76,0.4)}
+.inv-status{font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px}
+.inv-ok{color:#70E0A0}
+.inv-low{color:#E0B870}
+.inv-oos{color:#E07070}
+.inv-save{padding:6px 16px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:500}
+/* CART SHIPPING BAR */
+.ship-bar{margin-bottom:14px;padding:10px 12px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);font-size:11px;letter-spacing:1px}
+.ship-track{height:3px;background:rgba(201,168,76,0.15);border-radius:2px;overflow:hidden;margin-top:6px}
+.ship-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s;width:0%}
+@media(max-width:768px){
+  .promo-bar{padding:10px 40px 10px 16px;font-size:11px}
+  .email-modal{padding:36px 20px}
+  .email-modal h2{font-size:26px}
+  .admin-stats{grid-template-columns:repeat(2,1fr)}
+  .inv-table{font-size:11px}
+  .inv-input{width:55px}
+}
+
+/* ── SHIPPING MODAL ── */
+.ship-modal-ov{position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;padding:20px}
+.ship-modal-ov.open{opacity:1;pointer-events:all}
+.ship-modal{background:var(--black2);border:1px solid rgba(201,168,76,0.2);width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+.ship-modal-hdr{padding:24px 28px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ship-modal-hdr h2{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--cream)}
+.ship-modal-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.ship-modal-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:24px;line-height:1;padding:4px}
+.ship-modal-close:hover{color:var(--cream)}
+.ship-modal-body{padding:24px 28px}
+.ship-field{margin-bottom:16px}
+.ship-field label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.ship-field input{width:100%;background:var(--black3);border:1px solid rgba(201,168,76,0.15);color:var(--cream);padding:12px 14px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:300;outline:none;transition:border-color .2s}
+.ship-field input:focus{border-color:rgba(201,168,76,0.5)}
+.ship-field input::placeholder{color:var(--muted)}
+.ship-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ship-save{display:flex;align-items:center;gap:10px;margin:4px 0 20px;cursor:pointer;font-size:13px;color:var(--muted)}
+.ship-save input{width:16px;height:16px;accent-color:var(--gold);cursor:pointer}
+.ship-modal-ftr{display:flex;gap:12px;padding:0 28px 28px}
+.ship-btn-cancel{flex:1;padding:14px;background:transparent;color:var(--muted);border:1px solid rgba(201,168,76,0.15);font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
+.ship-btn-ok{flex:2;padding:14px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;font-weight:500}
+.ship-field-err{border-color:rgba(220,60,60,0.6)!important}
+.ship-err-msg{font-size:11px;color:#E07070;margin-top:4px;display:none}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<!-- PROMO BAR -->
+<div class="promo-bar" id="promo-bar">
+  🎁 <strong>Primera compra</strong> <span>10% de descuento · Código: <strong>AURUM10</strong></span>
+  <button class="promo-bar-close" onclick="document.getElementById('promo-bar').style.display='none'">×</button>
+</div>
+<!-- EMAIL MODAL -->
+<div class="email-modal-ov" id="email-modal-ov">
+  <div class="email-modal">
+    <button class="email-modal-close" onclick="skipEmailModal()">×</button>
+    <div class="email-modal-tag">Oferta exclusiva · Primera compra</div>
+    <h2>10% de<br><em>descuento</em></h2>
+    <p>Únete a nuestra comunidad de investigadores y recibe 10% de descuento en tu primera compra.</p>
+    <div id="email-form-area">
+      <div class="email-input-wrap">
+        <input class="email-input" id="em-name" type="text" placeholder="Tu nombre" maxlength="60">
+        <input class="email-input" id="em-email" type="email" placeholder="tu@email.com" maxlength="100">
+      </div>
+      <button class="btn-claim" onclick="claimPromo()">Obtener mi descuento</button>
+      <span class="email-skip" onclick="skipEmailModal()">No gracias, continuar sin descuento</span>
+    </div>
+    <div id="email-success" style="display:none">
+      <div style="font-size:32px;margin-bottom:12px">✓</div>
+      <div style="font-size:14px;color:var(--lite);margin-bottom:20px">¡Listo! Aquí está tu código de descuento:</div>
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);padding:16px;text-align:center;margin-bottom:20px">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Tu código (cópialo)</div>
+        <div class="promo-code">AURUM10</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">Aplícalo al momento de pagar · 10% off en tu primera compra</div>
+      </div>
+      <a href="https://aurumpeptides.mitiendanube.com/account/register/" target="_blank" class="btn-claim" style="display:block;text-decoration:none;text-align:center;margin-bottom:12px">Crear mi cuenta y usar mi descuento →</a>
+      <span class="email-skip" onclick="closeEmailModal()">Continuar sin crear cuenta</span>
+    </div>
+  </div>
+</div>
+<!-- ADMIN: Accede con ?admin=aurum2026 en tu URL local -->
+<nav>
+  <a href="#inicio" class="logo"><img src="data:image/png;base64,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" alt="Aurum Peptides"></a>
+  <ul class="nav-center">
+    <li><a href="#catalogo">Catálogo</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#recursos">Recursos</a></li>
+    <li><a href="mi-cuenta.html" style="color:var(--gold)">Mi Cuenta</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="mi-cuenta.html" class="cart-btn" aria-label="Mi Cuenta" title="Mi Cuenta">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </a>
+    <button class="hbg" id="hbg" onclick="toggleMenu()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+    <button class="cart-btn" onclick="openCart()" aria-label="Carrito">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="cart-count" id="cart-count">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <a href="#catalogo" onclick="closeMenu()">Catálogo</a>
+  <a href="#nosotros" onclick="closeMenu()">Nosotros</a>
+  <a href="#faq" onclick="closeMenu()">FAQ</a>
+  <a href="#recursos" onclick="closeMenu()">Recursos</a>
+  <a href="mi-cuenta.html" style="color:var(--gold)" onclick="closeMenu()">Mi Cuenta</a>
+  <button class="mob-cta" onclick="closeMenu();document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver péptidos</button>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-bg"></div>
+  <svg class="hero-hex-svg" viewBox="0 0 600 600" fill="none">
+    <polygon points="300,30 540,165 540,435 300,570 60,435 60,165" stroke="#C9A84C" stroke-width="1"/>
+    <polygon points="300,90 500,205 500,395 300,510 100,395 100,205" stroke="#C9A84C" stroke-width="0.5"/>
+  </svg>
+  <div class="hero-inner fade-in">
+    <div class="hero-tag">Investigación científica de vanguardia</div>
+    <h1>Aurum<br><em>Peptides</em></h1>
+    <p class="hero-sub">Péptidos de alta pureza para investigación científica. Verificados por laboratorios independientes. Entrega a toda la república.</p>
+    <div class="hero-btns">
+      <a href="#catalogo" class="btn-g">Ver catálogo</a>
+      <a href="#recursos" class="btn-o">Recursos científicos</a>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust">
+  <div class="ti"><div class="ti-icon">⚗️</div><div><div class="ti-t">Pureza 99%+</div><div class="ti-s">COA por cada lote</div></div></div>
+  <div class="ti"><div class="ti-icon">🚚</div><div><div class="ti-t">Envío gratis +$3,000</div><div class="ti-s">Toda la república · 2–5 días</div></div></div>
+  <div class="ti"><div class="ti-icon">🔒</div><div><div class="ti-t">Pago seguro</div><div class="ti-s">Mercado Pago · SPEI</div></div></div>
+  <div class="ti"><div class="ti-icon">📋</div><div><div class="ti-t">Research Use Only</div><div class="ti-s">Uso exclusivo científico</div></div></div>
+</div>
+
+<!-- CATÁLOGO -->
+<section class="sec" id="catalogo">
+  <div class="sec-hdr">
+    <div>
+      <div class="sec-tag">Catálogo completo</div>
+      <div class="sec-title">Nuestros péptidos</div>
+    </div>
+    <div class="prod-count">13 productos disponibles</div>
+  </div>
+
+  <div class="grid" id="main-grid">
+
+    <!-- RETATRUTIDE FEATURED -->
+    <div class="card featured fade-in" id="card-retatrutide" style="grid-column:span 1">
+      <div class="badge">Más buscado</div>
+      <div class="p-cat">Triple agonista · GIP / GLP-1 / Glucagón</div>
+      <div class="p-name">Retatrutide</div>
+      <div class="p-dose" id="reta-dose">10 mg · Polvo liofilizado</div>
+      <p class="p-desc">El péptido metabólico más avanzado. Triple mecanismo de acción sobre receptores GIP, GLP-1 y Glucagón para investigación de regulación metabólica profunda.</p>
+      <div class="var-btns">
+        <button class="vb sel" id="rb10" onclick="selReta(10)">10 mg</button>
+        <button class="vb" id="rb15" onclick="selReta(15)">15 mg</button>
+        <button class="vb" id="rb30" onclick="selReta(30)">30 mg</button>
+      </div>
+      <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">BTLabs</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.5%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">WTSBX5G</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: wtsbx5g →</a></div>
+      <a class="vml" href="peptide_detail.html?p=retatrutide">Ver información detallada →</a>
+      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/28H5xsS" target="_blank">💳 Pagar con Mercado Pago →</a>
+      <div class="p-foot">
+        <div class="p-price"><span id="reta-price">$1,699</span><small>MXN por vial</small></div>
+        <button class="btn-add" id="reta-add">Agregar</button>
+      </div>
+    </div>
+
+    <!-- BUNDLE BIENVENIDA -->
+    <div class="card featured fade-in" id="card-bundle" style="grid-column:span 1;border:1px solid rgba(201,168,76,0.35)">
+      <div class="badge" style="background:#E07070">🎁 OFERTA</div>
+      <div class="p-cat">Bundle de bienvenida · Primera compra</div>
+      <div class="p-name">Retatrutide + BAC Water</div>
+      <div class="p-dose">10 mg + 3 mL · Pack completo</div>
+      <p class="p-desc">Todo lo que necesitas para empezar tu investigación. Incluye Retatrutide 10 mg (el péptido metabólico más avanzado) + Agua bacteriostática 3 mL para reconstitución. Ahorras $99 MXN.</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--muted);text-decoration:line-through">$1,798</span>
+        <span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#E07070;font-weight:500">BAC Water GRATIS</span>
+      </div>
+      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/1GXfc3a" target="_blank">💳 Pagar con Mercado Pago →</a>
+      <div class="p-foot">
+        <div class="p-price">$1,699<small>MXN por pack</small></div>
+        <button class="btn-add" onclick="addBundle()">Agregar</button>
+      </div>
+    </div>
+
+    <!-- IPAMORELIN -->
+    <div class="card fade-in" id="card-ipamorelin">
+      <div class="p-cat">Secretagogo · Hormona de Crecimiento</div>
+      <div class="p-name">Ipamorelin</div>
+      <div class="p-dose">5 mg · Polvo liofilizado</div>
+      <div class="out-of-stock">Próximamente</div>
+      <div class="low-stock"></div>
+      <p class="p-desc">El secretagogo de GH más selectivo. Sin efecto sobre cortisol ni prolactina en modelos de investigación. Perfil excepcionalmente limpio.</p>
+      <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Janoshik</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.926%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">#106236</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">26 FEB 2026</span></div><a class="cl" href="https://www.janoshik.com/verify/" target="_blank">Verificar: LA2JN96V9R73 →</a></div>
+      <a class="vml" href="peptide_detail.html?p=ipamorelin">Ver información detallada →</a>
+      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/1KrgeMi" target="_blank">💳 Pagar con Mercado Pago →</a>
+      <div class="p-foot">
+        <div class="p-price">$949<small>MXN por vial</small></div>
+        <button class="btn-add" onclick="openModal('Ipamorelin','5 mg · Polvo liofilizado',949)">Agregar</button>
+      </div>
+    </div>
+
+    <!-- NAD+ -->
+    <div class="card fade-in" id="card-nad">
+      <div class="p-cat">Longevidad · Energía mitocondrial</div>
+      <div class="p-name">NAD+</div>
+      <div class="p-dose">500 mg · Alta concentración</div>
+      <div class="out-of-stock">Próximamente</div>
+      <div class="low-stock"></div>
+      <p class="p-desc">Coenzima investigada en reparación de ADN, producción de energía celular y procesos de longevidad. Presentación de alta concentración.</p>
+      <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Janoshik</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">≥99%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">H2YBDF</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">2025</span></div><a class="cl" href="https://www.janoshik.com/verify/" target="_blank">Verificar: H2YBDFJG9UGP →</a></div>
+      <a class="vml" href="peptide_detail.html?p=nad">Ver información detallada →</a>
+      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/27YDc4H" target="_blank">💳 Pagar con Mercado Pago →</a>
+      <div class="p-foot">
+        <div class="p-price">$1,190<small>MXN por vial</small></div>
+        <button class="btn-add" onclick="openModal('NAD+','500 mg · Alta concentración',1190)">Agregar</button>
+      </div>
+    </div>
+
+    <!-- GHK-Cu -->
+    <div class="card fade-in" id="card-ghkcu">
+      <div class="p-cat">Regeneración · Péptido de cobre</div>
+      <div class="p-name">GHK-Cu</div>
+      <div class="p-dose">50 mg · Polvo liofilizado</div>
+      <div class="out-of-stock">Próximamente</div>
+      <div class="low-stock"></div>
+      <p class="p-desc">Complejo tripeptídico cobre-péptido. Investigado en síntesis de colágeno, regeneración tisular y actividad antioxidante.</p>
+      <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Krause Analytical</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">>99.9%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">kmbxy76</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">2025</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: kmbxy76 →</a></div>
+      <a class="vml" href="peptide_detail.html?p=ghkcu">Ver información detallada →</a>
+      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/2sakWxD" target="_blank">💳 Pagar con Mercado Pago →</a>
+      <div class="p-foot">
+        <div class="p-price">$699<small>MXN por vial</small></div>
+        <button class="btn-add" onclick="openModal('GHK-Cu','50 mg · Polvo liofilizado',699)">Agregar</button>
+      </div>
+    </div>
+
+    <!-- MOTS-C -->
+    <div class="card fade-in" id="card-motsc">
+      <div class="p-cat">Longevidad · Péptido mitocondrial</div>
+      <div class="p-name">Mots-C</div>
+      <div class="p-dose">10 mg · Polvo liofilizado</div>
+      <div class="out-of-stock">Próximamente</div>
+      <div class="low-stock"></div>
+      <p class="p-desc">Derivado del ADN mitocondrial humano. Investigado en regulación del metabolismo energético y sensibilidad a la insulina en tejido muscular.</p>
+      <a class="vml" href="peptide_detail.html?p=motsc">Ver información detallada →</a>
+      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/1V1XBHm" target="_blank">💳 Pagar con Mercado Pago →</a>
+      <div class="p-foot">
+        <div class="p-price">$1,799<small>MXN por vial</small></div>
+        <button class="btn-add" onclick="openModal('Mots-C','10 mg · Polvo liofilizado',1799)">Agregar</button>
+      </div>
+    </div>
+
+    <!-- SS-31 -->
+    <div class="card fade-in" id="card-ss31">
+      <div class="p-cat">Mitocondrial · Cardioprotección</div>
+      <div class="p-name">SS-31</div>
+      <div class="p-dose">10 mg · Elamipeptide</div>
+      <div class="out-of-stock">Próximamente</div>
+      <div class="low-stock"></div>
+      <p class="p-desc">Tetrapéptido de penetración mitocondrial directa. Actúa en la membrana interna para reducir ROS y mejorar la función bioenergética.</p>
+      <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">BTLabs</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.9%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">227CKAP</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">2025</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: 227ckap →</a></div>
+      <a class="vml" href="peptide_detail.html?p=ss31">Ver información detallada →</a>
+      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/1Ke46Hi" target="_blank">💳 Pagar con Mercado Pago →</a>
+      <div class="p-foot">
+        <div class="p-price">$2,199<small>MXN por vial</small></div>
+        <button class="btn-add" onclick="openModal('SS-31','10 mg · Elamipeptide',2199)">Agregar</button>
+      </div>
+    </div>
+
+    <!-- TIRZEPATIDE -->
+    <div class="card fade-in" id="card-tirzepatide">
+      <div class="p-cat">Agonista dual · GIP / GLP-1</div>
+      <div class="p-name">Tirzepatide</div>
+      <div class="p-dose" id="tirze-dose">10 mg · Polvo liofilizado</div>
+      <div class="out-of-stock">Próximamente</div>
+      <div class="low-stock"></div>
+      <p class="p-desc">Agonista dual GIP/GLP-1 de segunda generación. Investigado en modelos de regulación metabólica y composición corporal.</p>
+      <div class="var-btns">
+        <button class="vb sel" id="tb10" onclick="selTirze(10)">10 mg</button>
+        <button class="vb" id="tb30" onclick="selTirze(30)">30 mg</button>
+      </div>
+      <div class="coa" id="tirze-coa">
+        <div class="cr"><span class="ck">Lab</span><span class="cv" id="tc-lab">Krause Analytical</span></div>
+        <div class="cr"><span class="ck">Pureza</span><span class="cv" id="tc-pur">&gt;99.9%</span></div>
+        <div class="cr"><span class="ck">Lote</span><span class="cv" id="tc-lot">j9f35yh</span></div>
+        <div class="cr"><span class="ck">Fecha</span><span class="cv" id="tc-date">FEB 2026</span></div>
+        <a class="cl" id="tc-link" href="https://finnrick.com/verify" target="_blank">Verificar: j9f35yh →</a>
+      </div>
+      <a class="vml" href="peptide_detail.html?p=tirzepatide">Ver información detallada →</a>
+      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/2t2891v" target="_blank">💳 Pagar con Mercado Pago →</a>
+      <div class="p-foot">
+        <div class="p-price"><span id="tirze-price">$1,099</span><small>MXN por vial</small></div>
+        <button class="btn-add" id="tirze-add">Agregar</button>
+      </div>
+    </div>
+
+    <!-- CJC-1295 -->
+    <div class="card fade-in" id="card-cjc1295">
+      <div class="p-cat">Secretagogo · GHRH análogo</div>
+      <div class="p-name">CJC-1295</div>
+      <div class="p-dose">5 mg · No DAC</div>
+      <div class="out-of-stock">Próximamente</div>
+      <div class="low-stock"></div>
+      <p class="p-desc">Análogo del GHRH sin DrugAffinity Complex. Vida media corta que emula la liberación pulsátil natural de la hormona de crecimiento.</p>
+      <a class="vml" href="peptide_detail.html?p=cjc1295">Ver información detallada →</a>
+      <a class="vml" style="color:var(--gold);font-weight:500" href="javascript:void(0)" href="https://aurumpeptides.mitiendanube.com/productos" target="_blank">🛒 Ver en tienda →</a>
+      <div class="p-foot">
+        <div class="p-price">$1,799<small>MXN por vial</small></div>
+        <button class="btn-add" onclick="openModal('CJC-1295 (No DAC)','5 mg · Polvo liofilizado',1799)">Agregar</button>
+      </div>
+    </div>
+
+    <!-- TESAMORELIN -->
+    <div class="card fade-in" id="card-tesamorelin">
+      <div class="p-cat">Secretagogo · Reducción grasa visceral</div>
+      <div class="p-name">Tesamorelin</div>
+      <div class="p-dose">10 mg · Polvo liofilizado</div>
+      <div class="out-of-stock">Próximamente</div>
+      <div class="low-stock"></div>
+      <p class="p-desc">Análogo del GHRH investigado en reducción de adiposidad visceral. Uno de los péptidos secretagogos más documentados clínicamente.</p>
+      <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Krause Analytical</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">>99.95%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">ah59t69</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">OCT 2025</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: ah59t69 →</a></div>
+      <a class="vml" href="peptide_detail.html?p=tesamorelin">Ver información detallada →</a>
+      <a class="vml" style="color:var(--gold);font-weight:500" href="javascript:void(0)" href="https://aurumpeptides.mitiendanube.com/productos" target="_blank">🛒 Ver en tienda →</a>
+      <div class="p-foot">
+        <div class="p-price">$2,099<small>MXN por vial</small></div>
+        <button class="btn-add" onclick="openModal('Tesamorelin','10 mg · Polvo liofilizado',2099)">Agregar</button>
+      </div>
+    </div>
+
+    <!-- BPC-157 -->
+    <div class="card fade-in" id="card-bpc157">
+      <div class="p-cat">Regeneración · Péptido gástrico</div>
+      <div class="p-name">BPC-157</div>
+      <div class="p-dose">5 mg · Polvo liofilizado</div>
+      <div class="out-of-stock">Próximamente</div>
+      <div class="low-stock"></div>
+      <p class="p-desc">Pentadecapéptido derivado de la proteína de unión gástrica. Investigado en regeneración tisular, cicatrización y respuesta antiinflamatoria.</p>
+      <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Krause Analytical</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.90%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">kdbvnvt</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: kdbvnvt →</a></div>
+      <a class="vml" href="peptide_detail.html?p=bpc157">Ver información detallada →</a>
+      <a class="vml" style="color:var(--gold);font-weight:500" href="javascript:void(0)" href="https://aurumpeptides.mitiendanube.com/productos" target="_blank">🛒 Ver en tienda →</a>
+      <div class="p-foot">
+        <div class="p-price">$1,099<small>MXN por vial</small></div>
+        <button class="btn-add" onclick="openModal('BPC-157','5 mg · Polvo liofilizado',1099)">Agregar</button>
+      </div>
+    </div>
+
+    <!-- SEMAX -->
+    <div class="card fade-in" id="card-semax">
+      <div class="p-cat">Nootrópico · Neuropéptido</div>
+      <div class="p-name">Semax</div>
+      <div class="p-dose">10 mg · Polvo liofilizado</div>
+      <div class="out-of-stock">Próximamente</div>
+      <div class="low-stock"></div>
+      <p class="p-desc">Heptapéptido derivado de la ACTH. Investigado en neuroplasticidad, función cognitiva y neuroprotección del sistema nervioso.</p>
+      <a class="vml" href="peptide_detail.html?p=semax">Ver información detallada →</a>
+      <a class="vml" style="color:var(--gold);font-weight:500" href="javascript:void(0)" href="https://aurumpeptides.mitiendanube.com/productos" target="_blank">🛒 Ver en tienda →</a>
+      <div class="p-foot">
+        <div class="p-price">$1,399<small>MXN por vial</small></div>
+        <button class="btn-add" onclick="openModal('Semax','10 mg · Polvo liofilizado',1399)">Agregar</button>
+      </div>
+    </div>
+
+    <!-- BAC WATER -->
+    <div class="card fade-in" id="card-bacwater">
+      <div class="p-cat">Reconstitución · Agua bacteriostática</div>
+      <div class="p-name">BAC Water</div>
+      <div class="p-dose" id="bac-dose">3 mL · Agua para inyección</div>
+      <div class="out-of-stock">Próximamente</div>
+      <div class="low-stock"></div>
+      <p class="p-desc">Agua bacteriostática estéril con 0.9% de alcohol bencílico. Esencial para la reconstitución segura de péptidos liofilizados.</p>
+      <div class="var-btns">
+        <button class="vb sel" id="bb3" onclick="selBac(3)">3 mL</button>
+        <button class="vb" id="bb5" onclick="selBac(5)">5 mL</button>
+        <button class="vb" id="bb10" onclick="selBac(10)">10 mL</button>
+      </div>
+      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/2SoDkcs" target="_blank">💳 Pagar con Mercado Pago →</a>
+      <div class="p-foot">
+        <div class="p-price"><span id="bac-price">$99</span><small>MXN por vial</small></div>
+        <button class="btn-add" id="bac-add">Agregar</button>
+      </div>
+    </div>
+
+  </div><!-- end grid -->
+</section>
+
+<!-- WHY -->
+<section class="sec" id="nosotros" style="background:var(--black2)">
+  <div class="sec-tag">Por qué elegirnos</div>
+  <div class="sec-title">Calidad verificada</div>
+  <div class="why-grid">
+    <div class="wi fade-in"><div class="wi-num">99%</div><div class="wi-t">Pureza mínima</div><div class="wi-d">Cada péptido verificado por HPLC/MS en laboratorio independiente certificado.</div></div>
+    <div class="wi fade-in"><div class="wi-num">COA</div><div class="wi-t">Por cada lote</div><div class="wi-d">Certificado de análisis con número de lote, pureza y verificación pública.</div></div>
+    <div class="wi fade-in"><div class="wi-num">2–5</div><div class="wi-t">Días de entrega</div><div class="wi-d">Envíos a toda la república mexicana con seguimiento en tiempo real.</div></div>
+    <div class="wi fade-in"><div class="wi-num">12</div><div class="wi-t">Compuestos activos</div><div class="wi-d">Selección curada de los péptidos más investigados en longevidad y metabolismo.</div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="sec" id="sobre">
+  <div class="about">
+    <div class="about-text fade-in">
+      <div class="sec-tag">Nuestra misión</div>
+      <h2>Ciencia accesible para investigadores</h2>
+      <p>Aurum Peptides nació con el objetivo de democratizar el acceso a péptidos de investigación de alta calidad en México. Trabajamos exclusivamente con laboratorios certificados que publican sus resultados de análisis de forma pública y verificable.</p>
+      <p>Cada compuesto en nuestro catálogo cuenta con un COA verificable en laboratorios independientes como Krause Analytical, BTLabs y Janoshik — los estándares de oro de la industria.</p>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px">Todos nuestros productos son exclusivamente para investigación científica. No son medicamentos ni suplementos.</p>
+    </div>
+    <div class="about-hex">
+      <svg viewBox="0 0 300 300" fill="none" stroke="#C9A84C" stroke-width="0.5">
+        <polygon points="150,15 270,82.5 270,217.5 150,285 30,217.5 30,82.5"/>
+        <polygon points="150,45 245,100 245,200 150,255 55,200 55,100"/>
+        <polygon points="150,75 220,117.5 220,182.5 150,225 80,182.5 80,117.5"/>
+        <circle cx="150" cy="150" r="8" fill="#C9A84C" opacity="0.5"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq" style="background:var(--black2)">
+  <div class="sec-tag">Preguntas frecuentes</div>
+  <div class="sec-title">Respondemos tus dudas</div>
+  <div class="faq-list">
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Son legales los péptidos de investigación en México?</div><div class="faq-a">Los péptidos de investigación no están clasificados como medicamentos ni sustancias controladas en México. Su venta y compra para fines de investigación científica es legal. No están aprobados para consumo humano por COFEPRIS.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Cómo verifico la pureza del producto?</div><div class="faq-a">Cada producto incluye un COA (Certificado de Análisis) con un ID único verificable públicamente en finnrick.com/verify o janoshik.com/verify. Puedes confirmar la pureza, lote y método de análisis de forma independiente.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Cómo se reconstituyen los péptidos liofilizados?</div><div class="faq-a">Se añade agua bacteriostática estéril al vial liofilizado con una jeringa. La cantidad depende de la dosis deseada — usa nuestra calculadora de reconstitución en la sección Recursos para calcular exactamente cuántos μL corresponden a tu dosis.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Cuáles son las condiciones de almacenamiento?</div><div class="faq-a">Los péptidos liofilizados se almacenan a 2°C–8°C (refrigerador). No congelar. Proteger de la luz. Una vez reconstituidos, usar dentro de 30 días manteniendo refrigeración.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Hacen envíos a toda la república?</div><div class="faq-a">Sí, enviamos a toda la república mexicana. El tiempo de entrega es de 2 a 5 días hábiles dependiendo de tu ubicación. El envío es gratuito en pedidos mayores a $3,000 MXN.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Qué métodos de pago aceptan?</div><div class="faq-a">Aceptamos tarjetas de crédito y débito (Visa, Mastercard, AMEX), transferencia SPEI, y pago en efectivo en OXXO a través de Mercado Pago.</div></div>
+  </div>
+</section>
+
+<!-- RECURSOS -->
+<section class="sec" id="recursos">
+  <div class="sec-tag">Herramientas científicas</div>
+  <div class="sec-title">Recursos para investigadores</div>
+  <div class="res-grid">
+    <div class="rc fade-in">
+      <div class="rc-num">01</div>
+      <div class="rc-t">Calculadora de reconstitución</div>
+      <div class="rc-d">Calcula exactamente cuántos μL de agua bacteriostática usar para obtener tu concentración objetivo.</div>
+      <div style="margin-top:16px">
+        <div class="calc-grid">
+          <div class="calc-field"><label>Dosis deseada (μg)</label><input type="number" id="calc-dose" placeholder="100" oninput="calcRecon()"></div>
+          <div class="calc-field"><label>mg en el vial</label><input type="number" id="calc-mg" placeholder="10" oninput="calcRecon()"></div>
+          <div class="calc-field"><label>Agua a añadir (mL)</label><input type="number" id="calc-ml" placeholder="2" oninput="calcRecon()"></div>
+        </div>
+        <div class="calc-result">
+          <div><div class="calc-result-lbl">Unidades a inyectar (U-100)</div><div class="calc-result-n" id="calc-out">—</div></div>
+          <div style="font-size:11px;color:var(--muted);max-width:200px;text-align:right">Jeringa de insulina U-100 estándar</div>
+        </div>
+      </div>
+    </div>
+    <div class="rc fade-in">
+      <div class="rc-num">02</div>
+      <div class="rc-t">Guía de reconstitución</div>
+      <div class="rc-d">Procedimiento paso a paso para reconstituir péptidos liofilizados de forma segura y aséptica.</div>
+      <br>
+      <div style="font-size:13px;color:var(--lite);line-height:1.8">
+        <div style="margin-bottom:6px">① Lava manos y usa guantes</div>
+        <div style="margin-bottom:6px">② Limpia el septum con alcohol</div>
+        <div style="margin-bottom:6px">③ Inyecta el BAC Water lentamente por la pared del vial</div>
+        <div style="margin-bottom:6px">④ Gira suavemente — no agites</div>
+        <div>⑤ Refrigera a 2°C–8°C</div>
+      </div>
+    </div>
+    <div class="rc fade-in">
+      <div class="rc-num">03</div>
+      <div class="rc-t">Verificación de COA</div>
+      <div class="rc-d">Verifica públicamente la pureza y autenticidad de cada lote en los laboratorios certificados.</div>
+      <br>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+        <a href="https://finnrick.com/verify" target="_blank" style="display:block;padding:10px 14px;border:1px solid var(--border);color:var(--gold);text-decoration:none;font-size:11px;letter-spacing:1px;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.5)'" onmouseout="this.style.borderColor='var(--border)'">Finnrick / Krause Analytical →</a>
+        <a href="https://www.janoshik.com/verify/" target="_blank" style="display:block;padding:10px 14px;border:1px solid var(--border);color:var(--gold);text-decoration:none;font-size:11px;letter-spacing:1px;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.5)'" onmouseout="this.style.borderColor='var(--border)'">Janoshik Analytics →</a>
+        <a href="https://btlabtesting.com" target="_blank" style="display:block;padding:10px 14px;border:1px solid var(--border);color:var(--gold);text-decoration:none;font-size:11px;letter-spacing:1px;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.5)'" onmouseout="this.style.borderColor='var(--border)'">BTLabs Testing →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2>Investigación sin<br><em style="font-style:italic;color:var(--gold)">compromisos</em></h2>
+  <p>Péptidos verificados, entrega rápida, soporte técnico. Todo lo que necesitas para tu investigación.</p>
+  <div class="cta-btns">
+    <a href="#catalogo" class="btn-g">Ver catálogo completo</a>
+    <a href="https://wa.me/526572844902" target="_blank" class="btn-o">Contactar por WhatsApp</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="ft-brand">AURUM PEPTIDES</div>
+    <div class="ft-tag">Longevity · Science · Precision</div>
+    <div class="ft-copy">aurumpeptides.mx · México · 2026</div>
+  </div>
+  <div class="ft-col">
+    <h4>Catálogo</h4>
+    <a href="#catalogo">Retatrutide</a>
+    <a href="#catalogo">Tirzepatide</a>
+    <a href="#catalogo">BPC-157</a>
+    <a href="#catalogo">NAD+</a>
+    <a href="#catalogo">Ver todos</a>
+  </div>
+  <div class="ft-col">
+    <h4>Información</h4>
+    <a href="#faq">Preguntas frecuentes</a>
+    <a href="#recursos">Recursos</a>
+    <a href="#sobre">Nosotros</a>
+    <a href="https://wa.me/526572844902" target="_blank">Contacto</a>
+  </div>
+</footer>
+<div class="ft-disc">Para uso exclusivo en investigación científica · No aptos para consumo humano · No aprobados por COFEPRIS ni FDA · © 2026 Aurum Peptides · Todos los derechos reservados</div>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-hdr">
+    <div class="cart-hdr-title">Carrito</div>
+    <button class="cart-close" onclick="closeCart()">×</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty">Tu carrito está vacío</div>
+  </div>
+  <div class="cart-ftr">
+    <!-- BAC WATER WARNING -->
+    <div id="bac-warning" style="display:none;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-left:3px solid var(--gold);padding:12px 14px;margin-bottom:12px;font-size:12px;line-height:1.6">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px">⚠ Recuerda agregar BAC Water</div>
+      <div style="color:var(--lite)">Los péptidos liofilizados requieren <strong style="color:var(--cream)">agua bacteriostática</strong> para su reconstitución. Sin ella no podrás usarlos.</div>
+      <button onclick="openModal('BAC Water 3 mL','3 mL · Agua bacteriostática',99)" style="margin-top:10px;padding:8px 16px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:500;width:100%">Agregar BAC Water →</button>
+    </div>
+    <div class="ship-bar" id="ship-bar" style="display:none">
+      <div id="ship-msg" style="color:var(--muted)"></div>
+      <div class="ship-track"><div class="ship-fill" id="ship-fill"></div></div>
+    </div>
+    <div class="cart-sub"><span>Subtotal</span><span class="cart-sub-v" id="cart-total">$0</span></div>
+    <button class="btn-checkout" onclick="checkout()">Proceder al pago</button>
+    <button class="btn-wa" onclick="sendWhatsApp()">Pedir por WhatsApp</button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-ov" id="modal-ov">
+  <div class="modal">
+    <div class="modal-name" id="modal-name">Producto</div>
+    <div class="modal-dose" id="modal-dose">Dosis</div>
+    <div class="modal-qty">
+      <span class="modal-lbl">Cantidad</span>
+      <div class="qty-wrap">
+        <button class="qb" onclick="changeQty(-1)">−</button>
+        <span class="qn" id="modal-qty">1</span>
+        <button class="qb" onclick="changeQty(1)">+</button>
+      </div>
+    </div>
+    <div class="modal-total">
+      <span style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Total</span>
+      <span class="modal-total-v" id="modal-total">$0</span>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-add" onclick="confirmAdd()">Agregar al carrito</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- WSP FAB -->
+<a class="wsp" href="https://wa.me/526572844902" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// ── GLOBAL STATE ──
+var cart = [];
+var modalProduct = null;
+var modalQty = 1;
+var activePromoCode = null;
+var activePromoDiscount = 0;
+
+// ══════════════════════════════════════
+// CONFIGURACIÓN — EDITA ESTOS VALORES
+// ══════════════════════════════════════
+var CONFIG = {
+  whatsapp: '526572844902',
+  tiendanube: 'https://aurumpeptides.mitiendanube.com',
+  productLinks: {
+    'retatrutide':  '/productos/retatrutide-10-mg-peptido-triple-agonista-gip-glp-1-glucagon/',
+    'ipamorelin':   '/productos/ipamorelin-5-mg/',
+    'nad':          '/productos/nad-500-mg-coenzima-energia-celular-y-longevidad/',
+    'ghkcu':        '/productos/ghk-cu-50-mg/',
+    'motsc':        '/productos/mots-c-10-mg/',
+    'ss31':         '/productos/ss-31-10-mg-elamipeptide-cardioproteccion-mitocondrial/',
+    'tirzepatide':  '/productos/tirzepatide-10-mg/',
+    'cjc1295':      '/productos/',
+    'tesamorelin':  '/productos/',
+    'bpc157':       '/productos/',
+    'semax':        '/productos/',
+    'bacwater':     '/productos/'
+  }
+};
+
+function goToTiendanube(productKey) {
+  var path = CONFIG.productLinks[productKey] || '';
+  window.open(CONFIG.tiendanube + path, '_blank');
+}
+
+// ── SMART TIENDANUBE CHECKOUT ──
+var TIENDANUBE_MAP = {
+  'Retatrutide': '/productos/retatrutide-10-mg-peptido-triple-agonista-gip-glp-1-glucagon/',
+  'Tirzepatide': '/productos/tirzepatide-10-mg/',
+  'GHK-Cu': '/productos/ghk-cu-50-mg/',
+  'Mots-C': '/productos/mots-c-10-mg/',
+  'SS-31': '/productos/ss-31-10-mg-elamipeptide-cardioproteccion-mitocondrial/',
+  'NAD+': '/productos/nad-500-mg-coenzima-energia-celular-y-longevidad/',
+  'Ipamorelin': '/productos/ipamorelin-5-mg/',
+  'Bundle Retatrutide + BAC Water': '/productos/retatrutide-10-mg-peptido-triple-agonista-gip-glp-1-glucagon/'
+};
+
+function checkoutTiendanube() {
+  if (cart.length === 0) {
+    showToast('Tu carrito está vacío');
+    return;
+  }
+  // Si hay 1 solo producto, ir directo a ese producto en Tiendanube
+  if (cart.length === 1) {
+    var item = cart[0];
+    var path = TIENDANUBE_MAP[item.name] || '/productos/';
+    window.open(CONFIG.tiendanube + path, '_blank');
+    showToast('✓ Redirigiendo a Tiendanube...');
+    return;
+  }
+  // Si hay múltiples productos, enviar pedido por WhatsApp con detalle
+  // y abrir Tiendanube para que el cliente complete la compra
+  var msg = '🛒 *Pedido desde aurumpeptides.mx*\n\n';
+  cart.forEach(function(item) {
+    msg += '• ' + item.name + ' (' + item.dose + ') x' + item.qty + ' — $' + (item.price * item.qty).toLocaleString('es-MX') + '\n';
+  });
+  var t = getCartTotals();
+  if (t.discount > 0) {
+    msg += '\n🏷 Código: ' + t.code + ' (-$' + t.discount.toLocaleString('es-MX') + ')';
+  }
+  msg += '\n💰 *Total: $' + t.total.toLocaleString('es-MX') + ' MXN*';
+  msg += '\n\n_Quiero finalizar mi compra con estos productos._';
+  var url = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(msg);
+  window.open(url, '_blank');
+  // También abrir Tiendanube carrito
+  setTimeout(function() {
+    window.open(CONFIG.tiendanube + '/productos/', '_blank');
+  }, 1000);
+  showToast('✓ Pedido enviado — completa tu compra en Tiendanube');
+}
+
+// ── MOBILE MENU ──
+function toggleMenu() {
+  var m = document.getElementById('mob-menu');
+  var b = document.getElementById('hbg');
+  var isOpen = m.classList.contains('open');
+  m.classList.toggle('open', !isOpen);
+  b.classList.toggle('open', !isOpen);
+  document.body.style.overflow = isOpen ? '' : 'hidden';
+}
+function closeMenu() {
+  document.getElementById('mob-menu').classList.remove('open');
+  document.getElementById('hbg').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+
+
+// ══════════════════════════════════════
+// GOOGLE SHEETS CONFIG
+// ══════════════════════════════════════
+var SHEETS_CONFIG = {
+  webAppUrl: 'https://script.google.com/macros/s/AKfycbwIYuMzIQNVVeOi3R73ZhYH6ayW6vIW5vC6Gh66iDvE-3w6tPOaeH5L2-2Ch0N6V5qM/exec',
+  sheetName: 'Clientes',
+  secretKey: 'aurum2026secret'
+};
+function syncToSheets(client) {
+  if (SHEETS_CONFIG.webAppUrl.includes('TU_GOOGLE')) return;
+  try {
+    var p = client.promos[0] || {};
+    var payload = JSON.stringify({
+      action:'upsert', secret:SHEETS_CONFIG.secretKey, sheet:SHEETS_CONFIG.sheetName,
+      id:client.id, nombre:client.name, email:client.email, fecha:client.registered,
+      promoActiva:p.active?p.code:'', promoUsada:!p.active?p.code:'',
+      fechaUso:p.usedAt||'', pedidos:client.orders||0
+    });
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', SHEETS_CONFIG.webAppUrl, true);
+    xhr.setRequestHeader('Content-Type','application/json');
+    xhr.send(payload);
+  } catch(e) {}
+}
+function loadFromSheets(callback) {
+  if (SHEETS_CONFIG.webAppUrl.includes('TU_GOOGLE')) { callback(null); return; }
+  try {
+    var xhr = new XMLHttpRequest();
+    var url = SHEETS_CONFIG.webAppUrl+'?action=getAll&secret='+SHEETS_CONFIG.secretKey+'&sheet='+SHEETS_CONFIG.sheetName;
+    xhr.open('GET', url, true);
+    xhr.onload = function() {
+      try { var data = JSON.parse(xhr.responseText); callback(data.clients||null); }
+      catch(e) { callback(null); }
+    };
+    xhr.onerror = function() { callback(null); };
+    xhr.send();
+  } catch(e) { callback(null); }
+}
+
+// ══════════════════════════════════════
+// CLIENT DATABASE
+// ══════════════════════════════════════
+function getDB() { try { return JSON.parse(localStorage.getItem('aurum_clients')||'[]'); } catch(e){ return []; } }
+function saveDB(db) { localStorage.setItem('aurum_clients', JSON.stringify(db)); }
+function getClient(email) { return getDB().find(function(c){ return c.email.toLowerCase()===email.toLowerCase(); }); }
+function addClient(name, email) {
+  var db = getDB();
+  var ex = db.find(function(c){ return c.email.toLowerCase()===email.toLowerCase(); });
+  if (ex) { if(name) ex.name=name; saveDB(db); return ex; }
+  var today = new Date().toISOString().split('T')[0];
+  var client = {
+    id:'AUR'+Date.now(), name:name||'Sin nombre', email:email.toLowerCase(),
+    registered:today,
+    promos:[{code:'AURUM10',desc:'10% primera compra',active:true,usedAt:null}],
+    orders:0, lastOrder:null
+  };
+  db.push(client); saveDB(db); syncToSheets(client); return client;
+}
+function markPromoUsed(email, code) {
+  var db = getDB();
+  var c = db.find(function(c){ return c.email.toLowerCase()===email.toLowerCase(); });
+  if (!c) return;
+  var p = c.promos.find(function(p){ return p.code===code; });
+  if (p) { p.active=false; p.usedAt=new Date().toISOString().split('T')[0]; saveDB(db); syncToSheets(c); }
+}
+function incrementOrders(email) {
+  var db = getDB();
+  var c = db.find(function(c){ return c.email.toLowerCase()===email.toLowerCase(); });
+  if (c) { c.orders=(c.orders||0)+1; c.lastOrder=new Date().toISOString().split('T')[0]; saveDB(db); syncToSheets(c); }
+}
+
+// ══════════════════════════════════════
+// PROMO SYSTEM
+// ══════════════════════════════════════
+var activePromoCode = null;
+var activePromoDiscount = 0;
+
+function showEmailModal() { document.getElementById('email-modal-ov').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeEmailModal() { document.getElementById('email-modal-ov').classList.remove('open'); document.body.style.overflow=''; }
+function skipEmailModal() { localStorage.setItem('aurum_email_skip','1'); closeEmailModal(); }
+function claimPromo() {
+  var name = document.getElementById('em-name').value.trim();
+  var email = document.getElementById('em-email').value.trim();
+  if (!email||!email.includes('@')) {
+    document.getElementById('em-email').style.borderColor='rgba(224,112,112,0.6)';
+    return;
+  }
+  addClient(name, email);
+  localStorage.setItem('aurum_client_email', email);
+  localStorage.setItem('aurum_promo_claimed','1');
+  activePromoCode='AURUM10'; activePromoDiscount=0.10;
+  document.getElementById('email-form-area').style.display='none';
+  document.getElementById('email-success').style.display='block';
+}
+
+function getCartTotals() {
+  var raw = cart.reduce(function(s,i){ return s+i.price*i.qty; },0);
+  if (activePromoCode && activePromoDiscount>0) {
+    var disc = Math.round(raw*activePromoDiscount);
+    return {raw:raw, discount:disc, total:raw-disc, code:activePromoCode};
+  }
+  return {raw:raw, discount:0, total:raw, code:null};
+}
+
+// Init promo
+(function(){
+  if (window.location.search.includes('admin=aurum2026')) {
+    document.getElementById('admin-panel').classList.add('open');
+    renderAdminPanel(); renderInventoryTable();
+  }
+  var claimed = localStorage.getItem('aurum_promo_claimed');
+  var email = localStorage.getItem('aurum_client_email');
+  if (claimed && email) {
+    var c = getClient(email);
+    if (c) { var p = c.promos.find(function(p){ return p.code==='AURUM10'&&p.active; }); if(p){ activePromoCode='AURUM10'; activePromoDiscount=0.10; } }
+  }
+  if (!localStorage.getItem('aurum_email_skip') && !claimed) {
+    setTimeout(showEmailModal, 4000);
+  }
+})();
+
+// ══════════════════════════════════════
+// INVENTORY SYSTEM
+// ══════════════════════════════════════
+var DEFAULT_INVENTORY = {
+  'retatrutide-10': {name:'Retatrutide 10mg',qty:20,low:5},
+  'retatrutide-15': {name:'Retatrutide 15mg',qty:15,low:5},
+  'retatrutide-30': {name:'Retatrutide 30mg',qty:10,low:3},
+  'ipamorelin':     {name:'Ipamorelin 5mg',  qty:25,low:5},
+  'nad':            {name:'NAD+ 500mg',       qty:20,low:5},
+  'ghkcu':          {name:'GHK-Cu 50mg',      qty:30,low:8},
+  'motsc':          {name:'Mots-C 10mg',      qty:12,low:3},
+  'ss31':           {name:'SS-31 10mg',       qty:10,low:3},
+  'tirzepatide-10': {name:'Tirzepatide 10mg', qty:20,low:5},
+  'tirzepatide-30': {name:'Tirzepatide 30mg', qty:10,low:3},
+  'cjc1295':        {name:'CJC-1295 5mg',     qty:15,low:5},
+  'tesamorelin':    {name:'Tesamorelin 10mg', qty:10,low:3},
+  'bpc157':         {name:'BPC-157 5mg',      qty:25,low:8},
+  'semax':          {name:'Semax 10mg',       qty:15,low:5},
+  'bacwater-3':     {name:'BAC Water 3mL',    qty:50,low:10},
+  'bacwater-5':     {name:'BAC Water 5mL',    qty:40,low:10},
+  'bacwater-10':    {name:'BAC Water 10mL',   qty:30,low:10},
+};
+
+var CARD_INV_MAP = {
+  'card-retatrutide': ['retatrutide-10','retatrutide-15','retatrutide-30'],
+  'card-ipamorelin':  ['ipamorelin'],
+  'card-nad':         ['nad'],
+  'card-ghkcu':       ['ghkcu'],
+  'card-motsc':       ['motsc'],
+  'card-ss31':        ['ss31'],
+  'card-tirzepatide': ['tirzepatide-10','tirzepatide-30'],
+  'card-cjc1295':     ['cjc1295'],
+  'card-tesamorelin': ['tesamorelin'],
+  'card-bpc157':      ['bpc157'],
+  'card-semax':       ['semax'],
+  'card-bacwater':    ['bacwater-3','bacwater-5','bacwater-10'],
+};
+
+function getInventory() {
+  try { var s=localStorage.getItem('aurum_inventory'); return s?JSON.parse(s):JSON.parse(JSON.stringify(DEFAULT_INVENTORY)); }
+  catch(e){ return JSON.parse(JSON.stringify(DEFAULT_INVENTORY)); }
+}
+function saveInventory(inv) { localStorage.setItem('aurum_inventory',JSON.stringify(inv)); }
+
+function getCardStock(cardId) {
+  var inv = getInventory();
+  var keys = CARD_INV_MAP[cardId]||[];
+  if (!keys.length) return {qty:99,low:5};
+  var minQty = Math.min.apply(null,keys.map(function(k){ return inv[k]?inv[k].qty:0; }));
+  var maxLow = Math.max.apply(null,keys.map(function(k){ return inv[k]?inv[k].low:5; }));
+  return {qty:minQty,low:maxLow};
+}
+
+function applyInventory() {
+  Object.keys(CARD_INV_MAP).forEach(function(cardId) {
+    var el = document.getElementById(cardId);
+    if (!el) return;
+    var s = getCardStock(cardId);
+    el.classList.remove('oos','low');
+    var lowEl = el.querySelector('.low-stock');
+    if (s.qty<=0) { el.classList.add('oos'); }
+    else if (s.qty<=s.low) {
+      el.classList.add('low');
+      if (lowEl) lowEl.textContent = '⚠ Últimas '+s.qty+' unidades';
+    }
+  });
+}
+
+function deductInventoryFromCart() {
+  var inv = getInventory();
+  cart.forEach(function(item) {
+    var lname = item.name.toLowerCase();
+    Object.keys(inv).forEach(function(key) {
+      var iname = inv[key].name.toLowerCase();
+      if (lname.includes(iname.split(' ')[0]) && lname.includes(iname.split(' ')[1]||'')) {
+        inv[key].qty = Math.max(0,(inv[key].qty||0)-item.qty);
+      }
+    });
+  });
+  saveInventory(inv); applyInventory();
+}
+
+function renderInventoryTable() {
+  var inv = getInventory();
+  var tbody = document.getElementById('inv-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = Object.keys(inv).map(function(key) {
+    var item=inv[key];
+    var sc = item.qty<=0?'inv-oos':item.qty<=item.low?'inv-low':'inv-ok';
+    var st = item.qty<=0?'Agotado':item.qty<=item.low?'Stock bajo':'Disponible';
+    var rowId = key;
+    return '<tr>'+
+      '<td>'+item.name+'</td>'+
+      '<td><input class="inv-input" type="number" min="0" value="'+item.qty+'" id="inv-'+key+'"></td>'+
+      '<td><input class="inv-input" type="number" min="1" value="'+item.low+'" id="invlow-'+key+'"></td>'+
+      '<td><span class="inv-status '+sc+'" id="invst-'+key+'">'+st+'</span></td>'+
+      '<td><button class="inv-save" onclick="saveInvRow(this)" data-key="'+key+'">Guardar</button></td>'+
+    '</tr>';
+  }).join('');
+}
+
+function saveInvRow(btn) {
+  var key = btn.getAttribute('data-key');
+  var inv=getInventory();
+  var q=document.getElementById('inv-'+key);
+  var l=document.getElementById('invlow-'+key);
+  if(!q||!l) return;
+  inv[key].qty=parseInt(q.value)||0;
+  inv[key].low=parseInt(l.value)||5;
+  saveInventory(inv); applyInventory();
+  var st=document.getElementById('invst-'+key);
+  if(st){
+    var sc=inv[key].qty<=0?'inv-oos':inv[key].qty<=inv[key].low?'inv-low':'inv-ok';
+    var stxt=inv[key].qty<=0?'Agotado':inv[key].qty<=inv[key].low?'Stock bajo':'Disponible';
+    st.className='inv-status '+sc; st.textContent=stxt;
+  }
+  showToast('Guardado: '+inv[key].name);
+}
+function saveAllInventory() {
+  var inv=getInventory();
+  Object.keys(inv).forEach(function(key){
+    var q=document.getElementById('inv-'+key);
+    var l=document.getElementById('invlow-'+key);
+    if(q) inv[key].qty=parseInt(q.value)||0;
+    if(l) inv[key].low=parseInt(l.value)||5;
+  });
+  saveInventory(inv); applyInventory(); showToast('✓ Inventario completo guardado');
+}
+function resetInventory() {
+  if(!confirm('¿Restablecer inventario?')) return;
+  saveInventory(JSON.parse(JSON.stringify(DEFAULT_INVENTORY)));
+  renderInventoryTable(); applyInventory(); showToast('✓ Inventario restablecido');
+}
+
+function showAdminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.admin-section').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.getElementById('admin-sec-'+tab).classList.add('active');
+  if (tab==='inventory') renderInventoryTable();
+  if (tab==='clients') renderAdminPanel();
+}
+
+// ══════════════════════════════════════
+// ADMIN CLIENTS
+// ══════════════════════════════════════
+function renderAdminPanel() {
+  loadFromSheets(function(sheetsData) {
+    if (sheetsData && sheetsData.length>0) {
+      sheetsData.forEach(function(sc){
+        if(!getClient(sc.email)){
+          var db=getDB();
+          db.push({id:sc.id,name:sc.name,email:sc.email,registered:sc.registered,
+            promos:[{code:sc.promoActiva||sc.promoUsada||'AURUM10',active:!!sc.promoActiva,usedAt:sc.fechaUso||null,desc:'10% primera compra'}],
+            orders:parseInt(sc.orders)||0});
+          saveDB(db);
+        }
+      });
+      showToast('\u2713 Sincronizado desde Google Sheets');
+    }
+    var db=getDB();
+    var today=new Date().toISOString().split('T')[0];
+    var ap=db.reduce(function(s,c){ return s+c.promos.filter(function(p){ return p.active; }).length; },0);
+    var up=db.reduce(function(s,c){ return s+c.promos.filter(function(p){ return !p.active; }).length; },0);
+    document.getElementById('stat-total').textContent=db.length;
+    document.getElementById('stat-promo').textContent=ap;
+    document.getElementById('stat-used').textContent=up;
+    document.getElementById('stat-today').textContent=db.filter(function(c){ return c.registered===today; }).length;
+    var tbody=document.getElementById('admin-tbody');
+    if (!db.length) { tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">Sin clientes</td></tr>'; return; }
+    tbody.innerHTML=db.slice().reverse().map(function(c){
+      var tags=c.promos.map(function(p){ return '<span class="promo-tag'+(p.active?'':' promo-used')+'">'+p.code+(p.usedAt?' ('+p.usedAt+')':'')+'</span>'; }).join('');
+      return '<tr><td>'+(c.name||'—')+'</td><td>'+c.email+'</td><td>'+c.registered+'</td><td>'+tags+'</td><td>'+(c.promos.some(function(p){return !p.active;})?'\u2713':'—')+'</td><td>'+(c.orders||0)+'</td></tr>';
+    }).join('');
+  }); // end loadFromSheets callback
+}
+
+function exportCSV() {
+  var db=getDB();
+  var csv='ID,Nombre,Email,Fecha,PromoActiva,PromoUsada,Pedidos\n';
+  csv+=db.map(function(c){
+    var pa=c.promos.filter(function(p){return p.active;}).map(function(p){return p.code;}).join(';');
+    var pu=c.promos.filter(function(p){return !p.active;}).map(function(p){return p.code+'('+(p.usedAt||'')+')';}).join(';');
+    return [c.id,c.name,c.email,c.registered,pa,pu,c.orders||0].join(',');
+  }).join('\n');
+  var b=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  var u=URL.createObjectURL(b);
+  var a=document.createElement('a');
+  a.href=u; a.download='aurum_clientes_'+new Date().toISOString().split('T')[0]+'.csv';
+  a.click(); URL.revokeObjectURL(u);
+}
+
+// ══════════════════════════════════════
+// SHIPPING BAR
+// ══════════════════════════════════════
+
+// ── BAC WATER WARNING ──
+function updateBacWarning() {
+  var warn = document.getElementById('bac-warning');
+  if (!warn) return;
+  // Check if cart has any peptide (non-BAC water item)
+  var hasPeptide = cart.some(function(i) {
+    return i.name.toLowerCase().indexOf('bac') === -1 &&
+           i.name.toLowerCase().indexOf('water') === -1 &&
+           i.name.toLowerCase().indexOf('agua') === -1;
+  });
+  // Check if cart already has BAC water
+  var hasBac = cart.some(function(i) {
+    return i.name.toLowerCase().indexOf('bac') !== -1 ||
+           i.name.toLowerCase().indexOf('water') !== -1 ||
+           i.name.toLowerCase().indexOf('agua') !== -1;
+  });
+  if (hasPeptide && !hasBac && cart.length > 0) {
+    warn.style.display = 'block';
+  } else {
+    warn.style.display = 'none';
+  }
+}
+
+function updateShippingBar() {
+  var t=getCartTotals();
+  var bar=document.getElementById('ship-bar');
+  var msg=document.getElementById('ship-msg');
+  var fill=document.getElementById('ship-fill');
+  if(!bar) return;
+  if(!cart.length){ bar.style.display='none'; return; }
+  bar.style.display='block';
+  var pct=Math.min(100,Math.round(t.raw/3000*100));
+  fill.style.width=pct+'%';
+  if(t.raw>=3000){ msg.innerHTML='🎉 <span style="color:var(--gold)">¡Envío gratis desbloqueado!</span>'; }
+  else{
+    var falta=(3000-t.raw).toLocaleString('es-MX');
+    msg.innerHTML='Agrega <strong style="color:var(--cream)">$'+falta+' MXN</strong> más para <span style="color:var(--gold)">envío gratis</span>';
+  }
+  // Discount row
+  var dr=document.getElementById('cart-discount-row');
+  var dv=document.getElementById('cart-discount-val');
+  if(dr&&dv){
+    dr.style.display=t.code?'flex':'none';
+    if(t.code) dv.textContent='-$'+t.discount.toLocaleString('es-MX')+' ('+t.code+')';
+  }
+}
+
+// ══════════════════════════════════════
+// RESPONSIVE GRID (JS fallback)
+// ══════════════════════════════════════
+function setGrid() {
+  var g=document.getElementById('main-grid');
+  if(!g) return;
+  if(window.innerWidth<=768){
+    g.style.gridTemplateColumns='1fr';
+    document.querySelectorAll('.card').forEach(function(c){
+      c.style.gridColumn='span 1'; c.style.minWidth='0'; c.style.width='100%';
+    });
+    document.querySelectorAll('.p-foot').forEach(function(f){ f.style.flexDirection='column'; f.style.alignItems='flex-start'; });
+    document.querySelectorAll('.btn-add').forEach(function(b){ b.style.width='100%'; });
+  } else if(window.innerWidth<=1024){
+    g.style.gridTemplateColumns='repeat(2,1fr)';
+    document.querySelectorAll('.card').forEach(function(c){ c.style.gridColumn=''; });
+  } else {
+    g.style.gridTemplateColumns='repeat(3,1fr)';
+    document.querySelectorAll('.card').forEach(function(c){ c.style.gridColumn=''; });
+  }
+}
+setGrid();
+window.addEventListener('resize',setGrid);
+document.addEventListener('DOMContentLoaded',function(){ setGrid(); applyInventory(); });
+
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+
+// ── RETATRUTIDE ──
+var retaData = {
+  10: {price:1699, dose:'10 mg · Polvo liofilizado', label:'Retatrutide 10 mg'},
+  15: {price:2499, dose:'15 mg · Polvo liofilizado', label:'Retatrutide 15 mg'},
+  30: {price:3399, dose:'30 mg · Polvo liofilizado', label:'Retatrutide 30 mg'}
+};
+var retaSel = 10;
+function selReta(mg) {
+  retaSel = mg;
+  var d = retaData[mg];
+  document.getElementById('reta-dose').textContent = d.dose;
+  document.getElementById('reta-price').textContent = '$' + d.price.toLocaleString('es-MX');
+  [10,15,30].forEach(function(v) {
+    document.getElementById('rb'+v).className = 'vb' + (v===mg?' sel':'');
+  });
+}
+document.getElementById('reta-add').addEventListener('click', function() {
+  var d = retaData[retaSel];
+  openModal(d.label, d.dose, d.price);
+});
+
+// ── TIRZEPATIDE ──
+var tirzeData = {
+  10: {price:1099, dose:'10 mg · Polvo liofilizado', label:'Tirzepatide 10 mg', lab:'Krause Analytical', pur:'>99.9%', lot:'j9f35yh', date:'FEB 2026', id:'j9f35yh'},
+  30: {price:3199, dose:'30 mg · Polvo liofilizado', label:'Tirzepatide 30 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'}
+};
+var tirzeSel = 10;
+function selTirze(mg) {
+  tirzeSel = mg;
+  var d = tirzeData[mg];
+  document.getElementById('tirze-dose').textContent = d.dose;
+  document.getElementById('tirze-price').textContent = '$' + d.price.toLocaleString('es-MX');
+  [10,30].forEach(function(v) {
+    document.getElementById('tb'+v).className = 'vb' + (v===mg?' sel':'');
+  });
+  document.getElementById('tc-lab').textContent = d.lab;
+  document.getElementById('tc-pur').textContent = d.pur;
+  document.getElementById('tc-lot').textContent = d.lot;
+  document.getElementById('tc-date').textContent = d.date;
+  document.getElementById('tc-link').textContent = 'Verificar: ' + d.id + ' →';
+}
+document.getElementById('tirze-add').addEventListener('click', function() {
+  var d = tirzeData[tirzeSel];
+  openModal(d.label, d.dose, d.price);
+});
+
+// ── BAC WATER ──
+var bacData = {
+  3:  {price:99,  dose:'3 mL · Agua bacteriostática',  label:'BAC Water 3 mL'},
+  5:  {price:159, dose:'5 mL · Agua bacteriostática',  label:'BAC Water 5 mL'},
+  10: {price:199, dose:'10 mL · Agua bacteriostática', label:'BAC Water 10 mL'}
+};
+var bacSel = 3;
+function selBac(ml) {
+  bacSel = ml;
+  var d = bacData[ml];
+  document.getElementById('bac-dose').textContent = d.dose;
+  document.getElementById('bac-price').textContent = '$' + d.price.toLocaleString('es-MX');
+  [3,5,10].forEach(function(v) {
+    document.getElementById('bb'+v).className = 'vb' + (v===ml?' sel':'');
+  });
+}
+document.getElementById('bac-add').addEventListener('click', function() {
+  var d = bacData[bacSel];
+  openModal(d.label, d.dose, d.price);
+});
+
+// ── MODAL ──
+function openModal(name, dose, price) {
+  modalProduct = {name:name, dose:dose, price:price};
+  modalQty = 1;
+  document.getElementById('modal-name').textContent = name;
+  document.getElementById('modal-dose').textContent = dose;
+  document.getElementById('modal-qty').textContent = 1;
+  document.getElementById('modal-total').textContent = '$' + price.toLocaleString('es-MX');
+  document.getElementById('modal-ov').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modal-ov').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function changeQty(d) {
+  modalQty = Math.max(1, modalQty + d);
+  document.getElementById('modal-qty').textContent = modalQty;
+  document.getElementById('modal-total').textContent = '$' + (modalProduct.price * modalQty).toLocaleString('es-MX');
+}
+function confirmAdd() {
+  if (!modalProduct) return;
+  addToCart(modalProduct.name, modalProduct.dose, modalProduct.price, modalQty);
+  closeModal();
+}
+document.getElementById('modal-ov').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ── BUNDLE (máximo 1) ──
+var BUNDLE_NAME = 'Bundle Retatrutide + BAC Water';
+function addBundle() {
+  var exists = cart.find(function(i) { return i.name === BUNDLE_NAME; });
+  if (exists) {
+    showToast('⚠ Solo 1 bundle por pedido — ya está en tu carrito');
+    openCart();
+    return;
+  }
+  addToCart(BUNDLE_NAME, '10 mg + 3 mL · Pack completo', 1699, 1);
+}
+
+// ── CART ──
+function addToCart(name, dose, price, qty) {
+  qty = qty || 1;
+  // Bloquear duplicados del bundle
+  if (name === BUNDLE_NAME) {
+    var bundleExists = cart.find(function(i) { return i.name === BUNDLE_NAME; });
+    if (bundleExists) {
+      showToast('⚠ Solo 1 bundle de bienvenida por pedido');
+      openCart();
+      return;
+    }
+    qty = 1; // forzar cantidad 1
+  }
+  var existing = cart.find(function(i) { return i.name===name && i.dose===dose; });
+  if (existing) { existing.qty += qty; }
+  else { cart.push({name:name, dose:dose, price:price, qty:qty}); }
+  updateCartUI();
+  showToast('✓ ' + name + ' agregado al carrito');
+}
+function removeFromCart(idx) {
+  cart.splice(idx, 1);
+  updateCartUI();
+}
+function changeCartQty(idx, delta) {
+  if (!cart[idx]) return;
+  // No permitir subir cantidad del bundle
+  if (cart[idx].name === BUNDLE_NAME && delta > 0) {
+    showToast('⚠ Solo 1 bundle de bienvenida por pedido');
+    return;
+  }
+  cart[idx].qty = Math.max(1, cart[idx].qty + delta);
+  updateCartUI();
+}
+function updateCartUI() {
+  var t = getCartTotals();
+  var count = cart.reduce(function(s,i){ return s+i.qty; }, 0);
+  var cc = document.getElementById('cart-count');
+  cc.textContent = count;
+  cc.style.display = count > 0 ? 'flex' : 'none';
+  document.getElementById('cart-total').textContent = '$' + t.total.toLocaleString('es-MX');
+  // Discount row
+  var dr = document.getElementById('cart-discount-row');
+  var dv = document.getElementById('cart-discount-val');
+  if (dr && dv) {
+    dr.style.display = t.code ? 'flex' : 'none';
+    if (t.code) dv.textContent = '-$' + t.discount.toLocaleString('es-MX') + ' (' + t.code + ')';
+  }
+  updateShippingBar();
+  updateBacWarning();
+  var ci = document.getElementById('cart-items');
+  if (cart.length === 0) {
+    ci.innerHTML = '<div class="cart-empty">Tu carrito está vacío</div>';
+    return;
+  }
+  ci.innerHTML = cart.map(function(item,idx) {
+    return '<div class="ci">' +
+      '<div class="ci-info">' +
+        '<div class="ci-name">' + item.name + '</div>' +
+        '<div class="ci-dose">' + item.dose + '</div>' +
+        '<div class="ci-qty-row">' +
+          '<button class="ci-qb" onclick="changeCartQty(' + idx + ',-1)">−</button>' +
+          '<span class="ci-qn">' + item.qty + '</span>' +
+          '<button class="ci-qb" onclick="changeCartQty(' + idx + ',1)">+</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ci-right">' +
+        '<div class="ci-price">$' + (item.price*item.qty).toLocaleString('es-MX') + '</div>' +
+        '<button class="ci-rm" onclick="removeFromCart(' + idx + ')">×</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+function openCart() { document.getElementById('cart-overlay').classList.add('open'); document.getElementById('cart-drawer').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeCart() { document.getElementById('cart-overlay').classList.remove('open'); document.getElementById('cart-drawer').classList.remove('open'); document.body.style.overflow=''; }
+
+function sendWhatsApp() {
+  if (cart.length === 0) { showToast('El carrito está vacío'); return; }
+  var total = cart.reduce(function(s,i){ return s+i.price*i.qty; },0);
+  var lines = cart.map(function(i){ return '• '+i.name+' ('+i.dose+') × '+i.qty+' = $'+( i.price*i.qty).toLocaleString('es-MX')+' MXN'; });
+  var msg = '¡Hola Aurum Peptides! Quiero hacer el siguiente pedido:\n\n' + lines.join('\n') + '\n\n*Total: $' + total.toLocaleString('es-MX') + ' MXN*\n\n¿Me pueden confirmar disponibilidad?';
+  window.open('https://wa.me/526572844902?text=' + encodeURIComponent(msg), '_blank');
+}
+var NETLIFY_FUNCTION_URL = 'https://aurumpeptides.netlify.app';
+
+function openShipModal() {
+  if (cart.length === 0) { showToast('El carrito esta vacio'); return; }
+  try {
+    var saved = JSON.parse(localStorage.getItem('aurum_shipping') || '{}');
+    if (saved.nombre) {
+      ['nombre','tel','calle','colonia','cp','ciudad','estado'].forEach(function(f){
+        var el = document.getElementById('ship-'+f);
+        if (el && saved[f]) el.value = saved[f];
+      });
+    }
+  } catch(e) {}
+  document.getElementById('ship-modal-ov').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(function(){ document.getElementById('ship-nombre').focus(); }, 100);
+}
+
+function closeShipModal() {
+  document.getElementById('ship-modal-ov').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function validateShipField(id, errId, fn) {
+  var val = document.getElementById(id).value.trim();
+  var ok = fn(val);
+  document.getElementById(id).classList.toggle('ship-field-err', !ok);
+  document.getElementById(errId).style.display = ok ? 'none' : 'block';
+  return ok;
+}
+
+function confirmShipping() {
+  var ok = true;
+  ok = validateShipField('ship-nombre','err-nombre',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-tel','err-tel',function(v){return /^[0-9]{10}$/.test(v);}) && ok;
+  ok = validateShipField('ship-calle','err-calle',function(v){return v.length>3;}) && ok;
+  ok = validateShipField('ship-colonia','err-colonia',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-cp','err-cp',function(v){return /^[0-9]{5}$/.test(v);}) && ok;
+  ok = validateShipField('ship-ciudad','err-ciudad',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-estado','err-estado',function(v){return v.length>2;}) && ok;
+  if (!ok) { showToast('Por favor completa todos los campos'); return; }
+  var shipping = {
+    nombre: document.getElementById('ship-nombre').value.trim(),
+    tel: document.getElementById('ship-tel').value.trim(),
+    calle: document.getElementById('ship-calle').value.trim(),
+    colonia: document.getElementById('ship-colonia').value.trim(),
+    cp: document.getElementById('ship-cp').value.trim(),
+    ciudad: document.getElementById('ship-ciudad').value.trim(),
+    estado: document.getElementById('ship-estado').value.trim(),
+  };
+  if (document.getElementById('ship-guardar').checked) {
+    try { localStorage.setItem('aurum_shipping', JSON.stringify(shipping)); } catch(e) {}
+  }
+  try { localStorage.setItem('aurum_last_shipping', JSON.stringify(shipping)); } catch(e) {}
+  closeShipModal();
+  proceedToPayment(shipping);
+}
+
+function saveOrderToSheets(shipping, orderRef, total) {
+  if (typeof SHEETS_CONFIG === 'undefined' || SHEETS_CONFIG.webAppUrl.includes('TU_GOOGLE')) return;
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', SHEETS_CONFIG.webAppUrl, true);
+    xhr.setRequestHeader('Content-Type','application/json');
+    xhr.send(JSON.stringify({
+      action:'addOrder', secret: SHEETS_CONFIG.secretKey || 'aurum2026secret', sheet:'Pedidos',
+      ref: orderRef, fecha: new Date().toLocaleDateString('es-MX'),
+      nombre: shipping.nombre, tel: shipping.tel, calle: shipping.calle,
+      colonia: shipping.colonia, cp: shipping.cp, ciudad: shipping.ciudad, estado: shipping.estado,
+      total: total, items: cart.map(function(i){return i.name+' x'+i.qty;}).join(', ')
+    }));
+  } catch(e) {}
+}
+
+function notifyWhatsApp(shipping, orderRef) {
+  var total = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
+  var items = cart.map(function(i){return '%E2%80%A2 '+encodeURIComponent(i.name+' x'+i.qty+' $'+(i.price*i.qty).toLocaleString('es-MX')+' MXN');}).join('%0A');
+  var dir = encodeURIComponent(shipping.calle+', Col. '+shipping.colonia+', CP '+shipping.cp+', '+shipping.ciudad+', '+shipping.estado);
+  var msg = '%F0%9F%A7%AC *Nuevo pedido Aurum Peptides*%0A%0A*Ref:* '+orderRef+'%0A*Cliente:* '+encodeURIComponent(shipping.nombre)+'%0A*Tel:* '+shipping.tel+'%0A%0A*Productos:*%0A'+items+'%0A%0A*Total:* $'+total.toLocaleString('es-MX')+' MXN%0A%0A*Direccion:*%0A'+dir;
+  try { window.open('https://wa.me/526572844902?text='+msg,'_blank','noopener'); } catch(e) {}
+}
+
+async function proceedToPayment(shipping) {
+  try { localStorage.setItem('aurum_last_shipping', JSON.stringify(shipping)); } catch(e) {}
+  var btn = document.querySelector('.btn-checkout');
+  if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; btn.style.opacity = '0.7'; }
+  var orderRef = 'AURUM-' + Date.now();
+  var total = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
+  saveOrderToSheets(shipping, orderRef, total);
+  notifyWhatsApp(shipping, orderRef);
+  try {
+    var itemsPayload = cart.map(function(item){return {name:item.name,dose:item.dose,qty:item.qty,price:item.price};});
+    var buyerEmail = null;
+    try { buyerEmail = localStorage.getItem('aurum_client_email'); } catch(e) {}
+    var response = await fetch(NETLIFY_FUNCTION_URL + '/.netlify/functions/create-preference', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail}),
+    });
+    if (!response.ok) throw new Error('Error servidor: '+response.status);
+    var data = await response.json();
+    if (!data.checkoutUrl) throw new Error('Sin URL de pago');
+    try { localStorage.setItem('aurum_last_cart', JSON.stringify(cart)); } catch(e) {}
+    window.location.href = data.checkoutUrl;
+  } catch(err) {
+    console.error('Checkout error:', err);
+    if (btn) { btn.textContent = 'Proceder al pago'; btn.disabled = false; btn.style.opacity = ''; }
+    if (confirm('Error al procesar el pago. Continuar por WhatsApp?')) sendWhatsApp();
+  }
+}
+
+function checkout() {
+  try { localStorage.setItem('aurum_last_cart', JSON.stringify(cart)); } catch(e) {}
+  openShipModal();
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+// ── FAQ ──
+function toggleFaq(el) {
+  var item = el.parentElement;
+  var wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('open'); });
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ── CALCULADORA ──
+function calcRecon() {
+  var dose = parseFloat(document.getElementById('calc-dose').value);
+  var mg   = parseFloat(document.getElementById('calc-mg').value);
+  var ml   = parseFloat(document.getElementById('calc-ml').value);
+  var out  = document.getElementById('calc-out');
+  if (!dose || !mg || !ml) { out.textContent = '—'; return; }
+  var concMgPerMl = mg / ml;
+  var concUgPerMl = concMgPerMl * 1000;
+  var mlNeeded = dose / concUgPerMl;
+  var units = mlNeeded * 100;
+  out.textContent = units.toFixed(1) + ' U';
+}
+
+// ── FADE IN ON SCROLL ──
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('vis'); observer.unobserve(e.target); }
+  });
+}, {threshold:0.08});
+document.querySelectorAll('.fade-in').forEach(function(el){ observer.observe(el); });
+
+// ── HERO FADE ON LOAD ──
+window.addEventListener('load', function() {
+  document.querySelector('.hero .fade-in').classList.add('vis');
+});
+
+</script>
+
+<!-- SHIPPING MODAL -->
+<div class="ship-modal-ov" id="ship-modal-ov">
+  <div class="ship-modal">
+    <div class="ship-modal-hdr">
+      <div><div class="ship-modal-tag">Paso 1 de 2</div><h2>Datos de envio</h2></div>
+      <button class="ship-modal-close" onclick="closeShipModal()">x</button>
+    </div>
+    <div class="ship-modal-body">
+      <div class="ship-field"><label>Nombre completo *</label><input type="text" id="ship-nombre" placeholder="Ej: Juan Garcia Lopez" autocomplete="name"><div class="ship-err-msg" id="err-nombre">Campo requerido</div></div>
+      <div class="ship-field"><label>Telefono *</label><input type="tel" id="ship-tel" placeholder="Ej: 6141234567" maxlength="10" autocomplete="tel"><div class="ship-err-msg" id="err-tel">Ingresa un telefono de 10 digitos</div></div>
+      <div class="ship-field"><label>Calle y numero *</label><input type="text" id="ship-calle" placeholder="Ej: Av. Insurgentes 1234 Int. 5" autocomplete="street-address"><div class="ship-err-msg" id="err-calle">Campo requerido</div></div>
+      <div class="ship-row">
+        <div class="ship-field"><label>Colonia *</label><input type="text" id="ship-colonia" placeholder="Ej: Centro" autocomplete="address-level3"><div class="ship-err-msg" id="err-colonia">Campo requerido</div></div>
+        <div class="ship-field"><label>Codigo Postal *</label><input type="text" id="ship-cp" placeholder="Ej: 31000" maxlength="5" autocomplete="postal-code"><div class="ship-err-msg" id="err-cp">CP de 5 digitos</div></div>
+      </div>
+      <div class="ship-row">
+        <div class="ship-field"><label>Ciudad *</label><input type="text" id="ship-ciudad" placeholder="Ej: Chihuahua" autocomplete="address-level2"><div class="ship-err-msg" id="err-ciudad">Campo requerido</div></div>
+        <div class="ship-field"><label>Estado *</label><input type="text" id="ship-estado" placeholder="Ej: Chihuahua" autocomplete="address-level1"><div class="ship-err-msg" id="err-estado">Campo requerido</div></div>
+      </div>
+      <label class="ship-save"><input type="checkbox" id="ship-guardar" checked> Guardar direccion para mi proxima compra</label>
+    </div>
+    <div class="ship-modal-ftr">
+      <button class="ship-btn-cancel" onclick="closeShipModal()">Cancelar</button>
+      <button class="ship-btn-ok" onclick="confirmShipping()">Continuar al pago</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+ 
+ 
