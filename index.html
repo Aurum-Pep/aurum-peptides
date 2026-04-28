@@ -182,7 +182,23 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 .ci-rm{background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;transition:color .2s}
 .ci-rm:hover{color:#E07070}
 .cart-ftr{padding:20px 24px;border-top:1px solid var(--border)}
+
+/* ── PROMO CODE ── */
+.promo-wrap{margin-bottom:14px}
+.promo-row{display:flex;gap:8px}
+.promo-input{flex:1;background:var(--black3);border:1px solid var(--border);color:var(--cream);padding:10px 12px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:300;outline:none;transition:border-color .2s;letter-spacing:.5px;text-transform:uppercase}
+.promo-input::placeholder{text-transform:none;color:var(--muted)}
+.promo-input:focus{border-color:rgba(201,168,76,0.4)}
+.promo-btn{padding:10px 14px;background:var(--black3);border:1px solid var(--border);color:var(--gold);font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.promo-btn:hover{border-color:rgba(201,168,76,0.4)}
+.promo-feedback{font-size:11px;margin-top:6px;min-height:16px;letter-spacing:.5px;display:none}
+.promo-feedback.ok{display:block;color:#4CAF6B}
+.promo-feedback.err{display:block;color:#E07070}
+.cart-discount{display:flex;justify-content:space-between;font-size:12px;margin-bottom:8px}
+.cart-discount-lbl{color:var(--muted)}
+.cart-discount-v{color:#4CAF6B}
 .cart-sub{display:flex;justify-content:space-between;margin-bottom:16px;font-size:14px}
+
 .cart-sub-v{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold)}
 .btn-checkout{width:100%;padding:16px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;font-weight:500;margin-bottom:10px}
 .btn-wa{width:100%;padding:14px;background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.4);font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s}
@@ -491,10 +507,10 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     <li><a href="#nosotros">Nosotros</a></li>
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#recursos">Recursos</a></li>
-    <li><a href="mi-cuenta.html" style="color:var(--gold)">Mi Cuenta</a></li>
+    <li><a href="https://aurumpeptides.mitiendanube.com/account/" target="_blank" style="color:var(--gold)">Mi Cuenta</a></li>
   </ul>
   <div class="nav-right">
-    <a href="mi-cuenta.html" class="cart-btn" aria-label="Mi Cuenta" title="Mi Cuenta">
+    <a href="https://aurumpeptides.mitiendanube.com/account/" target="_blank" class="cart-btn" aria-label="Mi Cuenta" title="Mi Cuenta">
       <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </a>
     <button class="hbg" id="hbg" onclick="toggleMenu()" aria-label="Menú">
@@ -513,7 +529,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
   <a href="#nosotros" onclick="closeMenu()">Nosotros</a>
   <a href="#faq" onclick="closeMenu()">FAQ</a>
   <a href="#recursos" onclick="closeMenu()">Recursos</a>
-  <a href="mi-cuenta.html" style="color:var(--gold)" onclick="closeMenu()">Mi Cuenta</a>
+  <a href="https://aurumpeptides.mitiendanube.com/account/" target="_blank" style="color:var(--gold)" onclick="closeMenu()">Mi Cuenta</a>
   <button class="mob-cta" onclick="closeMenu();document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver péptidos</button>
 </div>
 
@@ -569,7 +585,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       </div>
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">BTLabs</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.5%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">WTSBX5G</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: wtsbx5g →</a></div>
       <a class="vml" href="peptide_detail.html?p=retatrutide">Ver información detallada →</a>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/28H5xsS" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price"><span id="reta-price">$1,699</span><small>MXN por vial</small></div>
         <button class="btn-add" id="reta-add">Agregar</button>
@@ -587,7 +602,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
         <span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--muted);text-decoration:line-through">$1,798</span>
         <span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#E07070;font-weight:500">BAC Water GRATIS</span>
       </div>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/1GXfc3a" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price">$1,699<small>MXN por pack</small></div>
         <button class="btn-add" onclick="addBundle()">Agregar</button>
@@ -604,7 +618,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <p class="p-desc">El secretagogo de GH más selectivo. Sin efecto sobre cortisol ni prolactina en modelos de investigación. Perfil excepcionalmente limpio.</p>
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Janoshik</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.926%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">#106236</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">26 FEB 2026</span></div><a class="cl" href="https://www.janoshik.com/verify/" target="_blank">Verificar: LA2JN96V9R73 →</a></div>
       <a class="vml" href="peptide_detail.html?p=ipamorelin">Ver información detallada →</a>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/1KrgeMi" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price">$949<small>MXN por vial</small></div>
         <button class="btn-add" onclick="openModal('Ipamorelin','5 mg · Polvo liofilizado',949)">Agregar</button>
@@ -621,7 +634,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <p class="p-desc">Coenzima investigada en reparación de ADN, producción de energía celular y procesos de longevidad. Presentación de alta concentración.</p>
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Janoshik</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">≥99%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">H2YBDF</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">2025</span></div><a class="cl" href="https://www.janoshik.com/verify/" target="_blank">Verificar: H2YBDFJG9UGP →</a></div>
       <a class="vml" href="peptide_detail.html?p=nad">Ver información detallada →</a>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/27YDc4H" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price">$1,190<small>MXN por vial</small></div>
         <button class="btn-add" onclick="openModal('NAD+','500 mg · Alta concentración',1190)">Agregar</button>
@@ -638,7 +650,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <p class="p-desc">Complejo tripeptídico cobre-péptido. Investigado en síntesis de colágeno, regeneración tisular y actividad antioxidante.</p>
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Krause Analytical</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">>99.9%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">kmbxy76</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">2025</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: kmbxy76 →</a></div>
       <a class="vml" href="peptide_detail.html?p=ghkcu">Ver información detallada →</a>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/2sakWxD" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price">$699<small>MXN por vial</small></div>
         <button class="btn-add" onclick="openModal('GHK-Cu','50 mg · Polvo liofilizado',699)">Agregar</button>
@@ -654,7 +665,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <div class="low-stock"></div>
       <p class="p-desc">Derivado del ADN mitocondrial humano. Investigado en regulación del metabolismo energético y sensibilidad a la insulina en tejido muscular.</p>
       <a class="vml" href="peptide_detail.html?p=motsc">Ver información detallada →</a>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/1V1XBHm" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price">$1,799<small>MXN por vial</small></div>
         <button class="btn-add" onclick="openModal('Mots-C','10 mg · Polvo liofilizado',1799)">Agregar</button>
@@ -671,7 +681,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <p class="p-desc">Tetrapéptido de penetración mitocondrial directa. Actúa en la membrana interna para reducir ROS y mejorar la función bioenergética.</p>
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">BTLabs</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.9%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">227CKAP</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">2025</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: 227ckap →</a></div>
       <a class="vml" href="peptide_detail.html?p=ss31">Ver información detallada →</a>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/1Ke46Hi" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price">$2,199<small>MXN por vial</small></div>
         <button class="btn-add" onclick="openModal('SS-31','10 mg · Elamipeptide',2199)">Agregar</button>
@@ -698,7 +707,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
         <a class="cl" id="tc-link" href="https://finnrick.com/verify" target="_blank">Verificar: j9f35yh →</a>
       </div>
       <a class="vml" href="peptide_detail.html?p=tirzepatide">Ver información detallada →</a>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/2t2891v" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price"><span id="tirze-price">$1,099</span><small>MXN por vial</small></div>
         <button class="btn-add" id="tirze-add">Agregar</button>
@@ -784,7 +792,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
         <button class="vb" id="bb5" onclick="selBac(5)">5 mL</button>
         <button class="vb" id="bb10" onclick="selBac(10)">10 mL</button>
       </div>
-      <a class="vml" style="color:var(--gold);font-weight:500" href="https://mpago.la/2SoDkcs" target="_blank">💳 Pagar con Mercado Pago →</a>
       <div class="p-foot">
         <div class="p-price"><span id="bac-price">$99</span><small>MXN por vial</small></div>
         <button class="btn-add" id="bac-add">Agregar</button>
@@ -852,7 +859,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <div class="rc-d">Calcula exactamente cuántos μL de agua bacteriostática usar para obtener tu concentración objetivo.</div>
       <div style="margin-top:16px">
         <div class="calc-grid">
-          <div class="calc-field"><label>Dosis deseada (μg)</label><input type="number" id="calc-dose" placeholder="100" oninput="calcRecon()"></div>
+          <div class="calc-field"><label>Dosis deseada (mg)</label><input type="number" id="calc-dose" placeholder="1" oninput="calcRecon()"></div>
           <div class="calc-field"><label>mg en el vial</label><input type="number" id="calc-mg" placeholder="10" oninput="calcRecon()"></div>
           <div class="calc-field"><label>Agua a añadir (mL)</label><input type="number" id="calc-ml" placeholder="2" oninput="calcRecon()"></div>
         </div>
@@ -945,7 +952,19 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <div id="ship-msg" style="color:var(--muted)"></div>
       <div class="ship-track"><div class="ship-fill" id="ship-fill"></div></div>
     </div>
-    <div class="cart-sub"><span>Subtotal</span><span class="cart-sub-v" id="cart-total">$0</span></div>
+    <!-- PROMO CODE -->
+    <div class="promo-wrap" id="promo-wrap" style="display:none">
+      <div class="promo-row">
+        <input class="promo-input" id="promo-input" type="text" placeholder="Código de descuento" maxlength="20" onkeydown="if(event.key==='Enter')applyPromoCode()">
+        <button class="promo-btn" onclick="applyPromoCode()">Aplicar</button>
+      </div>
+      <div class="promo-feedback" id="promo-feedback"></div>
+    </div>
+    <div class="cart-discount" id="cart-discount" style="display:none">
+      <span class="cart-discount-lbl">Descuento (<span id="discount-pct"></span>)</span>
+      <span class="cart-discount-v" id="discount-amt"></span>
+    </div>
+    <div class="cart-sub"><span>Total</span><span class="cart-sub-v" id="cart-total">$0</span></div>
     <button class="btn-checkout" onclick="checkout()">Proceder al pago</button>
     <button class="btn-wa" onclick="sendWhatsApp()">Pedir por WhatsApp</button>
   </div>
@@ -1400,6 +1419,22 @@ function exportCSV() {
 
 // ── BAC WATER WARNING ──
 function updateBacWarning() {
+  var promoWrap = document.getElementById('promo-wrap');
+  if (promoWrap) {
+    promoWrap.style.display = cart.length ? 'block' : 'none';
+    // Auto-show if promo already active via email registration
+    if (cart.length && activePromoCode && activePromoDiscount > 0) {
+      var inp = document.getElementById('promo-input');
+      var btn = document.querySelector('.promo-btn');
+      var fb = document.getElementById('promo-feedback');
+      if (inp && !inp.disabled) {
+        inp.value = activePromoCode;
+        inp.disabled = true;
+        if (btn) { btn.textContent = '✓ Aplicado'; btn.disabled = true; btn.style.opacity = '0.5'; }
+        if (fb) { fb.textContent = '✓ ' + Math.round(activePromoDiscount*100) + '% de descuento aplicado'; fb.className = 'promo-feedback ok'; }
+      }
+    }
+  }
   var warn = document.getElementById('bac-warning');
   if (!warn) return;
   // Check if cart has any peptide (non-BAC water item)
@@ -1747,7 +1782,6 @@ function notifyWhatsApp(shipping, orderRef) {
 }
 
 async function proceedToPayment(shipping) {
-  try { localStorage.setItem('aurum_last_shipping', JSON.stringify(shipping)); } catch(e) {}
   var btn = document.querySelector('.btn-checkout');
   if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; btn.style.opacity = '0.7'; }
   var orderRef = 'AURUM-' + Date.now();
@@ -1760,7 +1794,7 @@ async function proceedToPayment(shipping) {
     try { buyerEmail = localStorage.getItem('aurum_client_email'); } catch(e) {}
     var response = await fetch(NETLIFY_FUNCTION_URL + '/.netlify/functions/create-preference', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail}),
+      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail, promoCode:activePromoCode}),
     });
     if (!response.ok) throw new Error('Error servidor: '+response.status);
     var data = await response.json();
@@ -1774,10 +1808,50 @@ async function proceedToPayment(shipping) {
   }
 }
 
-function checkout() {
-  try { localStorage.setItem('aurum_last_cart', JSON.stringify(cart)); } catch(e) {}
-  openShipModal();
+
+
+// ── PROMO CODE INPUT (carrito) ──
+function applyPromoCode() {
+  var input = document.getElementById('promo-input');
+  var feedback = document.getElementById('promo-feedback');
+  var code = (input.value || '').trim().toUpperCase();
+  feedback.className = 'promo-feedback';
+  feedback.textContent = '';
+
+  if (!code) {
+    feedback.textContent = 'Ingresa un código de descuento.';
+    feedback.classList.add('err');
+    return;
+  }
+  // AURUM10 is only valid after email registration
+  if (code === 'AURUM10') {
+    var claimed = localStorage.getItem('aurum_promo_claimed');
+    if (!claimed) {
+      feedback.textContent = '✗ Regístrate para obtener este código.';
+      feedback.classList.add('err');
+      setTimeout(showEmailModal, 600);
+      return;
+    }
+  }
+  var VALID = { 'AURUM10': 0.10, 'BIENVENIDO': 0.15 };
+  var pct = VALID[code];
+  if (!pct) {
+    feedback.textContent = '✗ Código inválido o expirado.';
+    feedback.classList.add('err');
+    return;
+  }
+  activePromoCode = code;
+  activePromoDiscount = pct;
+  input.disabled = true;
+  document.querySelector('.promo-btn').textContent = '✓ Aplicado';
+  document.querySelector('.promo-btn').disabled = true;
+  document.querySelector('.promo-btn').style.opacity = '0.5';
+  feedback.textContent = '✓ ' + Math.round(pct * 100) + '% de descuento aplicado';
+  feedback.classList.add('ok');
+  renderCart();
 }
+
+function checkout() { openShipModal(); }
 
 // ── TOAST ──
 function showToast(msg) {
@@ -1797,14 +1871,16 @@ function toggleFaq(el) {
 
 // ── CALCULADORA ──
 function calcRecon() {
-  var dose = parseFloat(document.getElementById('calc-dose').value);
-  var mg   = parseFloat(document.getElementById('calc-mg').value);
-  var ml   = parseFloat(document.getElementById('calc-ml').value);
+  var dose = parseFloat(document.getElementById('calc-dose').value); // mg
+  var mg   = parseFloat(document.getElementById('calc-mg').value);   // mg en vial
+  var ml   = parseFloat(document.getElementById('calc-ml').value);   // mL agua añadida
   var out  = document.getElementById('calc-out');
-  if (!dose || !mg || !ml) { out.textContent = '—'; return; }
+  if (!dose || !mg || !ml || dose <= 0 || mg <= 0 || ml <= 0) { out.textContent = '—'; return; }
+  // Concentración resultante (mg/mL)
   var concMgPerMl = mg / ml;
-  var concUgPerMl = concMgPerMl * 1000;
-  var mlNeeded = dose / concUgPerMl;
+  // Volumen a extraer (mL)
+  var mlNeeded = dose / concMgPerMl;
+  // Jeringa U-100 = 100 unidades por mL
   var units = mlNeeded * 100;
   out.textContent = units.toFixed(1) + ' U';
 }
