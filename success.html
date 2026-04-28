@@ -4,70 +4,99 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pago confirmado — Aurum Peptides</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="favicon.png">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--gold:#C9A84C;--black:#0A0A08;--black2:#111110;--cream:#F5F0E8;--muted:#6B6B5E;--lite:#A8A290;--border:rgba(201,168,76,0.12)}
-body{background:var(--black);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A84C;--black:#0A0A08;--black2:#111110;
+  --cream:#F5F0E8;--muted:#6B6B5E;--lite:#A8A290;
+  --border:rgba(201,168,76,0.12);
+}
+html,body{height:100%}
+body{background:var(--black);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;position:relative}
+
+/* Back link top-left */
+.back-home{position:fixed;top:20px;left:24px;display:inline-flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:color .2s;z-index:10}
+.back-home svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.5;fill:none;flex-shrink:0}
+.back-home:hover{color:var(--gold)}
+
 .icon-wrap{width:80px;height:80px;border-radius:50%;border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 32px;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.2)}50%{box-shadow:0 0 0 12px rgba(201,168,76,0)}}
 .icon-wrap svg{width:36px;height:36px;stroke:var(--gold);stroke-width:1.5;fill:none}
 .tag{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
 h1{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,56px);font-weight:300;line-height:1.1;margin-bottom:16px}
 h1 em{font-style:italic;color:var(--gold)}
-.sub{font-size:15px;color:var(--lite);line-height:1.8;max-width:460px;margin:0 auto 40px}
-.order-box{background:var(--black2);border:1px solid var(--border);padding:24px 32px;max-width:440px;width:100%;margin:0 auto 40px;text-align:left}
-.ob-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(201,168,76,0.08);font-size:13px}
+.sub{font-size:14px;color:var(--lite);max-width:460px;line-height:1.75;margin-bottom:36px}
+.order-box{background:var(--black2);border:1px solid var(--border);padding:20px 24px;max-width:440px;width:100%;margin-bottom:8px;text-align:left;display:none}
+.order-box.show{display:block}
+.ob-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(201,168,76,0.06);font-size:12px}
 .ob-row:last-child{border-bottom:none}
-.ob-label{color:var(--muted)}.ob-value{color:var(--cream)}.ob-value.gold{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:18px}
-.pending{background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-left:3px solid var(--gold);padding:16px 20px;max-width:440px;width:100%;margin:0 auto 40px;text-align:left;font-size:13px;line-height:1.7;color:var(--lite)}
-.pending strong{color:var(--gold);font-weight:500}
-.actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:48px}
-.btn-g{padding:14px 32px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;font-weight:500;text-decoration:none;display:inline-block;transition:opacity .2s}
+.ob-key{color:var(--muted)}
+.ob-val{color:var(--cream);text-align:right;max-width:60%;word-break:break-all}
+.pending{font-size:11px;color:var(--muted);max-width:440px;margin-bottom:28px;line-height:1.6;display:none;padding:10px 14px;border:1px solid rgba(201,168,76,0.15)}
+.pending.show{display:block}
+.actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
+.btn-g{padding:14px 28px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;font-weight:500;text-decoration:none;display:inline-block;transition:opacity .2s}
 .btn-g:hover{opacity:.85}
-.btn-o{padding:14px 32px;background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.4);font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;display:inline-block}
-.brand{font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
-.gold-line{width:60px;height:1px;background:var(--gold);opacity:.3;margin:24px auto}
+.btn-o{padding:14px 28px;background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.4);font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.btn-o:hover{border-color:var(--gold);color:var(--cream)}
+.gold-line{width:40px;height:1px;background:rgba(201,168,76,0.3);margin:0 auto 20px}
+.brand{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.brand a{color:var(--muted);text-decoration:none;transition:color .2s}
+.brand a:hover{color:var(--gold)}
 </style>
 </head>
 <body>
-<div class="icon-wrap"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-<div class="tag">Pedido confirmado</div>
-<h1 id="heading">Pago <em>aprobado</em></h1>
-<p class="sub" id="sub">Tu pedido fue procesado exitosamente. Nos pondremos en contacto contigo pronto con los detalles de envio.</p>
-<div class="order-box" id="order-box" style="display:none">
-  <div class="ob-row"><span class="ob-label">Referencia</span><span class="ob-value" id="ob-ref">—</span></div>
-  <div class="ob-row"><span class="ob-label">Estado</span><span class="ob-value gold" id="ob-status">—</span></div>
-  <div class="ob-row"><span class="ob-label">Metodo</span><span class="ob-value" id="ob-method">—</span></div>
+
+<!-- Back to home link -->
+<a href="index.html" class="back-home">
+  <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+  Volver a la tienda
+</a>
+
+<div class="icon-wrap">
+  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
 </div>
-<div class="pending" id="pending-notice" style="display:none"><strong>Pago en proceso</strong><br>Si pagaste con OXXO o SPEI, tu pedido se confirma en cuanto recibamos el pago (1-2 horas). Guarda tu comprobante.</div>
+
+<div class="tag">Pedido confirmado</div>
+<h1>Pago <em>aprobado</em></h1>
+<p class="sub">Tu pedido fue procesado exitosamente. Nos pondremos en contacto contigo pronto con los detalles de envio.</p>
+
+<div class="order-box" id="order-box">
+  <div class="ob-row"><span class="ob-key">Referencia</span><span class="ob-val" id="ob-ref">—</span></div>
+  <div class="ob-row"><span class="ob-key">Total</span><span class="ob-val" id="ob-total">—</span></div>
+  <div class="ob-row"><span class="ob-key">Estatus</span><span class="ob-val" id="ob-status">Aprobado</span></div>
+</div>
+
+<div class="pending" id="pending-msg">
+  ⏳ Tu pago está en revisión. Recibirás confirmación por WhatsApp en breve.
+</div>
+
 <div class="actions">
   <a href="https://wa.me/526572844902?text=Hola%2C%20acabo%20de%20realizar%20un%20pedido%20en%20Aurum%20Peptides." class="btn-g" target="_blank">Confirmar envio por WhatsApp</a>
-  <a href="index.html" class="btn-o">Seguir comprando</a>
+  <a href="index.html" class="btn-o">← Seguir comprando</a>
 </div>
+
 <div class="gold-line"></div>
-<div class="brand">Aurum Peptides · aurumpeptides.mx</div>
+<div class="brand"><a href="index.html">Aurum Peptides · aurumpeptides.mx</a></div>
+
 <script>
 (function(){
-  var p=new URLSearchParams(window.location.search);
-  var status=p.get('collection_status')||p.get('status')||'approved';
-  var paymentId=p.get('collection_id')||p.get('payment_id')||'';
-  var extRef=p.get('external_reference')||'';
-  var payType=p.get('payment_type')||'';
-  if(status==='pending'||status==='in_process'){
-    document.getElementById('heading').innerHTML='Pedido <em>recibido</em>';
-    document.getElementById('sub').textContent='Tu pedido esta registrado. Solo falta confirmar tu pago.';
-    document.getElementById('pending-notice').style.display='block';
+  var params = new URLSearchParams(window.location.search);
+  var ref    = params.get('external_reference') || params.get('preference_id') || '';
+  var status = params.get('collection_status') || params.get('status') || '';
+  var total  = params.get('merchant_order_id') || '';
+
+  if (ref) {
+    document.getElementById('ob-ref').textContent = ref;
+    document.getElementById('order-box').classList.add('show');
   }
-  if(paymentId||extRef){
-    document.getElementById('order-box').style.display='block';
-    document.getElementById('ob-ref').textContent=extRef||paymentId||'—';
-    var sl={approved:'Aprobado',pending:'Pendiente',in_process:'En proceso'};
-    document.getElementById('ob-status').textContent=sl[status]||status;
-    var ml={credit_card:'Tarjeta credito',debit_card:'Tarjeta debito',ticket:'OXXO',bank_transfer:'SPEI'};
-    document.getElementById('ob-method').textContent=ml[payType]||'Mercado Pago';
+  if (status === 'pending' || status === 'in_process') {
+    document.getElementById('pending-msg').classList.add('show');
+    document.getElementById('ob-status').textContent = 'En revisión';
   }
-  try{localStorage.removeItem('aurum_cart');}catch(e){}
 })();
 </script>
 </body>

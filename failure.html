@@ -5,63 +5,80 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pago cancelado — Aurum Peptides</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="favicon.png">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --gold:#C9A84C;--black:#0A0A08;--black2:#111110;
+  --gold:#C9A84C;--black:#0A0A08;--black2:#111110;--black3:#1A1A16;
   --cream:#F5F0E8;--muted:#6B6B5E;--lite:#A8A290;
   --border:rgba(201,168,76,0.12);
 }
-body{background:var(--black);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center}
-.icon-wrap{width:80px;height:80px;border-radius:50%;border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 32px}
-.icon-wrap svg{width:36px;height:36px;stroke:var(--muted);stroke-width:1.5;fill:none}
-.tag{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,48px);font-weight:300;line-height:1.1;margin-bottom:16px}
-.sub{font-size:15px;color:var(--lite);line-height:1.8;max-width:420px;margin:0 auto 40px}
-.reasons{background:var(--black2);border:1px solid var(--border);padding:24px 32px;max-width:400px;width:100%;margin:0 auto 40px;text-align:left}
-.reasons h3{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
-.reasons ul{list-style:none}
-.reasons li{padding:8px 0;border-bottom:1px solid rgba(201,168,76,0.06);font-size:13px;color:var(--lite);display:flex;gap:10px}
-.reasons li::before{content:'→';color:var(--gold);flex-shrink:0}
-.reasons li:last-child{border-bottom:none}
-.actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:40px}
-.btn-g{padding:14px 32px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;font-weight:500;text-decoration:none;display:inline-block;transition:opacity .2s}
+html,body{height:100%}
+body{background:var(--black);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center;position:relative}
+
+/* Back link top-left */
+.back-home{position:fixed;top:20px;left:24px;display:inline-flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:color .2s;z-index:10}
+.back-home svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.5;fill:none;flex-shrink:0}
+.back-home:hover{color:var(--gold)}
+
+.icon-wrap{width:80px;height:80px;border-radius:50%;border:1px solid rgba(224,112,112,0.3);display:flex;align-items:center;justify-content:center;margin-bottom:28px}
+.icon-wrap svg{width:32px;height:32px;stroke:#E07070;stroke-width:1.5;fill:none}
+.tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#E07070;margin-bottom:16px}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,48px);font-weight:300;line-height:1.1;margin-bottom:16px}
+.sub{font-size:14px;color:var(--lite);max-width:480px;line-height:1.75;margin-bottom:36px}
+
+.reasons{background:var(--black2);border:1px solid var(--border);padding:24px 28px;max-width:480px;width:100%;margin-bottom:36px;text-align:left}
+.reasons-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;font-weight:500}
+.reason{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(201,168,76,0.06);font-size:13px;color:var(--lite)}
+.reason:last-child{border-bottom:none}
+.reason::before{content:'→';color:var(--gold);flex-shrink:0;margin-top:1px}
+
+.actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
+.btn-g{padding:14px 28px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;font-weight:500;text-decoration:none;display:inline-block;transition:opacity .2s}
 .btn-g:hover{opacity:.85}
-.btn-o{padding:14px 32px;background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.4);font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .2s}
-.btn-o:hover{border-color:var(--gold)}
-.brand{font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
-.gold-line{width:60px;height:1px;background:var(--gold);opacity:.3;margin:24px auto}
+.btn-o{padding:14px 28px;background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.4);font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.btn-o:hover{border-color:var(--gold);color:var(--cream)}
+
+.gold-line{width:40px;height:1px;background:rgba(201,168,76,0.3);margin:0 auto 20px}
+.brand{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.brand a{color:var(--muted);text-decoration:none;transition:color .2s}
+.brand a:hover{color:var(--gold)}
 </style>
 </head>
 <body>
+
+<!-- Back to home link -->
+<a href="index.html" class="back-home">
+  <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+  Volver a la tienda
+</a>
 
 <div class="icon-wrap">
   <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 </div>
 
 <div class="tag">Pago no completado</div>
-<h1>No pudimos procesar tu pago</h1>
+<h1>No pudimos procesar<br>tu pago</h1>
 <p class="sub">No te preocupes — tu carrito sigue intacto. Puedes intentarlo de nuevo o contactarnos por WhatsApp para ayudarte a completar tu pedido.</p>
 
 <div class="reasons">
-  <h3>Razones comunes</h3>
-  <ul>
-    <li>Fondos insuficientes en la tarjeta</li>
-    <li>Datos de tarjeta incorrectos</li>
-    <li>Límite de transacciones superado</li>
-    <li>Banco rechazó el cargo (llama a tu banco)</li>
-    <li>Cancelaste el proceso manualmente</li>
-  </ul>
+  <div class="reasons-title">Razones comunes</div>
+  <div class="reason">Fondos insuficientes en la tarjeta</div>
+  <div class="reason">Datos de tarjeta incorrectos</div>
+  <div class="reason">Límite de transacciones superado</div>
+  <div class="reason">Banco rechazó el cargo (llama a tu banco)</div>
+  <div class="reason">Cancelaste el proceso manualmente</div>
 </div>
 
 <div class="actions">
   <a href="javascript:history.back()" class="btn-g">Intentar de nuevo</a>
   <a href="https://wa.me/526572844902?text=Hola%2C%20tuve%20un%20problema%20al%20pagar%20en%20Aurum%20Peptides%2C%20%C2%BFme%20pueden%20ayudar%3F" class="btn-o" target="_blank">Ayuda por WhatsApp</a>
+  <a href="index.html" class="btn-o">← Ir a la tienda</a>
 </div>
 
 <div class="gold-line"></div>
-<div class="brand">Aurum Peptides · aurumpeptides.mx</div>
+<div class="brand"><a href="index.html">Aurum Peptides · aurumpeptides.mx</a></div>
 
 </body>
 </html>
