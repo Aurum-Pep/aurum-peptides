@@ -331,7 +331,351 @@ nav{height:60px;display:flex;align-items:center;justify-content:space-between;pa
 
 <script>
 // ── CONFIG ──
-var ADMIN_PASS = 'aurum2026admin';
+var ADMIN_PASS = 'Aurum2026Admin!@#
+var GAS_URL   = 'https://script.google.com/macros/s/AKfycbwIYuMzIQNVVeOi3R73ZhYH6ayW6vIW5vC6Gh66iDvE-3w6tPOaeH5L2-2Ch0N6V5qM/exec';
+var SECRET    = 'aurum2026secret';
+
+// ── AUTH ──
+var isAuth = false;
+function tryLogin() {
+  var pass = document.getElementById('admin-pass').value;
+  if (pass === ADMIN_PASS) {
+    isAuth = true;
+    document.getElementById('login-screen').style.display = 'none';
+    loadOrders(false);
+  } else {
+    document.getElementById('login-err').classList.add('show');
+    document.getElementById('admin-pass').value = '';
+  }
+}
+function logout() {
+  isAuth = false;
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+// ── DATA ──
+var allOrders = [];
+var currentSection = 'orders';
+
+var STATUS_MAP = {
+  pendiente:  { label:'Pago pendiente',cls:'b-pending' },
+  pagado:     { label:'Pagado',       cls:'b-processing' },
+  preparando: { label:'Preparando',   cls:'b-processing' },
+  enviado:    { label:'Enviado',      cls:'b-shipped' },
+  entregado:  { label:'Entregado',    cls:'b-delivered' },
+  cancelado:  { label:'Cancelado',    cls:'b-cancelled' },
+  unknown:    { label:'En proceso',   cls:'b-pending' },
+};
+
+// ── LOAD ──
+function loadOrders(showSpinner) {
+  if (showSpinner) {
+    var icon = document.getElementById('refresh-icon');
+    icon.classList.add('spinning');
+  }
+  fetch(GAS_URL + '?action=getAll&secret=' + SECRET)
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      allOrders = Array.isArray(data) ? data : (data.orders || []);
+      // Sort newest first
+      allOrders.sort(function(a,b){ return (b.dateTs||0) - (a.dateTs||0); });
+      updateStats();
+      renderTable(allOrders);
+      document.getElementById('last-sync').textContent = 'Actualizado: ' + new Date().toLocaleTimeString('es-MX');
+      if (showSpinner) document.getElementById('refresh-icon').classList.remove('spinning');
+    })
+    .catch(function(err) {
+      showToast('Error al cargar pedidos. Verifica la conexión.', 'error');
+      if (showSpinner) document.getElementById('refresh-icon').classList.remove('spinning');
+      document.getElementById('orders-tbody').innerHTML = '<tr class="loading-row"><td colspan="7" style="color:var(--red)">Error al cargar. <a href="#" onclick="loadOrders(true)" style="color:var(--gold)">Reintentar</a></td></tr>';
+    });
+}
+
+// ── STATS ──
+function updateStats() {
+  var total = allOrders.length;
+  var revenue = allOrders.reduce(function(s,o){ return s + (parseFloat(o.total)||0); }, 0);
+  var pending = allOrders.filter(function(o){ return !o.guia || o.guia === ''; }).length;
+  var shipped = allOrders.filter(function(o){ return o.status === 'enviado'; }).length;
+  var delivered = allOrders.filter(function(o){ return o.status === 'entregado'; }).length;
+  var cancelled = allOrders.filter(function(o){ return o.status === 'cancelado'; }).length;
+
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-revenue').textContent = '$' + revenue.toLocaleString('es-MX');
+  document.getElementById('stat-pending').textContent = pending;
+  document.getElementById('stat-delivered').textContent = delivered;
+  document.getElementById('sb-total').textContent = total;
+  document.getElementById('sb-pending').textContent = pending;
+  document.getElementById('sb-shipped').textContent = shipped;
+
+  if (total > 0) {
+    document.getElementById('stat-pending-pct').textContent = Math.round(pending/total*100) + '% del total';
+    document.getElementById('stat-delivered-pct').textContent = Math.round(delivered/total*100) + '% del total';
+  }
+}
+
+// ── RENDER TABLE ──
+function renderTable(orders) {
+  var tbody = document.getElementById('orders-tbody');
+  if (!orders.length) {
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="7">No hay pedidos para mostrar.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = orders.map(function(o) {
+    return buildRow(o);
+  }).join('');
+}
+
+function buildRow(o) {
+  var st = STATUS_MAP[o.status] || STATUS_MAP.unknown;
+  var total = o.total ? '$'+Number(o.total).toLocaleString('es-MX') : '—';
+  var clientName = (o.shipping && o.shipping.nombre) ? esc(o.shipping.nombre) : (o.name ? esc(o.name) : '—');
+  var clientPhone = (o.shipping && o.shipping.tel) ? esc(o.shipping.tel) : (o.tel ? esc(o.tel) : '');
+  var guiaHtml = o.guia ? '<span class="td-guia">'+esc(o.guia)+'</span><br><span style="font-size:10px;color:var(--muted)">'+esc(o.carrier||'')+'</span>' : '<span class="no-guia td-guia">Sin guía</span>';
+
+  return '<tr id="row-'+esc(o.ref)+'">' +
+    '<td><span class="td-ref" onclick="toggleExpand(\''+esc(o.ref)+'\')">'+esc(o.ref)+'</span></td>' +
+    '<td class="td-date">'+esc(o.date||'—')+'</td>' +
+    '<td class="td-client"><div class="client-name">'+clientName+'</div><div class="client-phone">'+clientPhone+'</div></td>' +
+    '<td class="td-total">'+total+'</td>' +
+    '<td><span class="badge '+st.cls+'"><span class="dot"></span>'+st.label+'</span></td>' +
+    '<td>'+guiaHtml+'</td>' +
+    '<td><button class="action-btn primary" onclick="toggleExpand(\''+esc(o.ref)+'\')">Editar</button></td>' +
+  '</tr>' +
+  '<tr class="expand-row" id="exp-'+esc(o.ref)+'"><td colspan="7" class="expand-cell">'+buildExpand(o)+'</td></tr>';
+}
+
+function buildExpand(o) {
+  var itemsList = '';
+  if (o.items && o.items.length) {
+    itemsList = o.items.map(function(it){ return '• '+esc(it.name)+' '+esc(it.dose||'')+' x'+(it.qty||1)+' — $'+Number(it.price).toLocaleString('es-MX'); }).join('<br>');
+  } else {
+    itemsList = '<em>No disponible</em>';
+  }
+
+  var shipInfo = '';
+  if (o.shipping) {
+    var s = o.shipping;
+    shipInfo = [s.nombre, s.tel, s.calle+' Col.'+s.colonia, s.ciudad+' '+s.estado+' CP '+s.cp].filter(Boolean).join('<br>');
+  }
+
+  var waLink = '';
+  if (o.shipping && o.shipping.tel) {
+    var tel = o.shipping.tel.replace(/\D/g,'');
+    if (tel.length === 10) tel = '52' + tel;
+    var msg = encodeURIComponent('Hola '+((o.shipping&&o.shipping.nombre)||'')+'! Tu pedido '+o.ref+' ya fue enviado. Tu guía es: '+(o.guia||'(pendiente)')+' con '+(o.carrier||'la paquetería')+'.');
+    waLink = '<a href="https://wa.me/'+tel+'?text='+msg+'" target="_blank" class="action-btn" style="display:inline-block;text-decoration:none;margin-top:4px">📱 Notificar cliente</a>';
+  }
+
+  return '<div class="expand-inner">' +
+    '<div class="expand-grid">' +
+      '<div>' +
+        '<div class="expand-section-title">Actualizar envío</div>' +
+        '<div class="field-group">' +
+          '<div class="field-label">Estatus del pedido</div>' +
+          '<select class="field-select" id="sel-status-'+esc(o.ref)+'">' +
+            ['pendiente','pagado','preparando','enviado','entregado','cancelado'].map(function(s){
+              return '<option value="'+s+'"'+(o.status===s?' selected':'')+'>'+(STATUS_MAP[s]||{label:s}).label+'</option>';
+            }).join('') +
+          '</select>' +
+        '</div>' +
+        '<div class="field-group">' +
+          '<div class="field-label">Número de guía</div>' +
+          '<div class="field-row">' +
+            '<input class="field-input" id="inp-guia-'+esc(o.ref)+'" type="text" value="'+esc(o.guia||'')+'" placeholder="Ej: 1234567890">' +
+          '</div>' +
+        '</div>' +
+        '<div class="field-group">' +
+          '<div class="field-label">Transportista</div>' +
+          '<select class="field-select" id="sel-carrier-'+esc(o.ref)+'">' +
+            ['Estafeta','FedEx','Redpack','DHL','Otro'].map(function(c){
+              var val = c.toLowerCase();
+              return '<option value="'+val+'"'+((o.carrier||'').toLowerCase()===val?' selected':'')+'>'+c+'</option>';
+            }).join('') +
+          '</select>' +
+        '</div>' +
+        '<div class="field-group">' +
+          '<div class="field-label">Nota interna</div>' +
+          '<input class="field-input" id="inp-note-'+esc(o.ref)+'" type="text" value="'+esc(o.note||'')+'" placeholder="Nota para el equipo...">' +
+        '</div>' +
+        '<div class="save-row">' +
+          '<button class="action-btn primary" onclick="saveOrder(\''+esc(o.ref)+'\')">Guardar cambios</button>' +
+          waLink +
+        '</div>' +
+        '<div class="update-status" id="ok-'+esc(o.ref)+'">✓ Guardado exitosamente</div>' +
+        '<div class="error-status" id="err-'+esc(o.ref)+'">Error al guardar. Intenta de nuevo.</div>' +
+      '</div>' +
+      '<div>' +
+        '<div class="expand-section-title">Información del pedido</div>' +
+        '<div class="items-mini" style="margin-bottom:14px">'+itemsList+'</div>' +
+        (shipInfo ? '<div class="expand-section-title" style="margin-top:14px">Dirección de envío</div><div class="shipping-info">'+shipInfo+'</div>' : '') +
+        (o.paymentId ? '<div style="margin-top:12px;font-size:11px;color:var(--muted)">Pago MP: #'+esc(o.paymentId)+'</div>' : '') +
+        (o.email ? '<div style="font-size:11px;color:var(--muted)">Email: '+esc(o.email)+'</div>' : '') +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+// ── TOGGLE EXPAND ──
+function toggleExpand(ref) {
+  var expRow = document.getElementById('exp-' + CSS.escape(ref));
+  var mainRow = document.getElementById('row-' + CSS.escape(ref));
+  if (!expRow) return;
+  var isOpen = expRow.classList.contains('show');
+  // Close all
+  document.querySelectorAll('.expand-row.show').forEach(function(r){ r.classList.remove('show'); });
+  document.querySelectorAll('#orders-tbody tr.expanded').forEach(function(r){ r.classList.remove('expanded'); });
+  if (!isOpen) {
+    expRow.classList.add('show');
+    if (mainRow) mainRow.classList.add('expanded');
+  }
+}
+
+// ── SAVE ORDER ──
+function saveOrder(ref) {
+  var status  = document.getElementById('sel-status-'+CSS.escape(ref)).value;
+  var guia    = document.getElementById('inp-guia-'+CSS.escape(ref)).value.trim();
+  var carrier = document.getElementById('sel-carrier-'+CSS.escape(ref)).value;
+  var note    = document.getElementById('inp-note-'+CSS.escape(ref)).value.trim();
+
+  var okEl  = document.getElementById('ok-'+CSS.escape(ref));
+  var errEl = document.getElementById('err-'+CSS.escape(ref));
+  okEl.classList.remove('show'); errEl.classList.remove('show');
+
+  // If guia added and status still 'pagado'/'preparando', auto-set to 'enviado'
+  if (guia && (status === 'pagado' || status === 'preparando')) status = 'enviado';
+  if (guia && status === 'pendiente') status = 'enviado';
+
+  var body = { action:'updateOrder', secret:SECRET, ref:ref, status:status, guia:guia, carrier:carrier, note:note };
+
+  fetch(GAS_URL, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(body),
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    if (data && data.success) {
+      okEl.classList.add('show');
+      // Update local data
+      var idx = allOrders.findIndex(function(o){ return o.ref === ref; });
+      if (idx >= 0) { allOrders[idx].status = status; allOrders[idx].guia = guia; allOrders[idx].carrier = carrier; allOrders[idx].note = note; }
+      updateStats();
+      // Refresh the badge in the row
+      var badge = document.querySelector('#row-'+CSS.escape(ref)+' .badge');
+      var st = STATUS_MAP[status] || STATUS_MAP.unknown;
+      if (badge) badge.className = 'badge '+st.cls;
+      if (badge) badge.innerHTML = '<span class="dot"></span>'+st.label;
+      var guiaCell = document.querySelector('#row-'+CSS.escape(ref)+' td:nth-child(6)');
+      if (guiaCell) {
+        guiaCell.innerHTML = guia ? '<span class="td-guia">'+esc(guia)+'</span><br><span style="font-size:10px;color:var(--muted)">'+esc(carrier)+'</span>' : '<span class="no-guia td-guia">Sin guía</span>';
+      }
+      showToast('✓ Pedido '+ref+' actualizado', 'success');
+      // Auto-update status select
+      var sel = document.getElementById('sel-status-'+CSS.escape(ref));
+      if (sel) sel.value = status;
+      setTimeout(function(){ okEl.classList.remove('show'); }, 3000);
+    } else {
+      errEl.classList.add('show');
+    }
+  })
+  .catch(function() { errEl.classList.add('show'); });
+}
+
+// ── FILTER ──
+function filterTable() {
+  var query = (document.getElementById('table-search').value || '').toLowerCase().trim();
+  var status = document.getElementById('filter-status').value;
+  var filtered = allOrders.filter(function(o) {
+    var matchSection = currentSection === 'orders' ? true :
+      currentSection === 'pending' ? (!o.guia || o.guia === '') :
+      currentSection === 'shipped' ? (o.status === 'enviado') : true;
+    var matchStatus = !status || o.status === status;
+    var matchQuery = !query ||
+      (o.ref && o.ref.toLowerCase().includes(query)) ||
+      (o.shipping && o.shipping.nombre && o.shipping.nombre.toLowerCase().includes(query)) ||
+      (o.name && o.name.toLowerCase().includes(query)) ||
+      (o.shipping && o.shipping.tel && o.shipping.tel.includes(query)) ||
+      (o.guia && o.guia.toLowerCase().includes(query));
+    return matchSection && matchStatus && matchQuery;
+  });
+  renderTable(filtered);
+}
+
+// ── SECTIONS ──
+function showSection(section) {
+  currentSection = section;
+  document.querySelectorAll('.sidebar-item').forEach(function(el){ el.classList.remove('active'); });
+  event && event.currentTarget && event.currentTarget.classList.add('active');
+  var titles = { orders:'Todos los pedidos', pending:'Sin guía de envío', shipped:'Pedidos enviados' };
+  document.getElementById('section-title').textContent = titles[section] || 'Pedidos';
+  filterTable();
+}
+
+// ── EXPORT CSV ──
+function exportCSV() {
+  var headers = ['Referencia','Fecha','Nombre','Teléfono','Total','Estatus','Guía','Transportista','Email','Nota'];
+  var rows = allOrders.map(function(o) {
+    var s = o.shipping || {};
+    return [o.ref, o.date||'', s.nombre||o.name||'', s.tel||o.tel||'', o.total||'', o.status||'', o.guia||'', o.carrier||'', o.email||'', o.note||'']
+      .map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; });
+  });
+  var csv = [headers.join(',')].concat(rows.map(function(r){ return r.join(','); })).join('\n');
+  var blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'aurum-pedidos-'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  showToast('CSV exportado', 'success');
+}
+
+// ── BULK UPDATE ──
+function openBulkModal() { document.getElementById('bulk-modal').classList.add('open'); }
+function closeBulkModal() { document.getElementById('bulk-modal').classList.remove('open'); }
+function processBulk() {
+  var raw = document.getElementById('bulk-data').value.trim();
+  if (!raw) return;
+  var lines = raw.split('\n').filter(Boolean);
+  var updates = lines.map(function(line) {
+    var parts = line.split(/[,\t]/);
+    return { ref:(parts[0]||'').trim(), guia:(parts[1]||'').trim(), carrier:(parts[2]||'').trim().toLowerCase(), status:(parts[3]||'enviado').trim() };
+  }).filter(function(u){ return u.ref; });
+
+  document.getElementById('bulk-result').textContent = 'Procesando '+updates.length+' registros...';
+  var promises = updates.map(function(u) {
+    return fetch(GAS_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'updateOrder',secret:SECRET,ref:u.ref,guia:u.guia,carrier:u.carrier,status:u.status}),
+    }).then(function(r){ return r.json(); });
+  });
+  Promise.all(promises).then(function() {
+    document.getElementById('bulk-result').textContent = '✓ '+updates.length+' pedidos actualizados.';
+    loadOrders(true);
+    setTimeout(closeBulkModal, 2000);
+  }).catch(function() {
+    document.getElementById('bulk-result').textContent = 'Error en la actualización masiva.';
+  });
+}
+
+// ── UTILS ──
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function showToast(msg, type) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast'+(type?' '+type:'');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+// ── AUTO REFRESH every 2 minutes ──
+setInterval(function(){ if (isAuth) loadOrders(false); }, 120000);
+</script>
+</body>
+</html>
+;
 var GAS_URL   = 'https://script.google.com/macros/s/AKfycbwIYuMzIQNVVeOi3R73ZhYH6ayW6vIW5vC6Gh66iDvE-3w6tPOaeH5L2-2Ch0N6V5qM/exec';
 var SECRET    = 'aurum2026secret';
 
