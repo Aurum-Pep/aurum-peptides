@@ -331,18 +331,17 @@ nav{height:60px;display:flex;align-items:center;justify-content:space-between;pa
 
 <script>
 // ── CONFIG ──
-var ADMIN_PASS = 'Aurum2026Admin!@#';
+var ADMIN_PASS = 'AurumPeptides2026';
 var SECRET    = 'aurum2026secret';
 
 // ── AUTH ──
 var isAuth = false;
 function tryLogin() {
   var pass = document.getElementById('admin-pass').value;
-var ADMIN_PASS = 'Aurum2026Admin!@#';
+  if (pass === ADMIN_PASS) {
     isAuth = true;
     document.getElementById('login-screen').style.display = 'none';
-    loadOrders(false);
-  } else {
+    else {
     document.getElementById('login-err').classList.add('show');
     document.getElementById('admin-pass').value = '';
   }
