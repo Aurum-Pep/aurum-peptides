@@ -1851,7 +1851,30 @@ function applyPromoCode() {
   renderCart();
 }
 
-function checkout() { openShipModal(); }
+async function checkout() {
+    if (!cart || cart.length === 0) { showToast('Tu carrito está vacío'); return; }
+    const btn = document.querySelector('.btn-checkout');
+    if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; }
+    try {
+          const resp = await fetch('/.netlify/functions/create-preference', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                            items: cart.map(i => ({ name: i.name, dose: i.dose || '', qty: i.qty, price: i.price })),
+                            buyerEmail: (document.getElementById('ship-email') || {}).value || ''
+                  })
+          });
+          const data = await resp.json();
+          if (!resp.ok) throw new Error(data.error || 'Error del servidor');
+          const url = data.checkoutUrl || data.init_point;
+          if (!url) throw new Error('No se recibió URL de pago');
+          window.location.href = url;
+    } catch(err) {
+          console.error('Checkout error:', err);
+          showToast('Error al procesar pago. Intenta de nuevo o usa WhatsApp.');
+          if (btn) { btn.textContent = 'Proceder al pago'; btn.disabled = false; }
+    }
+}
 
 // ── TOAST ──
 function showToast(msg) {
