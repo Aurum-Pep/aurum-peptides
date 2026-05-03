@@ -238,6 +238,10 @@ nav{height:60px;display:flex;align-items:center;justify-content:space-between;pa
       <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       WhatsApp clientes
     </a>
+    <div class="sidebar-section" style="margin-top:20px">INVENTARIO</div>
+      <div class="sidebar-item" onclick="showSection('inventario', event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8l-2 4h12l-2-4z"/></svg>svg> Stock
+      </div>
   </div>
 
   <!-- MAIN -->
@@ -613,6 +617,7 @@ function showSection(section) {
 
 // ── EXPORT CSV ──
 function exportCSV() {
+    if (section === 'inventario') { var s=document.getElementById('section-inventario'); if(s){s.style.display='block';} if(!_invLoaded)loadInventory(); return; }
   var headers = ['Referencia','Fecha','Nombre','Teléfono','Total','Estatus','Guía','Transportista','Email','Nota'];
   var rows = allOrders.map(function(o) {
     var s = o.shipping || {};
@@ -1699,9 +1704,133 @@ function showToast(msg, type) {
   t.classList.add('show');
   setTimeout(function(){ t.classList.remove('show'); }, 3000);
 }
+// ── INVENTARIO ──
+  var _inv = [], _invLoaded = false, _editingId = null;
 
+  async function loadInventory() {
+    document.getElementById('inv-loading').textContent = 'Cargando...';
+    try {
+      var r = await fetch('/.netlify/functions/inventory');
+      var d = await r.json();
+      if (!d.success) throw new Error(d.error);
+      _inv = d.inventory;
+      _invLoaded = true;
+      renderInventory();
+      document.getElementById('inv-updated').textContent = 'Actualizado: ' + new Date().toLocaleTimeString('es-MX');
+    } catch(e) {
+      document.getElementById('inv-loading').textContent = 'Error: ' + e.message;
+    }
+  }
+
+  function renderInventory() {
+    var tbody = document.getElementById('inv-tbody');
+    if (!tbody) return;
+    var inStock=0, lowStock=0, outStock=0;
+    var html = '';
+    _inv.forEach(function(p) {
+      var st = p.stock;
+      var color = st===0 ? 'var(--red)' : st<=3 ? 'var(--amber)' : 'var(--gold)';
+            var label = !p.activo ? 'Inactivo' : st===0 ? 'Sin stock' : st<=3 ? 'Stock bajo' : 'Disponible';
+                  if (p.activo) { if (st===0) outStock++; else inStock++; if (st>0 && st<=3) lowStock++; }
+                        var w = Math.min(100, (st/20)*100);
+                        html += '<tr onmouseover="this.style.background=\'rgba(201,168,76,0.03)\'" onmouseout="this.style.background=\'transparent\'">' +
+                                '<td style="padding:12px 20px;font-size:13px">' + p.nombre + '</td>td>' +
+                                '<td style="padding:12px;font-size:11px;color:var(--muted)">' + p.dosis + '</td>td>' +
+                                '<td style="padding:12px;text-align:center"><span style="font-size:18px;font-family:serif;color:' + color + '">' + st + '</span>span>' +
+                                        '<div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;margin:3px auto"><div style="width:' + w + '%;height:100%;background:' + color + ';border-radius:2px"></div>div></div>div></td>td>' +
+                                '<td style="padding:12px;text-align:center;font-size:11px;color:' + color + '">' + label + '</td>td>' +
+                                '<td style="padding:12px 20px;text-align:right"><button onclick="openInvModal(\'' + p.id + '\')" style="background:transparent;border:1px solid var(--border);color:var(--cream);padding:5px 12px;cursor:pointer;font-size:10px;letter-spacing:2px">EDITAR</button>button></td>td></tr>tr>';
+                      });
+                      tbody.innerHTML = html || '<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--muted)">Sin productos</td>td></tr>';
+                    var act = _inv.filter(function(p){return p.activo;}).length;
+                    if (document.getElementById('inv-stat-total')) document.getElementById('inv-stat-total').textContent = act;
+                    if (document.getElementById('inv-stat-in')) document.getElementById('inv-stat-in').textContent = inStock;
+                    if (document.getElementById('inv-stat-low')) document.getElementById('inv-stat-low').textContent = lowStock;
+                    if (document.getElementById('inv-stat-out')) document.getElementById('inv-stat-out').textContent = outStock;
+                  }
+                  
+                  function openInvModal(id) {
+                    var p = _inv.find(function(x){return x.id===id;});
+                    if (!p) return;
+                    _editingId = id;
+                    document.getElementById('inv-modal-name').textContent = p.nombre;
+                    document.getElementById('inv-modal-dose').textContent = p.dosis;
+                    document.getElementById('inv-modal-stock').value = p.stock;
+                    document.getElementById('inv-modal').style.display = 'flex';
+                  }
+                  
+                  function closeInvModal() {
+                    document.getElementById('inv-modal').style.display = 'none';
+                    _editingId = null;
+                  }
+                  
+                  async function saveInvStock() {
+                    if (!_editingId) return;
+                    var newStock = parseInt(document.getElementById('inv-modal-stock').value, 10);
+                    if (isNaN(newStock) || newStock < 0) return;
+                      try {
+                        var r = await fetch('/.netlify/functions/inventory', {
+                          method:'POST', headers:{'Content-Type':'application/json'},
+                          body: JSON.stringify({action:'update', productId:_editingId, stock:newStock})
+                        });
+                        var d = await r.json();
+                        if (!d.success) throw new Error(d.error);
+                        var p = _inv.find(function(x){return x.id===_editingId;});
+                        if (p) p.stock = newStock;
+                        renderInventory();
+                        closeInvModal();
+                        showToast('Stock actualizado');
+                      } catch(e) { alert('Error: '+e.message); }
+                    }
+                    
 // ── AUTO REFRESH every 2 minutes ──
 setInterval(function(){ if (isAuth) loadOrders(false); }, 120000);
+
+                      <!-- INVENTARIO SECTION -->
+                      <div id="inv-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:500;align-items:center;justify-content:center">
+                          <div style="background:var(--black2);border:1px solid var(--border);padding:28px;width:320px;border-radius:4px">
+                                <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;margin-bottom:4px" id="inv-modal-name"></div>div>
+                                <div style="font-size:11px;color:var(--muted);margin-bottom:20px" id="inv-modal-dose"></div>div>
+                                <label style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px">STOCK</label>label>
+                                <input id="inv-modal-stock" type="number" min="0" style="width:100%;background:var(--black);border:1px solid var(--border);color:var(--cream);padding:8px 12px;font-size:16px;border-radius:2px;outline:none;margin-bottom:20px">
+                                <div style="display:flex;gap:8px;justify-content:flex-end">
+                                        <button onclick="closeInvModal()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 16px;cursor:pointer;font-size:10px;letter-spacing:2px">CANCELAR</button>button>
+                                        <button onclick="saveInvStock()" style="background:var(--gold);color:var(--black);border:none;padding:8px 16px;cursor:pointer;font-size:10px;letter-spacing:2px;font-weight:500">GUARDAR</button>button>
+                                </div>div>
+                          </div>div>
+                      </div>div>
 </script>
+
+                      <div id="section-inventario" class="admin-section" style="display:none;padding:28px">
+                          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+                                <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300">Inventario</h2>h2>
+                                <div style="display:flex;gap:8px;align-items:center">
+                                        <span id="inv-updated" style="font-size:11px;color:var(--muted)"></span>span>
+                                        <button onclick="loadInventory()" style="background:transparent;border:1px solid var(--border);color:var(--cream);padding:7px 14px;cursor:pointer;font-size:10px;letter-spacing:2px">ACTUALIZAR</button>button>
+                                </div>div>
+                          </div>div>
+                          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px">
+                                <div class="stat-card"><div class="stat-num" id="inv-stat-total">-</div>div><div class="stat-label">ACTIVOS</div>div></div>div>
+                                <div class="stat-card"><div class="stat-num" id="inv-stat-in">-</div>div><div class="stat-label">EN STOCK</div>div></div>div>
+                                <div class="stat-card"><div class="stat-num" id="inv-stat-low" style="color:var(--amber)">-</div>div><div class="stat-label">STOCK BAJO</div>div></div>div>
+                                <div class="stat-card"><div class="stat-num" id="inv-stat-out" style="color:var(--red)">-</div>div><div class="stat-label">SIN STOCK</div>div></div>div>
+                          </div>div>
+                          <div style="background:var(--black2);border:1px solid var(--border);border-radius:4px">
+                                <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
+                                        <span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Control de Stock</span>span>
+                                        <span id="inv-loading" style="font-size:11px;color:var(--muted)"></span>span>
+                                </div>div>
+                                <table style="width:100%;border-collapse:collapse">
+                                        <thead><tr style="border-bottom:1px solid var(--border)">
+                                                <th style="text-align:left;padding:10px 20px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">PRODUCTO</th>th>
+                                                <th style="text-align:left;padding:10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">DOSIS</th>th>
+                                                <th style="text-align:center;padding:10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">STOCK</th>th>
+                                                <th style="text-align:center;padding:10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">ESTATUS</th>th>
+                                                <th style="text-align:right;padding:10px 20px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">AJUSTAR</th>th>
+                                        </tr>tr></thead>
+                                      <tbody id="inv-tbody"><tr><td colspan="5" style="text-align:center;padding:30px;color:var(--muted)">Cargando...</td>td></tr></tbody>tbody>
+                                </table>table>
+                          </div>div>
+                      </div>div></tr></thead>
 </body>
 </html>
