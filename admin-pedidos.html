@@ -345,8 +345,7 @@ function tryLogin() {
   if (pass === ADMIN_PASS) {
     isAuth = true;
     document.getElementById('login-screen').style.display = 'none';
-  }
-} else {
+  } else {
     document.getElementById('login-err').classList.add('show');
     document.getElementById('admin-pass').value = '';
   }
@@ -452,7 +451,7 @@ function buildExpand(o) {
   var itemsList = '';
   if (o.items && o.items.length) {
     itemsList = o.items.map(function(it){ return '• '+esc(it.name)+' '+esc(it.dose||'')+' x'+(it.qty||1)+' — $'+Number(it.price).toLocaleString('es-MX'); }).join('<br>');
-  } else {
+    } else {
     itemsList = '<em>No disponible</em>';
   }
 
@@ -578,7 +577,7 @@ function saveOrder(ref) {
       var sel = document.getElementById('sel-status-'+CSS.escape(ref));
       if (sel) sel.value = status;
       setTimeout(function(){ okEl.classList.remove('show'); }, 3000);
-    } else {
+      } else {
       errEl.classList.add('show');
     }
   })
@@ -687,7 +686,7 @@ var ADMIN_PASS = 'Aurum2026Admin!@#';
     isAuth = true;
     document.getElementById('login-screen').style.display = 'none';
     loadOrders(false);
-  } else {
+    } else {
     document.getElementById('login-err').classList.add('show');
     document.getElementById('admin-pass').value = '';
   }
@@ -793,7 +792,7 @@ function buildExpand(o) {
   var itemsList = '';
   if (o.items && o.items.length) {
     itemsList = o.items.map(function(it){ return '• '+esc(it.name)+' '+esc(it.dose||'')+' x'+(it.qty||1)+' — $'+Number(it.price).toLocaleString('es-MX'); }).join('<br>');
-  } else {
+    } else {
     itemsList = '<em>No disponible</em>';
   }
 
@@ -919,7 +918,7 @@ function saveOrder(ref) {
       var sel = document.getElementById('sel-status-'+CSS.escape(ref));
       if (sel) sel.value = status;
       setTimeout(function(){ okEl.classList.remove('show'); }, 3000);
-    } else {
+      } else {
       errEl.classList.add('show');
     }
   })
@@ -1026,7 +1025,7 @@ var ADMIN_PASS = 'Aurum2026Admin!@#';
     isAuth = true;
     document.getElementById('login-screen').style.display = 'none';
     loadOrders(false);
-  } else {
+    } else {
     document.getElementById('login-err').classList.add('show');
     document.getElementById('admin-pass').value = '';
   }
@@ -1132,7 +1131,7 @@ function buildExpand(o) {
   var itemsList = '';
   if (o.items && o.items.length) {
     itemsList = o.items.map(function(it){ return '• '+esc(it.name)+' '+esc(it.dose||'')+' x'+(it.qty||1)+' — $'+Number(it.price).toLocaleString('es-MX'); }).join('<br>');
-  } else {
+    } else {
     itemsList = '<em>No disponible</em>';
   }
 
@@ -1258,7 +1257,7 @@ function saveOrder(ref) {
       var sel = document.getElementById('sel-status-'+CSS.escape(ref));
       if (sel) sel.value = status;
       setTimeout(function(){ okEl.classList.remove('show'); }, 3000);
-    } else {
+      } else {
       errEl.classList.add('show');
     }
   })
@@ -1366,7 +1365,7 @@ var ADMIN_PASS = 'Aurum2026Admin!@#';
     isAuth = true;
     document.getElementById('login-screen').style.display = 'none';
     loadOrders(false);
-  } else {
+    } else {
     document.getElementById('login-err').classList.add('show');
     document.getElementById('admin-pass').value = '';
   }
@@ -1472,7 +1471,7 @@ function buildExpand(o) {
   var itemsList = '';
   if (o.items && o.items.length) {
     itemsList = o.items.map(function(it){ return '• '+esc(it.name)+' '+esc(it.dose||'')+' x'+(it.qty||1)+' — $'+Number(it.price).toLocaleString('es-MX'); }).join('<br>');
-  } else {
+    } else {
     itemsList = '<em>No disponible</em>';
   }
 
@@ -1598,7 +1597,7 @@ function saveOrder(ref) {
       var sel = document.getElementById('sel-status-'+CSS.escape(ref));
       if (sel) sel.value = status;
       setTimeout(function(){ okEl.classList.remove('show'); }, 3000);
-    } else {
+      } else {
       errEl.classList.add('show');
     }
   })
