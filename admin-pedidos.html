@@ -1702,12 +1702,11 @@ function showToast(msg, type) {
       if (!d.success) throw new Error(d.error);
       _inv = d.inventory;
       _invLoaded = true;
-      renderInventory();
+            renderInventory();
       document.getElementById('inv-updated').textContent = 'Actualizado: ' + new Date().toLocaleTimeString('es-MX');
     } catch(e) {
       document.getElementById('inv-loading').textContent = 'Error: ' + e.message;
-    }
-  }
+          
 
   function renderInventory() {
     var tbody = document.getElementById('inv-tbody');
