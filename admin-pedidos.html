@@ -12,7 +12,7 @@
   --gold:#C9A84C;--gold2:rgba(201,168,76,0.15);--gold3:rgba(201,168,76,0.07);
   --black:#0A0A08;--black2:#111110;--black3:#191917;--black4:#0D0D0B;
   --cream:#F5F0E8;--muted:#6B6B5E;--lite:#A8A290;
-  --border:rgba(201,168,76,0.12);--border2:rgba(201,168,76,0h.3);
+  --border:rgba(201,168,76,0.12);--border2:rgba(201,168,76,0.3);
   --green:#4CAF6B;--green2:rgba(76,175,107,0.12);
   --amber:#E8A83C;--amber2:rgba(232,168,60,0.12);
   --red:#E07070;--red2:rgba(224,112,112,0.1);
@@ -238,12 +238,13 @@ nav{height:60px;display:flex;align-items:center;justify-content:space-between;pa
       <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       WhatsApp clientes
     </a>
-    <div class="sidebar-section" style="margin-top:20px">INVENTARIO</div>
-      <div class="sidebar-item" onclick="showSection('inventario', event)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8l-2 4h12l-2-4z"/></svg>svg> Stock
-      </div>
   </div>
 
+  <div class="sidebar-section" style="margin-top:20px">INVENTARIO</div>
+  <div class="sidebar-item" onclick="showSection('inventario', event)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8l-2 4h12l-2-4z"/></svg>
+    Stock
+  </div>
   <!-- MAIN -->
   <div class="admin-main">
 
@@ -345,6 +346,358 @@ function tryLogin() {
   if (pass === ADMIN_PASS) {
     isAuth = true;
     document.getElementById('login-screen').style.display = 'none';
+  }
+    else {
+    document.getElementById('login-err').classList.add('show');
+    document.getElementById('admin-pass').value = '';
+  }
+}
+function logout() {
+  isAuth = false;
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+// ── DATA ──
+var allOrders = [];
+var currentSection = 'orders';
+
+var STATUS_MAP = {
+  pendiente:  { label:'Pago pendiente',cls:'b-pending' },
+  pagado:     { label:'Pagado',       cls:'b-processing' },
+  preparando: { label:'Preparando',   cls:'b-processing' },
+  enviado:    { label:'Enviado',      cls:'b-shipped' },
+  entregado:  { label:'Entregado',    cls:'b-delivered' },
+  cancelado:  { label:'Cancelado',    cls:'b-cancelled' },
+  unknown:    { label:'En proceso',   cls:'b-pending' },
+};
+
+// ── LOAD ──
+function loadOrders(showSpinner) {
+  if (showSpinner) {
+    var icon = document.getElementById('refresh-icon');
+    icon.classList.add('spinning');
+  }
+  fetch(GAS_URL + '?action=getAll&secret=' + SECRET)
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      allOrders = Array.isArray(data) ? data : (data.orders || []);
+      // Sort newest first
+      allOrders.sort(function(a,b){ return (b.dateTs||0) - (a.dateTs||0); });
+      updateStats();
+      renderTable(allOrders);
+      document.getElementById('last-sync').textContent = 'Actualizado: ' + new Date().toLocaleTimeString('es-MX');
+      if (showSpinner) document.getElementById('refresh-icon').classList.remove('spinning');
+    })
+    .catch(function(err) {
+      showToast('Error al cargar pedidos. Verifica la conexión.', 'error');
+      if (showSpinner) document.getElementById('refresh-icon').classList.remove('spinning');
+      document.getElementById('orders-tbody').innerHTML = '<tr class="loading-row"><td colspan="7" style="color:var(--red)">Error al cargar. <a href="#" onclick="loadOrders(true)" style="color:var(--gold)">Reintentar</a></td></tr>';
+    });
+}
+
+// ── STATS ──
+function updateStats() {
+  var total = allOrders.length;
+  var revenue = allOrders.reduce(function(s,o){ return s + (parseFloat(o.total)||0); }, 0);
+  var pending = allOrders.filter(function(o){ return !o.guia || o.guia === ''; }).length;
+  var shipped = allOrders.filter(function(o){ return o.status === 'enviado'; }).length;
+  var delivered = allOrders.filter(function(o){ return o.status === 'entregado'; }).length;
+  var cancelled = allOrders.filter(function(o){ return o.status === 'cancelado'; }).length;
+
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-revenue').textContent = '$' + revenue.toLocaleString('es-MX');
+  document.getElementById('stat-pending').textContent = pending;
+  document.getElementById('stat-delivered').textContent = delivered;
+  document.getElementById('sb-total').textContent = total;
+  document.getElementById('sb-pending').textContent = pending;
+  document.getElementById('sb-shipped').textContent = shipped;
+
+  if (total > 0) {
+    document.getElementById('stat-pending-pct').textContent = Math.round(pending/total*100) + '% del total';
+    document.getElementById('stat-delivered-pct').textContent = Math.round(delivered/total*100) + '% del total';
+  }
+}
+
+// ── RENDER TABLE ──
+function renderTable(orders) {
+  var tbody = document.getElementById('orders-tbody');
+  if (!orders.length) {
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="7">No hay pedidos para mostrar.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = orders.map(function(o) {
+    return buildRow(o);
+  }).join('');
+}
+
+function buildRow(o) {
+  var st = STATUS_MAP[o.status] || STATUS_MAP.unknown;
+  var total = o.total ? '$'+Number(o.total).toLocaleString('es-MX') : '—';
+  var clientName = (o.shipping && o.shipping.nombre) ? esc(o.shipping.nombre) : (o.name ? esc(o.name) : '—');
+  var clientPhone = (o.shipping && o.shipping.tel) ? esc(o.shipping.tel) : (o.tel ? esc(o.tel) : '');
+  var guiaHtml = o.guia ? '<span class="td-guia">'+esc(o.guia)+'</span><br><span style="font-size:10px;color:var(--muted)">'+esc(o.carrier||'')+'</span>' : '<span class="no-guia td-guia">Sin guía</span>';
+
+  return '<tr id="row-'+esc(o.ref)+'">' +
+    '<td><span class="td-ref" onclick="toggleExpand(\''+esc(o.ref)+'\')">'+esc(o.ref)+'</span></td>' +
+    '<td class="td-date">'+esc(o.date||'—')+'</td>' +
+    '<td class="td-client"><div class="client-name">'+clientName+'</div><div class="client-phone">'+clientPhone+'</div></td>' +
+    '<td class="td-total">'+total+'</td>' +
+    '<td><span class="badge '+st.cls+'"><span class="dot"></span>'+st.label+'</span></td>' +
+    '<td>'+guiaHtml+'</td>' +
+    '<td><button class="action-btn primary" onclick="toggleExpand(\''+esc(o.ref)+'\')">Editar</button></td>' +
+  '</tr>' +
+  '<tr class="expand-row" id="exp-'+esc(o.ref)+'"><td colspan="7" class="expand-cell">'+buildExpand(o)+'</td></tr>';
+}
+
+function buildExpand(o) {
+  var itemsList = '';
+  if (o.items && o.items.length) {
+    itemsList = o.items.map(function(it){ return '• '+esc(it.name)+' '+esc(it.dose||'')+' x'+(it.qty||1)+' — $'+Number(it.price).toLocaleString('es-MX'); }).join('<br>');
+  } else {
+    itemsList = '<em>No disponible</em>';
+  }
+
+  var shipInfo = '';
+  if (o.shipping) {
+    var s = o.shipping;
+    shipInfo = [s.nombre, s.tel, s.calle+' Col.'+s.colonia, s.ciudad+' '+s.estado+' CP '+s.cp].filter(Boolean).join('<br>');
+  }
+
+  var waLink = '';
+  if (o.shipping && o.shipping.tel) {
+    var tel = o.shipping.tel.replace(/\D/g,'');
+    if (tel.length === 10) tel = '52' + tel;
+    var msg = encodeURIComponent('Hola '+((o.shipping&&o.shipping.nombre)||'')+'! Tu pedido '+o.ref+' ya fue enviado. Tu guía es: '+(o.guia||'(pendiente)')+' con '+(o.carrier||'la paquetería')+'.');
+    waLink = '<a href="https://wa.me/'+tel+'?text='+msg+'" target="_blank" class="action-btn" style="display:inline-block;text-decoration:none;margin-top:4px">📱 Notificar cliente</a>';
+  }
+
+  return '<div class="expand-inner">' +
+    '<div class="expand-grid">' +
+      '<div>' +
+        '<div class="expand-section-title">Actualizar envío</div>' +
+        '<div class="field-group">' +
+          '<div class="field-label">Estatus del pedido</div>' +
+          '<select class="field-select" id="sel-status-'+esc(o.ref)+'">' +
+            ['pendiente','pagado','preparando','enviado','entregado','cancelado'].map(function(s){
+              return '<option value="'+s+'"'+(o.status===s?' selected':'')+'>'+(STATUS_MAP[s]||{label:s}).label+'</option>';
+            }).join('') +
+          '</select>' +
+        '</div>' +
+        '<div class="field-group">' +
+          '<div class="field-label">Número de guía</div>' +
+          '<div class="field-row">' +
+            '<input class="field-input" id="inp-guia-'+esc(o.ref)+'" type="text" value="'+esc(o.guia||'')+'" placeholder="Ej: 1234567890">' +
+          '</div>' +
+        '</div>' +
+        '<div class="field-group">' +
+          '<div class="field-label">Transportista</div>' +
+          '<select class="field-select" id="sel-carrier-'+esc(o.ref)+'">' +
+            ['Estafeta','FedEx','Redpack','DHL','Otro'].map(function(c){
+              var val = c.toLowerCase();
+              return '<option value="'+val+'"'+((o.carrier||'').toLowerCase()===val?' selected':'')+'>'+c+'</option>';
+            }).join('') +
+          '</select>' +
+        '</div>' +
+        '<div class="field-group">' +
+          '<div class="field-label">Nota interna</div>' +
+          '<input class="field-input" id="inp-note-'+esc(o.ref)+'" type="text" value="'+esc(o.note||'')+'" placeholder="Nota para el equipo...">' +
+        '</div>' +
+        '<div class="save-row">' +
+          '<button class="action-btn primary" onclick="saveOrder(\''+esc(o.ref)+'\')">Guardar cambios</button>' +
+          waLink +
+        '</div>' +
+        '<div class="update-status" id="ok-'+esc(o.ref)+'">✓ Guardado exitosamente</div>' +
+        '<div class="error-status" id="err-'+esc(o.ref)+'">Error al guardar. Intenta de nuevo.</div>' +
+      '</div>' +
+      '<div>' +
+        '<div class="expand-section-title">Información del pedido</div>' +
+        '<div class="items-mini" style="margin-bottom:14px">'+itemsList+'</div>' +
+        (shipInfo ? '<div class="expand-section-title" style="margin-top:14px">Dirección de envío</div><div class="shipping-info">'+shipInfo+'</div>' : '') +
+        (o.paymentId ? '<div style="margin-top:12px;font-size:11px;color:var(--muted)">Pago MP: #'+esc(o.paymentId)+'</div>' : '') +
+        (o.email ? '<div style="font-size:11px;color:var(--muted)">Email: '+esc(o.email)+'</div>' : '') +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+// ── TOGGLE EXPAND ──
+function toggleExpand(ref) {
+  var expRow = document.getElementById('exp-' + CSS.escape(ref));
+  var mainRow = document.getElementById('row-' + CSS.escape(ref));
+  if (!expRow) return;
+  var isOpen = expRow.classList.contains('show');
+  // Close all
+  document.querySelectorAll('.expand-row.show').forEach(function(r){ r.classList.remove('show'); });
+  document.querySelectorAll('#orders-tbody tr.expanded').forEach(function(r){ r.classList.remove('expanded'); });
+  if (!isOpen) {
+    expRow.classList.add('show');
+    if (mainRow) mainRow.classList.add('expanded');
+  }
+}
+
+// ── SAVE ORDER ──
+function saveOrder(ref) {
+  var status  = document.getElementById('sel-status-'+CSS.escape(ref)).value;
+  var guia    = document.getElementById('inp-guia-'+CSS.escape(ref)).value.trim();
+  var carrier = document.getElementById('sel-carrier-'+CSS.escape(ref)).value;
+  var note    = document.getElementById('inp-note-'+CSS.escape(ref)).value.trim();
+
+  var okEl  = document.getElementById('ok-'+CSS.escape(ref));
+  var errEl = document.getElementById('err-'+CSS.escape(ref));
+  okEl.classList.remove('show'); errEl.classList.remove('show');
+
+  // If guia added and status still 'pagado'/'preparando', auto-set to 'enviado'
+  if (guia && (status === 'pagado' || status === 'preparando')) status = 'enviado';
+  if (guia && status === 'pendiente') status = 'enviado';
+
+  var body = { action:'updateOrder', secret:SECRET, ref:ref, status:status, guia:guia, carrier:carrier, note:note };
+
+  fetch(GAS_URL, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(body),
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    if (data && data.success) {
+      okEl.classList.add('show');
+      // Update local data
+      var idx = allOrders.findIndex(function(o){ return o.ref === ref; });
+      if (idx >= 0) { allOrders[idx].status = status; allOrders[idx].guia = guia; allOrders[idx].carrier = carrier; allOrders[idx].note = note; }
+      updateStats();
+      // Refresh the badge in the row
+      var badge = document.querySelector('#row-'+CSS.escape(ref)+' .badge');
+      var st = STATUS_MAP[status] || STATUS_MAP.unknown;
+      if (badge) badge.className = 'badge '+st.cls;
+      if (badge) badge.innerHTML = '<span class="dot"></span>'+st.label;
+      var guiaCell = document.querySelector('#row-'+CSS.escape(ref)+' td:nth-child(6)');
+      if (guiaCell) {
+        guiaCell.innerHTML = guia ? '<span class="td-guia">'+esc(guia)+'</span><br><span style="font-size:10px;color:var(--muted)">'+esc(carrier)+'</span>' : '<span class="no-guia td-guia">Sin guía</span>';
+      }
+      showToast('✓ Pedido '+ref+' actualizado', 'success');
+      // Auto-update status select
+      var sel = document.getElementById('sel-status-'+CSS.escape(ref));
+      if (sel) sel.value = status;
+      setTimeout(function(){ okEl.classList.remove('show'); }, 3000);
+    } else {
+      errEl.classList.add('show');
+    }
+  })
+  .catch(function() { errEl.classList.add('show'); });
+}
+
+// ── FILTER ──
+function filterTable() {
+  var query = (document.getElementById('table-search').value || '').toLowerCase().trim();
+  var status = document.getElementById('filter-status').value;
+  var filtered = allOrders.filter(function(o) {
+    var matchSection = currentSection === 'orders' ? true :
+      currentSection === 'pending' ? (!o.guia || o.guia === '') :
+      currentSection === 'shipped' ? (o.status === 'enviado') : true;
+    var matchStatus = !status || o.status === status;
+    var matchQuery = !query ||
+      (o.ref && o.ref.toLowerCase().includes(query)) ||
+      (o.shipping && o.shipping.nombre && o.shipping.nombre.toLowerCase().includes(query)) ||
+      (o.name && o.name.toLowerCase().includes(query)) ||
+      (o.shipping && o.shipping.tel && o.shipping.tel.includes(query)) ||
+      (o.guia && o.guia.toLowerCase().includes(query));
+    return matchSection && matchStatus && matchQuery;
+  });
+  renderTable(filtered);
+}
+
+// ── SECTIONS ──
+function showSection(section) {
+  var invSec = document.getElementById('section-inventario'); if(invSec) invSec.style.display='none';
+  currentSection = section;
+  document.querySelectorAll('.sidebar-item').forEach(function(el){ el.classList.remove('active'); });
+  event && event.currentTarget && event.currentTarget.classList.add('active');
+  var titles = { orders:'Todos los pedidos', pending:'Sin guía de envío', shipped:'Pedidos enviados' };
+  document.getElementById('section-title').textContent = titles[section] || 'Pedidos';
+  if (section === 'inventario') {
+    var s = document.getElementById('section-inventario');
+    if (s) { s.style.display = 'block'; }
+    if (!_invLoaded) loadInventory();
+    return;
+  }
+  filterTable();
+}
+
+// ── EXPORT CSV ──
+function exportCSV() {
+  var headers = ['Referencia','Fecha','Nombre','Teléfono','Total','Estatus','Guía','Transportista','Email','Nota'];
+  var rows = allOrders.map(function(o) {
+    var s = o.shipping || {};
+    return [o.ref, o.date||'', s.nombre||o.name||'', s.tel||o.tel||'', o.total||'', o.status||'', o.guia||'', o.carrier||'', o.email||'', o.note||'']
+      .map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; });
+  });
+  var csv = [headers.join(',')].concat(rows.map(function(r){ return r.join(','); })).join('\n');
+  var blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'aurum-pedidos-'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  showToast('CSV exportado', 'success');
+}
+
+// ── BULK UPDATE ──
+function openBulkModal() { document.getElementById('bulk-modal').classList.add('open'); }
+function closeBulkModal() { document.getElementById('bulk-modal').classList.remove('open'); }
+function processBulk() {
+  var raw = document.getElementById('bulk-data').value.trim();
+  if (!raw) return;
+  var lines = raw.split('\n').filter(Boolean);
+  var updates = lines.map(function(line) {
+    var parts = line.split(/[,\t]/);
+    return { ref:(parts[0]||'').trim(), guia:(parts[1]||'').trim(), carrier:(parts[2]||'').trim().toLowerCase(), status:(parts[3]||'enviado').trim() };
+  }).filter(function(u){ return u.ref; });
+
+  document.getElementById('bulk-result').textContent = 'Procesando '+updates.length+' registros...';
+  var promises = updates.map(function(u) {
+    return fetch(GAS_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'updateOrder',secret:SECRET,ref:u.ref,guia:u.guia,carrier:u.carrier,status:u.status}),
+    }).then(function(r){ return r.json(); });
+  });
+  Promise.all(promises).then(function() {
+    document.getElementById('bulk-result').textContent = '✓ '+updates.length+' pedidos actualizados.';
+    loadOrders(true);
+    setTimeout(closeBulkModal, 2000);
+  }).catch(function() {
+    document.getElementById('bulk-result').textContent = 'Error en la actualización masiva.';
+  });
+}
+
+// ── UTILS ──
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function showToast(msg, type) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast'+(type?' '+type:'');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+// ── AUTO REFRESH every 2 minutes ──
+setInterval(function(){ if (isAuth) loadOrders(false); }, 120000);
+</script>
+</body>
+</html>
+;
+var GAS_URL   = 'https://script.google.com/macros/s/AKfycbwIYuMzIQNVVeOi3R73ZhYH6ayW6vIW5vC6Gh66iDvE-3w6tPOaeH5L2-2Ch0N6V5qM/exec';
+var SECRET    = 'aurum2026secret';
+
+// ── AUTH ──
+var isAuth = false;
+function tryLogin() {
+  var pass = document.getElementById('admin-pass').value;
+var ADMIN_PASS = 'Aurum2026Admin!@#';
+    isAuth = true;
+    document.getElementById('login-screen').style.display = 'none';
+    loadOrders(false);
   } else {
     document.getElementById('login-err').classList.add('show');
     document.getElementById('admin-pass').value = '';
@@ -451,7 +804,7 @@ function buildExpand(o) {
   var itemsList = '';
   if (o.items && o.items.length) {
     itemsList = o.items.map(function(it){ return '• '+esc(it.name)+' '+esc(it.dose||'')+' x'+(it.qty||1)+' — $'+Number(it.price).toLocaleString('es-MX'); }).join('<br>');
-    } else {
+  } else {
     itemsList = '<em>No disponible</em>';
   }
 
@@ -577,7 +930,7 @@ function saveOrder(ref) {
       var sel = document.getElementById('sel-status-'+CSS.escape(ref));
       if (sel) sel.value = status;
       setTimeout(function(){ okEl.classList.remove('show'); }, 3000);
-      } else {
+    } else {
       errEl.classList.add('show');
     }
   })
@@ -616,7 +969,6 @@ function showSection(section) {
 
 // ── EXPORT CSV ──
 function exportCSV() {
-    if (section === 'inventario') { var s=document.getElementById('section-inventario'); if(s){s.style.display='block';} if(!_invLoaded)loadInventory(); return; }
   var headers = ['Referencia','Fecha','Nombre','Teléfono','Total','Estatus','Guía','Transportista','Email','Nota'];
   var rows = allOrders.map(function(o) {
     var s = o.shipping || {};
@@ -675,6 +1027,353 @@ function showToast(msg, type) {
 
 // ── AUTO REFRESH every 2 minutes ──
 setInterval(function(){ if (isAuth) loadOrders(false); }, 120000);
+</script>
+</body>
+</html>
+;https://script.google.com/macros/s/AKfycbwIYuMzIQNVVeOi3R73ZhYH6ayW6vIW5vC6Gh66iDvE-3w6tPOaeH5L2-2Ch0N6V5qM/exec';
+var SECRET    = 'aurum2026secret';
+
+// ── AUTH ──
+var isAuth = false;
+function tryLogin() {
+  var pass = document.getElementById('admin-pass').value;
+var ADMIN_PASS = 'Aurum2026Admin!@#';
+    isAuth = true;
+    document.getElementById('login-screen').style.display = 'none';
+    loadOrders(false);
+  } else {
+    document.getElementById('login-err').classList.add('show');
+    document.getElementById('admin-pass').value = '';
+  }
+}
+function logout() {
+  isAuth = false;
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+// ── DATA ──
+var allOrders = [];
+var currentSection = 'orders';
+
+var STATUS_MAP = {
+  pendiente:  { label:'Pago pendiente',cls:'b-pending' },
+  pagado:     { label:'Pagado',       cls:'b-processing' },
+  preparando: { label:'Preparando',   cls:'b-processing' },
+  enviado:    { label:'Enviado',      cls:'b-shipped' },
+  entregado:  { label:'Entregado',    cls:'b-delivered' },
+  cancelado:  { label:'Cancelado',    cls:'b-cancelled' },
+  unknown:    { label:'En proceso',   cls:'b-pending' },
+};
+
+// ── LOAD ──
+function loadOrders(showSpinner) {
+  if (showSpinner) {
+    var icon = document.getElementById('refresh-icon');
+    icon.classList.add('spinning');
+  }
+  fetch(GAS_URL + '?action=getAll&secret=' + SECRET)
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      allOrders = Array.isArray(data) ? data : (data.orders || []);
+      // Sort newest first
+      allOrders.sort(function(a,b){ return (b.dateTs||0) - (a.dateTs||0); });
+      updateStats();
+      renderTable(allOrders);
+      document.getElementById('last-sync').textContent = 'Actualizado: ' + new Date().toLocaleTimeString('es-MX');
+      if (showSpinner) document.getElementById('refresh-icon').classList.remove('spinning');
+    })
+    .catch(function(err) {
+      showToast('Error al cargar pedidos. Verifica la conexión.', 'error');
+      if (showSpinner) document.getElementById('refresh-icon').classList.remove('spinning');
+      document.getElementById('orders-tbody').innerHTML = '<tr class="loading-row"><td colspan="7" style="color:var(--red)">Error al cargar. <a href="#" onclick="loadOrders(true)" style="color:var(--gold)">Reintentar</a></td></tr>';
+    });
+}
+
+// ── STATS ──
+function updateStats() {
+  var total = allOrders.length;
+  var revenue = allOrders.reduce(function(s,o){ return s + (parseFloat(o.total)||0); }, 0);
+  var pending = allOrders.filter(function(o){ return !o.guia || o.guia === ''; }).length;
+  var shipped = allOrders.filter(function(o){ return o.status === 'enviado'; }).length;
+  var delivered = allOrders.filter(function(o){ return o.status === 'entregado'; }).length;
+  var cancelled = allOrders.filter(function(o){ return o.status === 'cancelado'; }).length;
+
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-revenue').textContent = '$' + revenue.toLocaleString('es-MX');
+  document.getElementById('stat-pending').textContent = pending;
+  document.getElementById('stat-delivered').textContent = delivered;
+  document.getElementById('sb-total').textContent = total;
+  document.getElementById('sb-pending').textContent = pending;
+  document.getElementById('sb-shipped').textContent = shipped;
+
+  if (total > 0) {
+    document.getElementById('stat-pending-pct').textContent = Math.round(pending/total*100) + '% del total';
+    document.getElementById('stat-delivered-pct').textContent = Math.round(delivered/total*100) + '% del total';
+  }
+}
+
+// ── RENDER TABLE ──
+function renderTable(orders) {
+  var tbody = document.getElementById('orders-tbody');
+  if (!orders.length) {
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="7">No hay pedidos para mostrar.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = orders.map(function(o) {
+    return buildRow(o);
+  }).join('');
+}
+
+function buildRow(o) {
+  var st = STATUS_MAP[o.status] || STATUS_MAP.unknown;
+  var total = o.total ? '$'+Number(o.total).toLocaleString('es-MX') : '—';
+  var clientName = (o.shipping && o.shipping.nombre) ? esc(o.shipping.nombre) : (o.name ? esc(o.name) : '—');
+  var clientPhone = (o.shipping && o.shipping.tel) ? esc(o.shipping.tel) : (o.tel ? esc(o.tel) : '');
+  var guiaHtml = o.guia ? '<span class="td-guia">'+esc(o.guia)+'</span><br><span style="font-size:10px;color:var(--muted)">'+esc(o.carrier||'')+'</span>' : '<span class="no-guia td-guia">Sin guía</span>';
+
+  return '<tr id="row-'+esc(o.ref)+'">' +
+    '<td><span class="td-ref" onclick="toggleExpand(\''+esc(o.ref)+'\')">'+esc(o.ref)+'</span></td>' +
+    '<td class="td-date">'+esc(o.date||'—')+'</td>' +
+    '<td class="td-client"><div class="client-name">'+clientName+'</div><div class="client-phone">'+clientPhone+'</div></td>' +
+    '<td class="td-total">'+total+'</td>' +
+    '<td><span class="badge '+st.cls+'"><span class="dot"></span>'+st.label+'</span></td>' +
+    '<td>'+guiaHtml+'</td>' +
+    '<td><button class="action-btn primary" onclick="toggleExpand(\''+esc(o.ref)+'\')">Editar</button></td>' +
+  '</tr>' +
+  '<tr class="expand-row" id="exp-'+esc(o.ref)+'"><td colspan="7" class="expand-cell">'+buildExpand(o)+'</td></tr>';
+}
+
+function buildExpand(o) {
+  var itemsList = '';
+  if (o.items && o.items.length) {
+    itemsList = o.items.map(function(it){ return '• '+esc(it.name)+' '+esc(it.dose||'')+' x'+(it.qty||1)+' — $'+Number(it.price).toLocaleString('es-MX'); }).join('<br>');
+  } else {
+    itemsList = '<em>No disponible</em>';
+  }
+
+  var shipInfo = '';
+  if (o.shipping) {
+    var s = o.shipping;
+    shipInfo = [s.nombre, s.tel, s.calle+' Col.'+s.colonia, s.ciudad+' '+s.estado+' CP '+s.cp].filter(Boolean).join('<br>');
+  }
+
+  var waLink = '';
+  if (o.shipping && o.shipping.tel) {
+    var tel = o.shipping.tel.replace(/\D/g,'');
+    if (tel.length === 10) tel = '52' + tel;
+    var msg = encodeURIComponent('Hola '+((o.shipping&&o.shipping.nombre)||'')+'! Tu pedido '+o.ref+' ya fue enviado. Tu guía es: '+(o.guia||'(pendiente)')+' con '+(o.carrier||'la paquetería')+'.');
+    waLink = '<a href="https://wa.me/'+tel+'?text='+msg+'" target="_blank" class="action-btn" style="display:inline-block;text-decoration:none;margin-top:4px">📱 Notificar cliente</a>';
+  }
+
+  return '<div class="expand-inner">' +
+    '<div class="expand-grid">' +
+      '<div>' +
+        '<div class="expand-section-title">Actualizar envío</div>' +
+        '<div class="field-group">' +
+          '<div class="field-label">Estatus del pedido</div>' +
+          '<select class="field-select" id="sel-status-'+esc(o.ref)+'">' +
+            ['pendiente','pagado','preparando','enviado','entregado','cancelado'].map(function(s){
+              return '<option value="'+s+'"'+(o.status===s?' selected':'')+'>'+(STATUS_MAP[s]||{label:s}).label+'</option>';
+            }).join('') +
+          '</select>' +
+        '</div>' +
+        '<div class="field-group">' +
+          '<div class="field-label">Número de guía</div>' +
+          '<div class="field-row">' +
+            '<input class="field-input" id="inp-guia-'+esc(o.ref)+'" type="text" value="'+esc(o.guia||'')+'" placeholder="Ej: 1234567890">' +
+          '</div>' +
+        '</div>' +
+        '<div class="field-group">' +
+          '<div class="field-label">Transportista</div>' +
+          '<select class="field-select" id="sel-carrier-'+esc(o.ref)+'">' +
+            ['Estafeta','FedEx','Redpack','DHL','Otro'].map(function(c){
+              var val = c.toLowerCase();
+              return '<option value="'+val+'"'+((o.carrier||'').toLowerCase()===val?' selected':'')+'>'+c+'</option>';
+            }).join('') +
+          '</select>' +
+        '</div>' +
+        '<div class="field-group">' +
+          '<div class="field-label">Nota interna</div>' +
+          '<input class="field-input" id="inp-note-'+esc(o.ref)+'" type="text" value="'+esc(o.note||'')+'" placeholder="Nota para el equipo...">' +
+        '</div>' +
+        '<div class="save-row">' +
+          '<button class="action-btn primary" onclick="saveOrder(\''+esc(o.ref)+'\')">Guardar cambios</button>' +
+          waLink +
+        '</div>' +
+        '<div class="update-status" id="ok-'+esc(o.ref)+'">✓ Guardado exitosamente</div>' +
+        '<div class="error-status" id="err-'+esc(o.ref)+'">Error al guardar. Intenta de nuevo.</div>' +
+      '</div>' +
+      '<div>' +
+        '<div class="expand-section-title">Información del pedido</div>' +
+        '<div class="items-mini" style="margin-bottom:14px">'+itemsList+'</div>' +
+        (shipInfo ? '<div class="expand-section-title" style="margin-top:14px">Dirección de envío</div><div class="shipping-info">'+shipInfo+'</div>' : '') +
+        (o.paymentId ? '<div style="margin-top:12px;font-size:11px;color:var(--muted)">Pago MP: #'+esc(o.paymentId)+'</div>' : '') +
+        (o.email ? '<div style="font-size:11px;color:var(--muted)">Email: '+esc(o.email)+'</div>' : '') +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+// ── TOGGLE EXPAND ──
+function toggleExpand(ref) {
+  var expRow = document.getElementById('exp-' + CSS.escape(ref));
+  var mainRow = document.getElementById('row-' + CSS.escape(ref));
+  if (!expRow) return;
+  var isOpen = expRow.classList.contains('show');
+  // Close all
+  document.querySelectorAll('.expand-row.show').forEach(function(r){ r.classList.remove('show'); });
+  document.querySelectorAll('#orders-tbody tr.expanded').forEach(function(r){ r.classList.remove('expanded'); });
+  if (!isOpen) {
+    expRow.classList.add('show');
+    if (mainRow) mainRow.classList.add('expanded');
+  }
+}
+
+// ── SAVE ORDER ──
+function saveOrder(ref) {
+  var status  = document.getElementById('sel-status-'+CSS.escape(ref)).value;
+  var guia    = document.getElementById('inp-guia-'+CSS.escape(ref)).value.trim();
+  var carrier = document.getElementById('sel-carrier-'+CSS.escape(ref)).value;
+  var note    = document.getElementById('inp-note-'+CSS.escape(ref)).value.trim();
+
+  var okEl  = document.getElementById('ok-'+CSS.escape(ref));
+  var errEl = document.getElementById('err-'+CSS.escape(ref));
+  okEl.classList.remove('show'); errEl.classList.remove('show');
+
+  // If guia added and status still 'pagado'/'preparando', auto-set to 'enviado'
+  if (guia && (status === 'pagado' || status === 'preparando')) status = 'enviado';
+  if (guia && status === 'pendiente') status = 'enviado';
+
+  var body = { action:'updateOrder', secret:SECRET, ref:ref, status:status, guia:guia, carrier:carrier, note:note };
+
+  fetch(GAS_URL, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(body),
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    if (data && data.success) {
+      okEl.classList.add('show');
+      // Update local data
+      var idx = allOrders.findIndex(function(o){ return o.ref === ref; });
+      if (idx >= 0) { allOrders[idx].status = status; allOrders[idx].guia = guia; allOrders[idx].carrier = carrier; allOrders[idx].note = note; }
+      updateStats();
+      // Refresh the badge in the row
+      var badge = document.querySelector('#row-'+CSS.escape(ref)+' .badge');
+      var st = STATUS_MAP[status] || STATUS_MAP.unknown;
+      if (badge) badge.className = 'badge '+st.cls;
+      if (badge) badge.innerHTML = '<span class="dot"></span>'+st.label;
+      var guiaCell = document.querySelector('#row-'+CSS.escape(ref)+' td:nth-child(6)');
+      if (guiaCell) {
+        guiaCell.innerHTML = guia ? '<span class="td-guia">'+esc(guia)+'</span><br><span style="font-size:10px;color:var(--muted)">'+esc(carrier)+'</span>' : '<span class="no-guia td-guia">Sin guía</span>';
+      }
+      showToast('✓ Pedido '+ref+' actualizado', 'success');
+      // Auto-update status select
+      var sel = document.getElementById('sel-status-'+CSS.escape(ref));
+      if (sel) sel.value = status;
+      setTimeout(function(){ okEl.classList.remove('show'); }, 3000);
+    } else {
+      errEl.classList.add('show');
+    }
+  })
+  .catch(function() { errEl.classList.add('show'); });
+}
+
+// ── FILTER ──
+function filterTable() {
+  var query = (document.getElementById('table-search').value || '').toLowerCase().trim();
+  var status = document.getElementById('filter-status').value;
+  var filtered = allOrders.filter(function(o) {
+    var matchSection = currentSection === 'orders' ? true :
+      currentSection === 'pending' ? (!o.guia || o.guia === '') :
+      currentSection === 'shipped' ? (o.status === 'enviado') : true;
+    var matchStatus = !status || o.status === status;
+    var matchQuery = !query ||
+      (o.ref && o.ref.toLowerCase().includes(query)) ||
+      (o.shipping && o.shipping.nombre && o.shipping.nombre.toLowerCase().includes(query)) ||
+      (o.name && o.name.toLowerCase().includes(query)) ||
+      (o.shipping && o.shipping.tel && o.shipping.tel.includes(query)) ||
+      (o.guia && o.guia.toLowerCase().includes(query));
+    return matchSection && matchStatus && matchQuery;
+  });
+  renderTable(filtered);
+}
+
+// ── SECTIONS ──
+function showSection(section) {
+  currentSection = section;
+  document.querySelectorAll('.sidebar-item').forEach(function(el){ el.classList.remove('active'); });
+  event && event.currentTarget && event.currentTarget.classList.add('active');
+  var titles = { orders:'Todos los pedidos', pending:'Sin guía de envío', shipped:'Pedidos enviados' };
+  document.getElementById('section-title').textContent = titles[section] || 'Pedidos';
+  filterTable();
+}
+
+// ── EXPORT CSV ──
+function exportCSV() {
+  var headers = ['Referencia','Fecha','Nombre','Teléfono','Total','Estatus','Guía','Transportista','Email','Nota'];
+  var rows = allOrders.map(function(o) {
+    var s = o.shipping || {};
+    return [o.ref, o.date||'', s.nombre||o.name||'', s.tel||o.tel||'', o.total||'', o.status||'', o.guia||'', o.carrier||'', o.email||'', o.note||'']
+      .map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; });
+  });
+  var csv = [headers.join(',')].concat(rows.map(function(r){ return r.join(','); })).join('\n');
+  var blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'aurum-pedidos-'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  showToast('CSV exportado', 'success');
+}
+
+// ── BULK UPDATE ──
+function openBulkModal() { document.getElementById('bulk-modal').classList.add('open'); }
+function closeBulkModal() { document.getElementById('bulk-modal').classList.remove('open'); }
+function processBulk() {
+  var raw = document.getElementById('bulk-data').value.trim();
+  if (!raw) return;
+  var lines = raw.split('\n').filter(Boolean);
+  var updates = lines.map(function(line) {
+    var parts = line.split(/[,\t]/);
+    return { ref:(parts[0]||'').trim(), guia:(parts[1]||'').trim(), carrier:(parts[2]||'').trim().toLowerCase(), status:(parts[3]||'enviado').trim() };
+  }).filter(function(u){ return u.ref; });
+
+  document.getElementById('bulk-result').textContent = 'Procesando '+updates.length+' registros...';
+  var promises = updates.map(function(u) {
+    return fetch(GAS_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'updateOrder',secret:SECRET,ref:u.ref,guia:u.guia,carrier:u.carrier,status:u.status}),
+    }).then(function(r){ return r.json(); });
+  });
+  Promise.all(promises).then(function() {
+    document.getElementById('bulk-result').textContent = '✓ '+updates.length+' pedidos actualizados.';
+    loadOrders(true);
+    setTimeout(closeBulkModal, 2000);
+  }).catch(function() {
+    document.getElementById('bulk-result').textContent = 'Error en la actualización masiva.';
+  });
+}
+
+// ── UTILS ──
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function showToast(msg, type) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast'+(type?' '+type:'');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+// ── AUTO REFRESH every 2 minutes ──
+setInterval(function(){ if (isAuth) loadOrders(false); }, 120000);
+</script>
+</body>
+</html>
+;
 var GAS_URL   = 'https://script.google.com/macros/s/AKfycbwIYuMzIQNVVeOi3R73ZhYH6ayW6vIW5vC6Gh66iDvE-3w6tPOaeH5L2-2Ch0N6V5qM/exec';
 var SECRET    = 'aurum2026secret';
 
@@ -686,7 +1385,7 @@ var ADMIN_PASS = 'Aurum2026Admin!@#';
     isAuth = true;
     document.getElementById('login-screen').style.display = 'none';
     loadOrders(false);
-    } else {
+  } else {
     document.getElementById('login-err').classList.add('show');
     document.getElementById('admin-pass').value = '';
   }
@@ -792,7 +1491,7 @@ function buildExpand(o) {
   var itemsList = '';
   if (o.items && o.items.length) {
     itemsList = o.items.map(function(it){ return '• '+esc(it.name)+' '+esc(it.dose||'')+' x'+(it.qty||1)+' — $'+Number(it.price).toLocaleString('es-MX'); }).join('<br>');
-    } else {
+  } else {
     itemsList = '<em>No disponible</em>';
   }
 
@@ -918,7 +1617,7 @@ function saveOrder(ref) {
       var sel = document.getElementById('sel-status-'+CSS.escape(ref));
       if (sel) sel.value = status;
       setTimeout(function(){ okEl.classList.remove('show'); }, 3000);
-      } else {
+    } else {
       errEl.classList.add('show');
     }
   })
@@ -1015,808 +1714,42 @@ function showToast(msg, type) {
 
 // ── AUTO REFRESH every 2 minutes ──
 setInterval(function(){ if (isAuth) loadOrders(false); }, 120000);
-var SECRET    = 'aurum2026secret';
-
-// ── AUTH ──
-var isAuth = false;
-function tryLogin() {
-  var pass = document.getElementById('admin-pass').value;
-var ADMIN_PASS = 'Aurum2026Admin!@#';
-    isAuth = true;
-    document.getElementById('login-screen').style.display = 'none';
-    loadOrders(false);
-    } else {
-    document.getElementById('login-err').classList.add('show');
-    document.getElementById('admin-pass').value = '';
-  }
-}
-function logout() {
-  isAuth = false;
-  document.getElementById('login-screen').style.display = 'flex';
-}
-
-// ── DATA ──
-var allOrders = [];
-var currentSection = 'orders';
-
-var STATUS_MAP = {
-  pendiente:  { label:'Pago pendiente',cls:'b-pending' },
-  pagado:     { label:'Pagado',       cls:'b-processing' },
-  preparando: { label:'Preparando',   cls:'b-processing' },
-  enviado:    { label:'Enviado',      cls:'b-shipped' },
-  entregado:  { label:'Entregado',    cls:'b-delivered' },
-  cancelado:  { label:'Cancelado',    cls:'b-cancelled' },
-  unknown:    { label:'En proceso',   cls:'b-pending' },
-};
-
-// ── LOAD ──
-function loadOrders(showSpinner) {
-  if (showSpinner) {
-    var icon = document.getElementById('refresh-icon');
-    icon.classList.add('spinning');
-  }
-  fetch(GAS_URL + '?action=getAll&secret=' + SECRET)
-    .then(function(r){ return r.json(); })
-    .then(function(data) {
-      allOrders = Array.isArray(data) ? data : (data.orders || []);
-      // Sort newest first
-      allOrders.sort(function(a,b){ return (b.dateTs||0) - (a.dateTs||0); });
-      updateStats();
-      renderTable(allOrders);
-      document.getElementById('last-sync').textContent = 'Actualizado: ' + new Date().toLocaleTimeString('es-MX');
-      if (showSpinner) document.getElementById('refresh-icon').classList.remove('spinning');
-    })
-    .catch(function(err) {
-      showToast('Error al cargar pedidos. Verifica la conexión.', 'error');
-      if (showSpinner) document.getElementById('refresh-icon').classList.remove('spinning');
-      document.getElementById('orders-tbody').innerHTML = '<tr class="loading-row"><td colspan="7" style="color:var(--red)">Error al cargar. <a href="#" onclick="loadOrders(true)" style="color:var(--gold)">Reintentar</a></td></tr>';
-    });
-}
-
-// ── STATS ──
-function updateStats() {
-  var total = allOrders.length;
-  var revenue = allOrders.reduce(function(s,o){ return s + (parseFloat(o.total)||0); }, 0);
-  var pending = allOrders.filter(function(o){ return !o.guia || o.guia === ''; }).length;
-  var shipped = allOrders.filter(function(o){ return o.status === 'enviado'; }).length;
-  var delivered = allOrders.filter(function(o){ return o.status === 'entregado'; }).length;
-  var cancelled = allOrders.filter(function(o){ return o.status === 'cancelado'; }).length;
-
-  document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-revenue').textContent = '$' + revenue.toLocaleString('es-MX');
-  document.getElementById('stat-pending').textContent = pending;
-  document.getElementById('stat-delivered').textContent = delivered;
-  document.getElementById('sb-total').textContent = total;
-  document.getElementById('sb-pending').textContent = pending;
-  document.getElementById('sb-shipped').textContent = shipped;
-
-  if (total > 0) {
-    document.getElementById('stat-pending-pct').textContent = Math.round(pending/total*100) + '% del total';
-    document.getElementById('stat-delivered-pct').textContent = Math.round(delivered/total*100) + '% del total';
-  }
-}
-
-// ── RENDER TABLE ──
-function renderTable(orders) {
-  var tbody = document.getElementById('orders-tbody');
-  if (!orders.length) {
-    tbody.innerHTML = '<tr class="loading-row"><td colspan="7">No hay pedidos para mostrar.</td></tr>';
-    return;
-  }
-  tbody.innerHTML = orders.map(function(o) {
-    return buildRow(o);
-  }).join('');
-}
-
-function buildRow(o) {
-  var st = STATUS_MAP[o.status] || STATUS_MAP.unknown;
-  var total = o.total ? '$'+Number(o.total).toLocaleString('es-MX') : '—';
-  var clientName = (o.shipping && o.shipping.nombre) ? esc(o.shipping.nombre) : (o.name ? esc(o.name) : '—');
-  var clientPhone = (o.shipping && o.shipping.tel) ? esc(o.shipping.tel) : (o.tel ? esc(o.tel) : '');
-  var guiaHtml = o.guia ? '<span class="td-guia">'+esc(o.guia)+'</span><br><span style="font-size:10px;color:var(--muted)">'+esc(o.carrier||'')+'</span>' : '<span class="no-guia td-guia">Sin guía</span>';
-
-  return '<tr id="row-'+esc(o.ref)+'">' +
-    '<td><span class="td-ref" onclick="toggleExpand(\''+esc(o.ref)+'\')">'+esc(o.ref)+'</span></td>' +
-    '<td class="td-date">'+esc(o.date||'—')+'</td>' +
-    '<td class="td-client"><div class="client-name">'+clientName+'</div><div class="client-phone">'+clientPhone+'</div></td>' +
-    '<td class="td-total">'+total+'</td>' +
-    '<td><span class="badge '+st.cls+'"><span class="dot"></span>'+st.label+'</span></td>' +
-    '<td>'+guiaHtml+'</td>' +
-    '<td><button class="action-btn primary" onclick="toggleExpand(\''+esc(o.ref)+'\')">Editar</button></td>' +
-  '</tr>' +
-  '<tr class="expand-row" id="exp-'+esc(o.ref)+'"><td colspan="7" class="expand-cell">'+buildExpand(o)+'</td></tr>';
-}
-
-function buildExpand(o) {
-  var itemsList = '';
-  if (o.items && o.items.length) {
-    itemsList = o.items.map(function(it){ return '• '+esc(it.name)+' '+esc(it.dose||'')+' x'+(it.qty||1)+' — $'+Number(it.price).toLocaleString('es-MX'); }).join('<br>');
-    } else {
-    itemsList = '<em>No disponible</em>';
-  }
-
-  var shipInfo = '';
-  if (o.shipping) {
-    var s = o.shipping;
-    shipInfo = [s.nombre, s.tel, s.calle+' Col.'+s.colonia, s.ciudad+' '+s.estado+' CP '+s.cp].filter(Boolean).join('<br>');
-  }
-
-  var waLink = '';
-  if (o.shipping && o.shipping.tel) {
-    var tel = o.shipping.tel.replace(/\D/g,'');
-    if (tel.length === 10) tel = '52' + tel;
-    var msg = encodeURIComponent('Hola '+((o.shipping&&o.shipping.nombre)||'')+'! Tu pedido '+o.ref+' ya fue enviado. Tu guía es: '+(o.guia||'(pendiente)')+' con '+(o.carrier||'la paquetería')+'.');
-    waLink = '<a href="https://wa.me/'+tel+'?text='+msg+'" target="_blank" class="action-btn" style="display:inline-block;text-decoration:none;margin-top:4px">📱 Notificar cliente</a>';
-  }
-
-  return '<div class="expand-inner">' +
-    '<div class="expand-grid">' +
-      '<div>' +
-        '<div class="expand-section-title">Actualizar envío</div>' +
-        '<div class="field-group">' +
-          '<div class="field-label">Estatus del pedido</div>' +
-          '<select class="field-select" id="sel-status-'+esc(o.ref)+'">' +
-            ['pendiente','pagado','preparando','enviado','entregado','cancelado'].map(function(s){
-              return '<option value="'+s+'"'+(o.status===s?' selected':'')+'>'+(STATUS_MAP[s]||{label:s}).label+'</option>';
-            }).join('') +
-          '</select>' +
-        '</div>' +
-        '<div class="field-group">' +
-          '<div class="field-label">Número de guía</div>' +
-          '<div class="field-row">' +
-            '<input class="field-input" id="inp-guia-'+esc(o.ref)+'" type="text" value="'+esc(o.guia||'')+'" placeholder="Ej: 1234567890">' +
-          '</div>' +
-        '</div>' +
-        '<div class="field-group">' +
-          '<div class="field-label">Transportista</div>' +
-          '<select class="field-select" id="sel-carrier-'+esc(o.ref)+'">' +
-            ['Estafeta','FedEx','Redpack','DHL','Otro'].map(function(c){
-              var val = c.toLowerCase();
-              return '<option value="'+val+'"'+((o.carrier||'').toLowerCase()===val?' selected':'')+'>'+c+'</option>';
-            }).join('') +
-          '</select>' +
-        '</div>' +
-        '<div class="field-group">' +
-          '<div class="field-label">Nota interna</div>' +
-          '<input class="field-input" id="inp-note-'+esc(o.ref)+'" type="text" value="'+esc(o.note||'')+'" placeholder="Nota para el equipo...">' +
-        '</div>' +
-        '<div class="save-row">' +
-          '<button class="action-btn primary" onclick="saveOrder(\''+esc(o.ref)+'\')">Guardar cambios</button>' +
-          waLink +
-        '</div>' +
-        '<div class="update-status" id="ok-'+esc(o.ref)+'">✓ Guardado exitosamente</div>' +
-        '<div class="error-status" id="err-'+esc(o.ref)+'">Error al guardar. Intenta de nuevo.</div>' +
-      '</div>' +
-      '<div>' +
-        '<div class="expand-section-title">Información del pedido</div>' +
-        '<div class="items-mini" style="margin-bottom:14px">'+itemsList+'</div>' +
-        (shipInfo ? '<div class="expand-section-title" style="margin-top:14px">Dirección de envío</div><div class="shipping-info">'+shipInfo+'</div>' : '') +
-        (o.paymentId ? '<div style="margin-top:12px;font-size:11px;color:var(--muted)">Pago MP: #'+esc(o.paymentId)+'</div>' : '') +
-        (o.email ? '<div style="font-size:11px;color:var(--muted)">Email: '+esc(o.email)+'</div>' : '') +
-      '</div>' +
-    '</div>' +
-  '</div>';
-}
-
-// ── TOGGLE EXPAND ──
-function toggleExpand(ref) {
-  var expRow = document.getElementById('exp-' + CSS.escape(ref));
-  var mainRow = document.getElementById('row-' + CSS.escape(ref));
-  if (!expRow) return;
-  var isOpen = expRow.classList.contains('show');
-  // Close all
-  document.querySelectorAll('.expand-row.show').forEach(function(r){ r.classList.remove('show'); });
-  document.querySelectorAll('#orders-tbody tr.expanded').forEach(function(r){ r.classList.remove('expanded'); });
-  if (!isOpen) {
-    expRow.classList.add('show');
-    if (mainRow) mainRow.classList.add('expanded');
-  }
-}
-
-// ── SAVE ORDER ──
-function saveOrder(ref) {
-  var status  = document.getElementById('sel-status-'+CSS.escape(ref)).value;
-  var guia    = document.getElementById('inp-guia-'+CSS.escape(ref)).value.trim();
-  var carrier = document.getElementById('sel-carrier-'+CSS.escape(ref)).value;
-  var note    = document.getElementById('inp-note-'+CSS.escape(ref)).value.trim();
-
-  var okEl  = document.getElementById('ok-'+CSS.escape(ref));
-  var errEl = document.getElementById('err-'+CSS.escape(ref));
-  okEl.classList.remove('show'); errEl.classList.remove('show');
-
-  // If guia added and status still 'pagado'/'preparando', auto-set to 'enviado'
-  if (guia && (status === 'pagado' || status === 'preparando')) status = 'enviado';
-  if (guia && status === 'pendiente') status = 'enviado';
-
-  var body = { action:'updateOrder', secret:SECRET, ref:ref, status:status, guia:guia, carrier:carrier, note:note };
-
-  fetch(GAS_URL, {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(body),
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data) {
-    if (data && data.success) {
-      okEl.classList.add('show');
-      // Update local data
-      var idx = allOrders.findIndex(function(o){ return o.ref === ref; });
-      if (idx >= 0) { allOrders[idx].status = status; allOrders[idx].guia = guia; allOrders[idx].carrier = carrier; allOrders[idx].note = note; }
-      updateStats();
-      // Refresh the badge in the row
-      var badge = document.querySelector('#row-'+CSS.escape(ref)+' .badge');
-      var st = STATUS_MAP[status] || STATUS_MAP.unknown;
-      if (badge) badge.className = 'badge '+st.cls;
-      if (badge) badge.innerHTML = '<span class="dot"></span>'+st.label;
-      var guiaCell = document.querySelector('#row-'+CSS.escape(ref)+' td:nth-child(6)');
-      if (guiaCell) {
-        guiaCell.innerHTML = guia ? '<span class="td-guia">'+esc(guia)+'</span><br><span style="font-size:10px;color:var(--muted)">'+esc(carrier)+'</span>' : '<span class="no-guia td-guia">Sin guía</span>';
-      }
-      showToast('✓ Pedido '+ref+' actualizado', 'success');
-      // Auto-update status select
-      var sel = document.getElementById('sel-status-'+CSS.escape(ref));
-      if (sel) sel.value = status;
-      setTimeout(function(){ okEl.classList.remove('show'); }, 3000);
-      } else {
-      errEl.classList.add('show');
-    }
-  })
-  .catch(function() { errEl.classList.add('show'); });
-}
-
-// ── FILTER ──
-function filterTable() {
-  var query = (document.getElementById('table-search').value || '').toLowerCase().trim();
-  var status = document.getElementById('filter-status').value;
-  var filtered = allOrders.filter(function(o) {
-    var matchSection = currentSection === 'orders' ? true :
-      currentSection === 'pending' ? (!o.guia || o.guia === '') :
-      currentSection === 'shipped' ? (o.status === 'enviado') : true;
-    var matchStatus = !status || o.status === status;
-    var matchQuery = !query ||
-      (o.ref && o.ref.toLowerCase().includes(query)) ||
-      (o.shipping && o.shipping.nombre && o.shipping.nombre.toLowerCase().includes(query)) ||
-      (o.name && o.name.toLowerCase().includes(query)) ||
-      (o.shipping && o.shipping.tel && o.shipping.tel.includes(query)) ||
-      (o.guia && o.guia.toLowerCase().includes(query));
-    return matchSection && matchStatus && matchQuery;
-  });
-  renderTable(filtered);
-}
-
-// ── SECTIONS ──
-function showSection(section) {
-  currentSection = section;
-  document.querySelectorAll('.sidebar-item').forEach(function(el){ el.classList.remove('active'); });
-  event && event.currentTarget && event.currentTarget.classList.add('active');
-  var titles = { orders:'Todos los pedidos', pending:'Sin guía de envío', shipped:'Pedidos enviados' };
-  document.getElementById('section-title').textContent = titles[section] || 'Pedidos';
-  filterTable();
-}
-
-// ── EXPORT CSV ──
-function exportCSV() {
-  var headers = ['Referencia','Fecha','Nombre','Teléfono','Total','Estatus','Guía','Transportista','Email','Nota'];
-  var rows = allOrders.map(function(o) {
-    var s = o.shipping || {};
-    return [o.ref, o.date||'', s.nombre||o.name||'', s.tel||o.tel||'', o.total||'', o.status||'', o.guia||'', o.carrier||'', o.email||'', o.note||'']
-      .map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; });
-  });
-  var csv = [headers.join(',')].concat(rows.map(function(r){ return r.join(','); })).join('\n');
-  var blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url; a.download = 'aurum-pedidos-'+new Date().toISOString().slice(0,10)+'.csv';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  showToast('CSV exportado', 'success');
-}
-
-// ── BULK UPDATE ──
-function openBulkModal() { document.getElementById('bulk-modal').classList.add('open'); }
-function closeBulkModal() { document.getElementById('bulk-modal').classList.remove('open'); }
-function processBulk() {
-  var raw = document.getElementById('bulk-data').value.trim();
-  if (!raw) return;
-  var lines = raw.split('\n').filter(Boolean);
-  var updates = lines.map(function(line) {
-    var parts = line.split(/[,\t]/);
-    return { ref:(parts[0]||'').trim(), guia:(parts[1]||'').trim(), carrier:(parts[2]||'').trim().toLowerCase(), status:(parts[3]||'enviado').trim() };
-  }).filter(function(u){ return u.ref; });
-
-  document.getElementById('bulk-result').textContent = 'Procesando '+updates.length+' registros...';
-  var promises = updates.map(function(u) {
-    return fetch(GAS_URL, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({action:'updateOrder',secret:SECRET,ref:u.ref,guia:u.guia,carrier:u.carrier,status:u.status}),
-    }).then(function(r){ return r.json(); });
-  });
-  Promise.all(promises).then(function() {
-    document.getElementById('bulk-result').textContent = '✓ '+updates.length+' pedidos actualizados.';
-    loadOrders(true);
-    setTimeout(closeBulkModal, 2000);
-  }).catch(function() {
-    document.getElementById('bulk-result').textContent = 'Error en la actualización masiva.';
-  });
-}
-
-// ── UTILS ──
-function esc(s) {
-  if (!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function showToast(msg, type) {
-  var t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast'+(type?' '+type:'');
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 3000);
-}
-
-// ── AUTO REFRESH every 2 minutes ──
-setInterval(function(){ if (isAuth) loadOrders(false); }, 120000);
-var GAS_URL   = 'https://script.google.com/macros/s/AKfycbwIYuMzIQNVVeOi3R73ZhYH6ayW6vIW5vC6Gh66iDvE-3w6tPOaeH5L2-2Ch0N6V5qM/exec';
-var SECRET    = 'aurum2026secret';
-
-// ── AUTH ──
-var isAuth = false;
-function tryLogin() {
-  var pass = document.getElementById('admin-pass').value;
-var ADMIN_PASS = 'Aurum2026Admin!@#';
-    isAuth = true;
-    document.getElementById('login-screen').style.display = 'none';
-    loadOrders(false);
-    } else {
-    document.getElementById('login-err').classList.add('show');
-    document.getElementById('admin-pass').value = '';
-  }
-}
-function logout() {
-  isAuth = false;
-  document.getElementById('login-screen').style.display = 'flex';
-}
-
-// ── DATA ──
-var allOrders = [];
-var currentSection = 'orders';
-
-var STATUS_MAP = {
-  pendiente:  { label:'Pago pendiente',cls:'b-pending' },
-  pagado:     { label:'Pagado',       cls:'b-processing' },
-  preparando: { label:'Preparando',   cls:'b-processing' },
-  enviado:    { label:'Enviado',      cls:'b-shipped' },
-  entregado:  { label:'Entregado',    cls:'b-delivered' },
-  cancelado:  { label:'Cancelado',    cls:'b-cancelled' },
-  unknown:    { label:'En proceso',   cls:'b-pending' },
-};
-
-// ── LOAD ──
-function loadOrders(showSpinner) {
-  if (showSpinner) {
-    var icon = document.getElementById('refresh-icon');
-    icon.classList.add('spinning');
-  }
-  fetch(GAS_URL + '?action=getAll&secret=' + SECRET)
-    .then(function(r){ return r.json(); })
-    .then(function(data) {
-      allOrders = Array.isArray(data) ? data : (data.orders || []);
-      // Sort newest first
-      allOrders.sort(function(a,b){ return (b.dateTs||0) - (a.dateTs||0); });
-      updateStats();
-      renderTable(allOrders);
-      document.getElementById('last-sync').textContent = 'Actualizado: ' + new Date().toLocaleTimeString('es-MX');
-      if (showSpinner) document.getElementById('refresh-icon').classList.remove('spinning');
-    })
-    .catch(function(err) {
-      showToast('Error al cargar pedidos. Verifica la conexión.', 'error');
-      if (showSpinner) document.getElementById('refresh-icon').classList.remove('spinning');
-      document.getElementById('orders-tbody').innerHTML = '<tr class="loading-row"><td colspan="7" style="color:var(--red)">Error al cargar. <a href="#" onclick="loadOrders(true)" style="color:var(--gold)">Reintentar</a></td></tr>';
-    });
-}
-
-// ── STATS ──
-function updateStats() {
-  var total = allOrders.length;
-  var revenue = allOrders.reduce(function(s,o){ return s + (parseFloat(o.total)||0); }, 0);
-  var pending = allOrders.filter(function(o){ return !o.guia || o.guia === ''; }).length;
-  var shipped = allOrders.filter(function(o){ return o.status === 'enviado'; }).length;
-  var delivered = allOrders.filter(function(o){ return o.status === 'entregado'; }).length;
-  var cancelled = allOrders.filter(function(o){ return o.status === 'cancelado'; }).length;
-
-  document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-revenue').textContent = '$' + revenue.toLocaleString('es-MX');
-  document.getElementById('stat-pending').textContent = pending;
-  document.getElementById('stat-delivered').textContent = delivered;
-  document.getElementById('sb-total').textContent = total;
-  document.getElementById('sb-pending').textContent = pending;
-  document.getElementById('sb-shipped').textContent = shipped;
-
-  if (total > 0) {
-    document.getElementById('stat-pending-pct').textContent = Math.round(pending/total*100) + '% del total';
-    document.getElementById('stat-delivered-pct').textContent = Math.round(delivered/total*100) + '% del total';
-  }
-}
-
-// ── RENDER TABLE ──
-function renderTable(orders) {
-  var tbody = document.getElementById('orders-tbody');
-  if (!orders.length) {
-    tbody.innerHTML = '<tr class="loading-row"><td colspan="7">No hay pedidos para mostrar.</td></tr>';
-    return;
-  }
-  tbody.innerHTML = orders.map(function(o) {
-    return buildRow(o);
-  }).join('');
-}
-
-function buildRow(o) {
-  var st = STATUS_MAP[o.status] || STATUS_MAP.unknown;
-  var total = o.total ? '$'+Number(o.total).toLocaleString('es-MX') : '—';
-  var clientName = (o.shipping && o.shipping.nombre) ? esc(o.shipping.nombre) : (o.name ? esc(o.name) : '—');
-  var clientPhone = (o.shipping && o.shipping.tel) ? esc(o.shipping.tel) : (o.tel ? esc(o.tel) : '');
-  var guiaHtml = o.guia ? '<span class="td-guia">'+esc(o.guia)+'</span><br><span style="font-size:10px;color:var(--muted)">'+esc(o.carrier||'')+'</span>' : '<span class="no-guia td-guia">Sin guía</span>';
-
-  return '<tr id="row-'+esc(o.ref)+'">' +
-    '<td><span class="td-ref" onclick="toggleExpand(\''+esc(o.ref)+'\')">'+esc(o.ref)+'</span></td>' +
-    '<td class="td-date">'+esc(o.date||'—')+'</td>' +
-    '<td class="td-client"><div class="client-name">'+clientName+'</div><div class="client-phone">'+clientPhone+'</div></td>' +
-    '<td class="td-total">'+total+'</td>' +
-    '<td><span class="badge '+st.cls+'"><span class="dot"></span>'+st.label+'</span></td>' +
-    '<td>'+guiaHtml+'</td>' +
-    '<td><button class="action-btn primary" onclick="toggleExpand(\''+esc(o.ref)+'\')">Editar</button></td>' +
-  '</tr>' +
-  '<tr class="expand-row" id="exp-'+esc(o.ref)+'"><td colspan="7" class="expand-cell">'+buildExpand(o)+'</td></tr>';
-}
-
-function buildExpand(o) {
-  var itemsList = '';
-  if (o.items && o.items.length) {
-    itemsList = o.items.map(function(it){ return '• '+esc(it.name)+' '+esc(it.dose||'')+' x'+(it.qty||1)+' — $'+Number(it.price).toLocaleString('es-MX'); }).join('<br>');
-    } else {
-    itemsList = '<em>No disponible</em>';
-  }
-
-  var shipInfo = '';
-  if (o.shipping) {
-    var s = o.shipping;
-    shipInfo = [s.nombre, s.tel, s.calle+' Col.'+s.colonia, s.ciudad+' '+s.estado+' CP '+s.cp].filter(Boolean).join('<br>');
-  }
-
-  var waLink = '';
-  if (o.shipping && o.shipping.tel) {
-    var tel = o.shipping.tel.replace(/\D/g,'');
-    if (tel.length === 10) tel = '52' + tel;
-    var msg = encodeURIComponent('Hola '+((o.shipping&&o.shipping.nombre)||'')+'! Tu pedido '+o.ref+' ya fue enviado. Tu guía es: '+(o.guia||'(pendiente)')+' con '+(o.carrier||'la paquetería')+'.');
-    waLink = '<a href="https://wa.me/'+tel+'?text='+msg+'" target="_blank" class="action-btn" style="display:inline-block;text-decoration:none;margin-top:4px">📱 Notificar cliente</a>';
-  }
-
-  return '<div class="expand-inner">' +
-    '<div class="expand-grid">' +
-      '<div>' +
-        '<div class="expand-section-title">Actualizar envío</div>' +
-        '<div class="field-group">' +
-          '<div class="field-label">Estatus del pedido</div>' +
-          '<select class="field-select" id="sel-status-'+esc(o.ref)+'">' +
-            ['pendiente','pagado','preparando','enviado','entregado','cancelado'].map(function(s){
-              return '<option value="'+s+'"'+(o.status===s?' selected':'')+'>'+(STATUS_MAP[s]||{label:s}).label+'</option>';
-            }).join('') +
-          '</select>' +
-        '</div>' +
-        '<div class="field-group">' +
-          '<div class="field-label">Número de guía</div>' +
-          '<div class="field-row">' +
-            '<input class="field-input" id="inp-guia-'+esc(o.ref)+'" type="text" value="'+esc(o.guia||'')+'" placeholder="Ej: 1234567890">' +
-          '</div>' +
-        '</div>' +
-        '<div class="field-group">' +
-          '<div class="field-label">Transportista</div>' +
-          '<select class="field-select" id="sel-carrier-'+esc(o.ref)+'">' +
-            ['Estafeta','FedEx','Redpack','DHL','Otro'].map(function(c){
-              var val = c.toLowerCase();
-              return '<option value="'+val+'"'+((o.carrier||'').toLowerCase()===val?' selected':'')+'>'+c+'</option>';
-            }).join('') +
-          '</select>' +
-        '</div>' +
-        '<div class="field-group">' +
-          '<div class="field-label">Nota interna</div>' +
-          '<input class="field-input" id="inp-note-'+esc(o.ref)+'" type="text" value="'+esc(o.note||'')+'" placeholder="Nota para el equipo...">' +
-        '</div>' +
-        '<div class="save-row">' +
-          '<button class="action-btn primary" onclick="saveOrder(\''+esc(o.ref)+'\')">Guardar cambios</button>' +
-          waLink +
-        '</div>' +
-        '<div class="update-status" id="ok-'+esc(o.ref)+'">✓ Guardado exitosamente</div>' +
-        '<div class="error-status" id="err-'+esc(o.ref)+'">Error al guardar. Intenta de nuevo.</div>' +
-      '</div>' +
-      '<div>' +
-        '<div class="expand-section-title">Información del pedido</div>' +
-        '<div class="items-mini" style="margin-bottom:14px">'+itemsList+'</div>' +
-        (shipInfo ? '<div class="expand-section-title" style="margin-top:14px">Dirección de envío</div><div class="shipping-info">'+shipInfo+'</div>' : '') +
-        (o.paymentId ? '<div style="margin-top:12px;font-size:11px;color:var(--muted)">Pago MP: #'+esc(o.paymentId)+'</div>' : '') +
-        (o.email ? '<div style="font-size:11px;color:var(--muted)">Email: '+esc(o.email)+'</div>' : '') +
-      '</div>' +
-    '</div>' +
-  '</div>';
-}
-
-// ── TOGGLE EXPAND ──
-function toggleExpand(ref) {
-  var expRow = document.getElementById('exp-' + CSS.escape(ref));
-  var mainRow = document.getElementById('row-' + CSS.escape(ref));
-  if (!expRow) return;
-  var isOpen = expRow.classList.contains('show');
-  // Close all
-  document.querySelectorAll('.expand-row.show').forEach(function(r){ r.classList.remove('show'); });
-  document.querySelectorAll('#orders-tbody tr.expanded').forEach(function(r){ r.classList.remove('expanded'); });
-  if (!isOpen) {
-    expRow.classList.add('show');
-    if (mainRow) mainRow.classList.add('expanded');
-  }
-}
-
-// ── SAVE ORDER ──
-function saveOrder(ref) {
-  var status  = document.getElementById('sel-status-'+CSS.escape(ref)).value;
-  var guia    = document.getElementById('inp-guia-'+CSS.escape(ref)).value.trim();
-  var carrier = document.getElementById('sel-carrier-'+CSS.escape(ref)).value;
-  var note    = document.getElementById('inp-note-'+CSS.escape(ref)).value.trim();
-
-  var okEl  = document.getElementById('ok-'+CSS.escape(ref));
-  var errEl = document.getElementById('err-'+CSS.escape(ref));
-  okEl.classList.remove('show'); errEl.classList.remove('show');
-
-  // If guia added and status still 'pagado'/'preparando', auto-set to 'enviado'
-  if (guia && (status === 'pagado' || status === 'preparando')) status = 'enviado';
-  if (guia && status === 'pendiente') status = 'enviado';
-
-  var body = { action:'updateOrder', secret:SECRET, ref:ref, status:status, guia:guia, carrier:carrier, note:note };
-
-  fetch(GAS_URL, {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(body),
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data) {
-    if (data && data.success) {
-      okEl.classList.add('show');
-      // Update local data
-      var idx = allOrders.findIndex(function(o){ return o.ref === ref; });
-      if (idx >= 0) { allOrders[idx].status = status; allOrders[idx].guia = guia; allOrders[idx].carrier = carrier; allOrders[idx].note = note; }
-      updateStats();
-      // Refresh the badge in the row
-      var badge = document.querySelector('#row-'+CSS.escape(ref)+' .badge');
-      var st = STATUS_MAP[status] || STATUS_MAP.unknown;
-      if (badge) badge.className = 'badge '+st.cls;
-      if (badge) badge.innerHTML = '<span class="dot"></span>'+st.label;
-      var guiaCell = document.querySelector('#row-'+CSS.escape(ref)+' td:nth-child(6)');
-      if (guiaCell) {
-        guiaCell.innerHTML = guia ? '<span class="td-guia">'+esc(guia)+'</span><br><span style="font-size:10px;color:var(--muted)">'+esc(carrier)+'</span>' : '<span class="no-guia td-guia">Sin guía</span>';
-      }
-      showToast('✓ Pedido '+ref+' actualizado', 'success');
-      // Auto-update status select
-      var sel = document.getElementById('sel-status-'+CSS.escape(ref));
-      if (sel) sel.value = status;
-      setTimeout(function(){ okEl.classList.remove('show'); }, 3000);
-      } else {
-      errEl.classList.add('show');
-    }
-  })
-  .catch(function() { errEl.classList.add('show'); });
-}
-
-// ── FILTER ──
-function filterTable() {
-  var query = (document.getElementById('table-search').value || '').toLowerCase().trim();
-  var status = document.getElementById('filter-status').value;
-  var filtered = allOrders.filter(function(o) {
-    var matchSection = currentSection === 'orders' ? true :
-      currentSection === 'pending' ? (!o.guia || o.guia === '') :
-      currentSection === 'shipped' ? (o.status === 'enviado') : true;
-    var matchStatus = !status || o.status === status;
-    var matchQuery = !query ||
-      (o.ref && o.ref.toLowerCase().includes(query)) ||
-      (o.shipping && o.shipping.nombre && o.shipping.nombre.toLowerCase().includes(query)) ||
-      (o.name && o.name.toLowerCase().includes(query)) ||
-      (o.shipping && o.shipping.tel && o.shipping.tel.includes(query)) ||
-      (o.guia && o.guia.toLowerCase().includes(query));
-    return matchSection && matchStatus && matchQuery;
-  });
-  renderTable(filtered);
-}
-
-// ── SECTIONS ──
-function showSection(section) {
-  currentSection = section;
-  document.querySelectorAll('.sidebar-item').forEach(function(el){ el.classList.remove('active'); });
-  event && event.currentTarget && event.currentTarget.classList.add('active');
-  var titles = { orders:'Todos los pedidos', pending:'Sin guía de envío', shipped:'Pedidos enviados' };
-  document.getElementById('section-title').textContent = titles[section] || 'Pedidos';
-  filterTable();
-}
-
-// ── EXPORT CSV ──
-function exportCSV() {
-  var headers = ['Referencia','Fecha','Nombre','Teléfono','Total','Estatus','Guía','Transportista','Email','Nota'];
-  var rows = allOrders.map(function(o) {
-    var s = o.shipping || {};
-    return [o.ref, o.date||'', s.nombre||o.name||'', s.tel||o.tel||'', o.total||'', o.status||'', o.guia||'', o.carrier||'', o.email||'', o.note||'']
-      .map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; });
-  });
-  var csv = [headers.join(',')].concat(rows.map(function(r){ return r.join(','); })).join('\n');
-  var blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url; a.download = 'aurum-pedidos-'+new Date().toISOString().slice(0,10)+'.csv';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  showToast('CSV exportado', 'success');
-}
-
-// ── BULK UPDATE ──
-function openBulkModal() { document.getElementById('bulk-modal').classList.add('open'); }
-function closeBulkModal() { document.getElementById('bulk-modal').classList.remove('open'); }
-function processBulk() {
-  var raw = document.getElementById('bulk-data').value.trim();
-  if (!raw) return;
-  var lines = raw.split('\n').filter(Boolean);
-  var updates = lines.map(function(line) {
-    var parts = line.split(/[,\t]/);
-    return { ref:(parts[0]||'').trim(), guia:(parts[1]||'').trim(), carrier:(parts[2]||'').trim().toLowerCase(), status:(parts[3]||'enviado').trim() };
-  }).filter(function(u){ return u.ref; });
-
-  document.getElementById('bulk-result').textContent = 'Procesando '+updates.length+' registros...';
-  var promises = updates.map(function(u) {
-    return fetch(GAS_URL, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({action:'updateOrder',secret:SECRET,ref:u.ref,guia:u.guia,carrier:u.carrier,status:u.status}),
-    }).then(function(r){ return r.json(); });
-  });
-  Promise.all(promises).then(function() {
-    document.getElementById('bulk-result').textContent = '✓ '+updates.length+' pedidos actualizados.';
-    loadOrders(true);
-    setTimeout(closeBulkModal, 2000);
-  }).catch(function() {
-    document.getElementById('bulk-result').textContent = 'Error en la actualización masiva.';
-  });
-}
-
-// ── UTILS ──
-function esc(s) {
-  if (!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function showToast(msg, type) {
-  var t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast'+(type?' '+type:'');
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 3000);
-}
 // ── INVENTARIO ──
-  var _inv = [], _invLoaded = false, _editingId = null;
+var _inv = [], _invLoaded = false, _editingId = null;
+async function loadInventory() {
+  var el = document.getElementById('inv-loading');
+  if(el) el.textContent = 'Cargando...';
+  try {
+    var r = await fetch('/.netlify/functions/inventory');
+    var d = await r.json();
+    if (!d.success) throw new Error(d.error);
+    _inv = d.inventory; _invLoaded = true; renderInventory();
+    var upd = document.getElementById('inv-updated');
+    if(upd) upd.textContent = 'Actualizado: ' + new Date().toLocaleTimeString('es-MX');
+    if(el) el.textContent = '';
+  } catch(e) { if(el) el.textContent = 'Error: ' + e.message; }
+}
+function renderInventory() {
+  var tbody = document.getElementById('inv-tbody');
+  if (!tbody) return;
+  var inStock=0, lowStock=0, outStock=0, html='';
+  _inv.forEach(function(p) {
+    var st=p.stock, color=st===0?'var(--red)':st<=3?'var(--amber)':'var(--gold)', label=!p.activo?'Inactivo':st===0?'Sin stock':st<=3?'Stock bajo':'Disponible';
+    if(p.activo){if(st===0)outStock++;else inStock++;if(st>0&&st<=3)lowStock++;}
+    var w=Math.min(100,(st/20)*100);
+    html+='<tr onmouseover="this.style.background=\'rgba(201,168,76,0.03)\'" onmouseout="this.style.background=\'transparent\'">'+'<td style="padding:12px 20px;font-size:13px">'+p.nombre+'</td>'+'<td style="padding:12px;font-size:11px;color:var(--muted)">'+p.dosis+'</td>'+'<td style="padding:12px;text-align:center"><span style="font-size:18px;font-family:serif;color:'+color+'">'+st+'</span><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;margin:3px auto"><div style="width:'+w+'%;height:100%;background:'+color+';border-radius:2px"></div></div></td>'+'<td style="padding:12px;text-align:center;font-size:11px;color:'+color+'">'+label+'</td>'+'<td style="padding:12px 20px;text-align:right"><button onclick="openInvModal(\''+p.id+'\')" style="background:transparent;border:1px solid var(--border);color:var(--cream);padding:5px 12px;cursor:pointer;font-size:10px;letter-spacing:2px">EDITAR</button></td></tr>';
+  });
+  tbody.innerHTML=html||'<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--muted)">Sin productos</td></tr>';
+  var act=_inv.filter(function(p){return p.activo;}).length;
+  ['inv-stat-total','inv-stat-in','inv-stat-low','inv-stat-out'].forEach(function(id,i){var el=document.getElementById(id);if(el)el.textContent=[act,inStock,lowStock,outStock][i];});
+}
+function openInvModal(id){var p=_inv.find(function(x){return x.id===id;});if(!p)return;_editingId=id;document.getElementById('inv-modal-name').textContent=p.nombre;document.getElementById('inv-modal-dose').textContent=p.dosis;document.getElementById('inv-modal-stock').value=p.stock;document.getElementById('inv-modal').style.display='flex';}
+function closeInvModal(){document.getElementById('inv-modal').style.display='none';_editingId=null;}
+async function saveInvStock(){if(!_editingId)return;var newStock=parseInt(document.getElementById('inv-modal-stock').value,10);if(isNaN(newStock)||newStock<0)return;try{var r=await fetch('/.netlify/functions/inventory',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'update',productId:_editingId,stock:newStock})});var d=await r.json();if(!d.success)throw new Error(d.error);var p=_inv.find(function(x){return x.id===_editingId;});if(p)p.stock=newStock;renderInventory();closeInvModal();showToast('Stock actualizado');}catch(e){alert('Error: '+e.message);}}
 
-  async function loadInventory() {
-    document.getElementById('inv-loading').textContent = 'Cargando...';
-    try {
-      var r = await fetch('/.netlify/functions/inventory');
-      var d = await r.json();
-      if (!d.success) throw new Error(d.error);
-      _inv = d.inventory;
-      _invLoaded = true;
-            renderInventory();
-      document.getElementById('inv-updated').textContent = 'Actualizado: ' + new Date().toLocaleTimeString('es-MX');
-    } catch(e) {
-      document.getElementById('inv-loading').textContent = 'Error: ' + e.message;
-          
-
-  function renderInventory() {
-    var tbody = document.getElementById('inv-tbody');
-    if (!tbody) return;
-    var inStock=0, lowStock=0, outStock=0;
-    var html = '';
-    _inv.forEach(function(p) {
-      var st = p.stock;
-      var color = st===0 ? 'var(--red)' : st<=3 ? 'var(--amber)' : 'var(--gold)';
-            var label = !p.activo ? 'Inactivo' : st===0 ? 'Sin stock' : st<=3 ? 'Stock bajo' : 'Disponible';
-                  if (p.activo) { if (st===0) outStock++; else inStock++; if (st>0 && st<=3) lowStock++; }
-                        var w = Math.min(100, (st/20)*100);
-                        html += '<tr onmouseover="this.style.background=\'rgba(201,168,76,0.03)\'" onmouseout="this.style.background=\'transparent\'">' +
-                                '<td style="padding:12px 20px;font-size:13px">' + p.nombre + '</td>td>' +
-                                '<td style="padding:12px;font-size:11px;color:var(--muted)">' + p.dosis + '</td>td>' +
-                                '<td style="padding:12px;text-align:center"><span style="font-size:18px;font-family:serif;color:' + color + '">' + st + '</span>span>' +
-                                        '<div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;margin:3px auto"><div style="width:' + w + '%;height:100%;background:' + color + ';border-radius:2px"></div>div></div>div></td>td>' +
-                                '<td style="padding:12px;text-align:center;font-size:11px;color:' + color + '">' + label + '</td>td>' +
-                                '<td style="padding:12px 20px;text-align:right"><button onclick="openInvModal(\'' + p.id + '\')" style="background:transparent;border:1px solid var(--border);color:var(--cream);padding:5px 12px;cursor:pointer;font-size:10px;letter-spacing:2px">EDITAR</button>button></td>td></tr>tr>';
-                      });
-                      tbody.innerHTML = html || '<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--muted)">Sin productos</td>td></tr>';
-                    var act = _inv.filter(function(p){return p.activo;}).length;
-                    if (document.getElementById('inv-stat-total')) document.getElementById('inv-stat-total').textContent = act;
-                    if (document.getElementById('inv-stat-in')) document.getElementById('inv-stat-in').textContent = inStock;
-                    if (document.getElementById('inv-stat-low')) document.getElementById('inv-stat-low').textContent = lowStock;
-                    if (document.getElementById('inv-stat-out')) document.getElementById('inv-stat-out').textContent = outStock;
-                  }
-                  
-                  function openInvModal(id) {
-                    var p = _inv.find(function(x){return x.id===id;});
-                    if (!p) return;
-                    _editingId = id;
-                    document.getElementById('inv-modal-name').textContent = p.nombre;
-                    document.getElementById('inv-modal-dose').textContent = p.dosis;
-                    document.getElementById('inv-modal-stock').value = p.stock;
-                    document.getElementById('inv-modal').style.display = 'flex';
-                  }
-                  
-                  function closeInvModal() {
-                    document.getElementById('inv-modal').style.display = 'none';
-                    _editingId = null;
-                  }
-                  
-                  async function saveInvStock() {
-                    if (!_editingId) return;
-                    var newStock = parseInt(document.getElementById('inv-modal-stock').value, 10);
-                    if (isNaN(newStock) || newStock < 0) return;
-                      try {
-                        var r = await fetch('/.netlify/functions/inventory', {
-                          method:'POST', headers:{'Content-Type':'application/json'},
-                          body: JSON.stringify({action:'update', productId:_editingId, stock:newStock})
-                        });
-                        var d = await r.json();
-                        if (!d.success) throw new Error(d.error);
-                        var p = _inv.find(function(x){return x.id===_editingId;});
-                        if (p) p.stock = newStock;
-                        renderInventory();
-                        closeInvModal();
-                        showToast('Stock actualizado');
-                      } catch(e) { alert('Error: '+e.message); }
-                    }
-                    
-// ── AUTO REFRESH every 2 minutes ──
-setInterval(function(){ if (isAuth) loadOrders(faloadOrders(false); }, 120000);lse); }, 120000);
-
-                      <!-- INVENTARIO SECTION -->
-                      <div id="inv-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:500;align-items:center;justify-content:center">
-                          <div style="background:var(--black2);border:1px solid var(--border);padding:28px;width:320px;border-radius:4px">
-                                <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;margin-bottom:4px" id="inv-modal-name"></div>div>
-                                <div style="font-size:11px;color:var(--muted);margin-bottom:20px" id="inv-modal-dose"></div>div>
-                                <label style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px">STOCK</label>label>
-                                <input id="inv-modal-stock" type="number" min="0" style="width:100%;background:var(--black);border:1px solid var(--border);color:var(--cream);padding:8px 12px;font-size:16px;border-radius:2px;outline:none;margin-bottom:20px">
-                                <div style="display:flex;gap:8px;justify-content:flex-end">
-                                        <button onclick="closeInvModal()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 16px;cursor:pointer;font-size:10px;letter-spacing:2px">CANCELAR</button>button>
-                                        <button onclick="saveInvStock()" style="background:var(--gold);color:var(--black);border:none;padding:8px 16px;cursor:pointer;font-size:10px;letter-spacing:2px;font-weight:500">GUARDAR</button>button>
-                                </div>div>
-                          </div>div>
-                      </div>div>
 </script>
 
-                      <div id="section-inventario" class="admin-section" style="display:none;padding:28px">
-                          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
-                                <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300">Inventario</h2>h2>
-                                <div style="display:flex;gap:8px;align-items:center">
-                                        <span id="inv-updated" style="font-size:11px;color:var(--muted)"></span>span>
-                                        <button onclick="loadInventory()" style="background:transparent;border:1px solid var(--border);color:var(--cream);padding:7px 14px;cursor:pointer;font-size:10px;letter-spacing:2px">ACTUALIZAR</button>button>
-                                </div>div>
-                          </div>div>
-                          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px">
-                                <div class="stat-card"><div class="stat-num" id="inv-stat-total">-</div>div><div class="stat-label">ACTIVOS</div>div></div>div>
-                                <div class="stat-card"><div class="stat-num" id="inv-stat-in">-</div>div><div class="stat-label">EN STOCK</div>div></div>div>
-                                <div class="stat-card"><div class="stat-num" id="inv-stat-low" style="color:var(--amber)">-</div>div><div class="stat-label">STOCK BAJO</div>div></div>div>
-                                <div class="stat-card"><div class="stat-num" id="inv-stat-out" style="color:var(--red)">-</div>div><div class="stat-label">SIN STOCK</div>div></div>div>
-                          </div>div>
-                          <div style="background:var(--black2);border:1px solid var(--border);border-radius:4px">
-                                <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
-                                        <span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Control de Stock</span>span>
-                                        <span id="inv-loading" style="font-size:11px;color:var(--muted)"></span>span>
-                                </div>div>
-                                <table style="width:100%;border-collapse:collapse">
-                                        <thead><tr style="border-bottom:1px solid var(--border)">
-                                                <th style="text-align:left;padding:10px 20px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">PRODUCTO</th>th>
-                                                <th style="text-align:left;padding:10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">DOSIS</th>th>
-                                                <th style="text-align:center;padding:10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">STOCK</th>th>
-                                                <th style="text-align:center;padding:10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">ESTATUS</th>th>
-                                                <th style="text-align:right;padding:10px 20px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">AJUSTAR</th>th>
-                                        </tr>tr></thead>
-                                      <tbody id="inv-tbody"><tr><td colspan="5" style="text-align:center;padding:30px;color:var(--muted)">Cargando...</td>td></tr></tbody>tbody>
-                                </table>table>
-                          </div>div>
-                      </div>div></tr></thead>
+<div id="inv-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:500;align-items:center;justify-content:center"><div style="background:var(--black2);border:1px solid var(--border);padding:28px;width:320px;border-radius:4px"><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;margin-bottom:4px" id="inv-modal-name"></div><div style="font-size:11px;color:var(--muted);margin-bottom:20px" id="inv-modal-dose"></div><label style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px">STOCK</label><input id="inv-modal-stock" type="number" min="0" style="width:100%;background:var(--black);border:1px solid var(--border);color:var(--cream);padding:8px 12px;font-size:16px;border-radius:2px;outline:none;margin-bottom:20px;box-sizing:border-box"><div style="display:flex;gap:8px;justify-content:flex-end"><button onclick="closeInvModal()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 16px;cursor:pointer;font-size:10px;letter-spacing:2px">CANCELAR</button><button onclick="saveInvStock()" style="background:var(--gold);color:var(--black);border:none;padding:8px 16px;cursor:pointer;font-size:10px;letter-spacing:2px;font-weight:500">GUARDAR</button></div></div></div>
+<div id="section-inventario" style="display:none;padding:28px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300">Inventario</h2><div style="display:flex;gap:8px;align-items:center"><span id="inv-updated" style="font-size:11px;color:var(--muted)"></span><button onclick="loadInventory()" style="background:transparent;border:1px solid var(--border);color:var(--cream);padding:7px 14px;cursor:pointer;font-size:10px;letter-spacing:2px">ACTUALIZAR</button></div></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px"><div class="stat-card"><div class="stat-num" id="inv-stat-total">-</div><div class="stat-label">ACTIVOS</div></div><div class="stat-card"><div class="stat-num" id="inv-stat-in">-</div><div class="stat-label">EN STOCK</div></div><div class="stat-card"><div class="stat-num" id="inv-stat-low" style="color:var(--amber)">-</div><div class="stat-label">STOCK BAJO</div></div><div class="stat-card"><div class="stat-num" id="inv-stat-out" style="color:var(--red)">-</div><div class="stat-label">SIN STOCK</div></div></div><div style="background:var(--black2);border:1px solid var(--border);border-radius:4px"><div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between"><span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Control de Stock</span><span id="inv-loading" style="font-size:11px;color:var(--muted)"></span></div><table style="width:100%;border-collapse:collapse"><thead><tr style="border-bottom:1px solid var(--border)"><th style="text-align:left;padding:10px 20px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">PRODUCTO</th><th style="text-align:left;padding:10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">DOSIS</th><th style="text-align:center;padding:10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">STOCK</th><th style="text-align:center;padding:10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">ESTATUS</th><th style="text-align:right;padding:10px 20px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400">AJUSTAR</th></tr></thead><tbody id="inv-tbody"><tr><td colspan="5" style="text-align:center;padding:30px;color:var(--muted)">Cargando...</td></tr></tbody></table></div></div>
 </body>
 </html>
