@@ -367,7 +367,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 .card.oos .out-of-stock{display:block}
 .card.oos .btn-add{opacity:.3;pointer-events:none;cursor:not-allowed}
 .card.oos .vb{opacity:.3;pointer-events:none}
-.vb.oos-var{opacity:.4;cursor:not-allowed;border-color:rgba(224,112,112,0.35);color:rgba(200,100,100,0.7);text-decoration:line-through}
 .low-stock{display:none;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#E0B870;margin-bottom:10px}
 .card.low .low-stock{display:block}
 /* PROMO BAR */
@@ -1291,38 +1290,10 @@ var VARIANT_BTN_MAP = {
   'tirzepatide-30mg': {card:'card-tirzepatide', btn:'tb30', mg:30, sel:'selTirze'},
 };
 
-function applyVariantStock(inventory) {
-  inventory.forEach(function(p) {
-    var v = VARIANT_BTN_MAP[p.id];
-    if (!v) return;
-    var btn = document.getElementById(v.btn);
-    if (!btn) return;
-    if (p.stock <= 0) {
-      btn.classList.add('oos-var');
-      btn.disabled = true;
-      btn.title = 'Sin stock';
-      // Si esta variante estaba seleccionada, cambiar a otra disponible
-      if (btn.classList.contains('sel')) {
-        var siblings = Object.values(VARIANT_BTN_MAP).filter(function(x){
-          return x.card === v.card && x.btn !== v.btn;
-        });
-        for (var i = 0; i < siblings.length; i++) {
-          var sib = siblings[i];
-          var sibStock = inventory.find(function(pp){
-            return VARIANT_BTN_MAP[pp.id] && VARIANT_BTN_MAP[pp.id].btn === sib.btn;
-          });
-          if (sibStock && sibStock.stock > 0) {
-            window[sib.sel](sib.mg);
-            break;
-          }
-        }
-      }
-    } else {
-      btn.classList.remove('oos-var');
-      btn.disabled = false;
-      btn.title = '';
-    }
-  });
+function applyVariantStock() {
+  // Actualizar botón Agregar según variante seleccionada
+  if (typeof updateRetaBtn === 'function') updateRetaBtn();
+  if (typeof updateTirzeBtn === 'function') updateTirzeBtn();
 }
 
 function loadLiveInventory() {
@@ -1342,7 +1313,7 @@ function loadLiveInventory() {
       saveInventory(inv);
       applyInventory();
       // Marcar variantes individuales sin stock
-      applyVariantStock(data.inventory);
+      applyVariantStock();
     })
     .catch(function(){ /* silencioso: usa localStorage como fallback */ });
 }
@@ -1607,8 +1578,36 @@ function selReta(mg) {
   [10,15,30].forEach(function(v) {
     document.getElementById('rb'+v).className = 'vb' + (v===mg?' sel':'');
   });
+  updateRetaBtn();
+}
+function updateRetaBtn() {
+  var btn = document.getElementById('reta-add');
+  var inv = getInventory();
+  var key = 'retatrutide-' + retaSel;
+  var stock = inv[key] ? inv[key].qty : 99;
+  if (stock <= 0) {
+    btn.textContent = '⛔ Agotado temporalmente';
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+    btn.style.cursor = 'not-allowed';
+    btn.style.background = 'rgba(224,112,112,0.2)';
+    btn.style.color = '#E07070';
+    btn.style.border = '1px solid rgba(224,112,112,0.3)';
+  } else {
+    btn.textContent = 'Agregar';
+    btn.disabled = false;
+    btn.style.opacity = '';
+    btn.style.cursor = '';
+    btn.style.background = '';
+    btn.style.color = '';
+    btn.style.border = '';
+  }
 }
 document.getElementById('reta-add').addEventListener('click', function() {
+  var inv = getInventory();
+  var key = 'retatrutide-' + retaSel;
+  var stock = inv[key] ? inv[key].qty : 99;
+  if (stock <= 0) return;
   var d = retaData[retaSel];
   openModal(d.label, d.dose, d.price);
 });
@@ -1632,8 +1631,36 @@ function selTirze(mg) {
   document.getElementById('tc-lot').textContent = d.lot;
   document.getElementById('tc-date').textContent = d.date;
   document.getElementById('tc-link').textContent = 'Verificar: ' + d.id + ' →';
+  updateTirzeBtn();
+}
+function updateTirzeBtn() {
+  var btn = document.getElementById('tirze-add');
+  var inv = getInventory();
+  var key = 'tirzepatide-' + tirzeSel;
+  var stock = inv[key] ? inv[key].qty : 99;
+  if (stock <= 0) {
+    btn.textContent = '⛔ Agotado temporalmente';
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+    btn.style.cursor = 'not-allowed';
+    btn.style.background = 'rgba(224,112,112,0.2)';
+    btn.style.color = '#E07070';
+    btn.style.border = '1px solid rgba(224,112,112,0.3)';
+  } else {
+    btn.textContent = 'Agregar';
+    btn.disabled = false;
+    btn.style.opacity = '';
+    btn.style.cursor = '';
+    btn.style.background = '';
+    btn.style.color = '';
+    btn.style.border = '';
+  }
 }
 document.getElementById('tirze-add').addEventListener('click', function() {
+  var inv = getInventory();
+  var key = 'tirzepatide-' + tirzeSel;
+  var stock = inv[key] ? inv[key].qty : 99;
+  if (stock <= 0) return;
   var d = tirzeData[tirzeSel];
   openModal(d.label, d.dose, d.price);
 });
