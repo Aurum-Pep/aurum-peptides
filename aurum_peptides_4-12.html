@@ -341,6 +341,9 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 .card.oos .out-of-stock{display:block}
 .card.oos .btn-add{opacity:.3;pointer-events:none;cursor:not-allowed}
 .card.oos .vb{opacity:.3;pointer-events:none}
+.vb.oos-var{opacity:.4;cursor:not-allowed;border-color:rgba(224,112,112,0.35);color:rgba(200,100,100,0.7);text-decoration:line-through}
+.vb.oos-var{opacity:.35;cursor:not-allowed;position:relative;border-color:rgba(224,112,112,0.3);color:rgba(224,112,112,0.6)}
+.vb.oos-var::after{content:'·';font-size:8px;display:block;letter-spacing:0;color:rgba(224,112,112,0.7)}
 .low-stock{display:none;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#E0B870;margin-bottom:10px}
 .card.low .low-stock{display:block}
 /* PROMO BAR */
@@ -1136,7 +1139,13 @@ var CARD_INV_MAP = {
   'card-bacwater':    ['bacwater-3','bacwater-5','bacwater-10'],
 };
 
-// ── Mapeo de IDs del Sheets → claves del CARD_INV_MAP ──
+function getInventory() {
+  try { var s=localStorage.getItem('aurum_inventory'); return s?JSON.parse(s):JSON.parse(JSON.stringify(DEFAULT_INVENTORY)); }
+  catch(e){ return JSON.parse(JSON.stringify(DEFAULT_INVENTORY)); }
+}
+function saveInventory(inv) { localStorage.setItem('aurum_inventory',JSON.stringify(inv)); }
+
+// ── Mapeo Sheets IDs → claves locales ──
 var SHEETS_ID_MAP = {
   'retatrutide-10mg': 'retatrutide-10',
   'retatrutide-15mg': 'retatrutide-15',
@@ -1152,11 +1161,68 @@ var SHEETS_ID_MAP = {
   'tesamorelin-10mg': 'tesamorelin',
 };
 
-function getInventory() {
-  try { var s=localStorage.getItem('aurum_inventory'); return s?JSON.parse(s):JSON.parse(JSON.stringify(DEFAULT_INVENTORY)); }
-  catch(e){ return JSON.parse(JSON.stringify(DEFAULT_INVENTORY)); }
+// Mapa de botones de variante
+var VARIANT_BTN_MAP = {
+  'retatrutide-10mg': {card:'card-retatrutide', btn:'rb10', mg:10, sel:'selReta'},
+  'retatrutide-15mg': {card:'card-retatrutide', btn:'rb15', mg:15, sel:'selReta'},
+  'retatrutide-30mg': {card:'card-retatrutide', btn:'rb30', mg:30, sel:'selReta'},
+  'tirzepatide-10mg': {card:'card-tirzepatide', btn:'tb10', mg:10, sel:'selTirze'},
+  'tirzepatide-30mg': {card:'card-tirzepatide', btn:'tb30', mg:30, sel:'selTirze'},
+};
+
+function applyVariantStock(inventory) {
+  inventory.forEach(function(p) {
+    var v = VARIANT_BTN_MAP[p.id];
+    if (!v) return;
+    var btn = document.getElementById(v.btn);
+    if (!btn) return;
+    if (p.stock <= 0) {
+      btn.classList.add('oos-var');
+      btn.disabled = true;
+      btn.title = 'Sin stock';
+      // Si esta variante estaba seleccionada, cambiar a otra disponible
+      if (btn.classList.contains('sel')) {
+        var siblings = Object.values(VARIANT_BTN_MAP).filter(function(x){
+          return x.card === v.card && x.btn !== v.btn;
+        });
+        for (var i = 0; i < siblings.length; i++) {
+          var sib = siblings[i];
+          var sibStock = inventory.find(function(pp){ return VARIANT_BTN_MAP[pp.id] && VARIANT_BTN_MAP[pp.id].btn === sib.btn; });
+          if (sibStock && sibStock.stock > 0) {
+            window[sib.sel](sib.mg);
+            break;
+          }
+        }
+      }
+    } else {
+      btn.classList.remove('oos-var');
+      btn.disabled = false;
+      btn.title = '';
+    }
+  });
 }
-function saveInventory(inv) { localStorage.setItem('aurum_inventory',JSON.stringify(inv)); }
+
+function loadLiveInventory() {
+  fetch('/.netlify/functions/inventory')
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      if (!data.success || !data.inventory) return;
+      // Actualizar localStorage
+      var inv = getInventory();
+      data.inventory.forEach(function(p) {
+        var localKey = SHEETS_ID_MAP[p.id];
+        if (localKey) {
+          if (!inv[localKey]) inv[localKey] = {name:p.nombre, qty:p.stock, low:3};
+          else inv[localKey].qty = p.stock;
+        }
+      });
+      saveInventory(inv);
+      applyInventory();
+      // Marcar variantes individuales sin stock
+      applyVariantStock(data.inventory);
+    })
+    .catch(function(){ });
+}
 
 function getCardStock(cardId) {
   var inv = getInventory();
@@ -1180,27 +1246,6 @@ function applyInventory() {
       if (lowEl) lowEl.textContent = '⚠ Últimas '+s.qty+' unidades';
     }
   });
-}
-
-// ── Cargar inventario desde Netlify Function (Sheets real) ──
-function loadLiveInventory() {
-  fetch('/.netlify/functions/inventory')
-    .then(function(r){ return r.json(); })
-    .then(function(data) {
-      if (!data.success || !data.inventory) return;
-      // Convertir al formato del DEFAULT_INVENTORY local
-      var inv = getInventory();
-      data.inventory.forEach(function(p) {
-        var localKey = SHEETS_ID_MAP[p.id];
-        if (localKey) {
-          if (!inv[localKey]) inv[localKey] = {name:p.nombre,qty:p.stock,low:3};
-          else inv[localKey].qty = p.stock;
-        }
-      });
-      saveInventory(inv);
-      applyInventory();
-    })
-    .catch(function(){ /* silencioso: usa localStorage como fallback */ });
 }
 
 function deductInventoryFromCart() {
