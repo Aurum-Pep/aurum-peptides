@@ -1351,9 +1351,10 @@ function getCardStock(cardId) {
   var inv = getInventory();
   var keys = CARD_INV_MAP[cardId]||[];
   if (!keys.length) return {qty:99,low:5};
-  var minQty = Math.min.apply(null,keys.map(function(k){ return inv[k]?inv[k].qty:0; }));
+  // Máximo de stock: card disponible si al menos una variante tiene stock
+  var maxQty = Math.max.apply(null,keys.map(function(k){ return inv[k]?inv[k].qty:0; }));
   var maxLow = Math.max.apply(null,keys.map(function(k){ return inv[k]?inv[k].low:5; }));
-  return {qty:minQty,low:maxLow};
+  return {qty:maxQty,low:maxLow};
 }
 
 function applyInventory() {
