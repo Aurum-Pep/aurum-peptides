@@ -465,9 +465,76 @@
   }
 
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap');
+
+  /* ── NAV ── */
+  .site-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    max-width: 780px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--cream);
+    text-decoration: none;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .nav-link {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-link:hover { color: var(--gold); }
+  .nav-link.active { color: var(--gold); }
+
+  .article-nav {
+    display: flex;
+    gap: 16px;
+    margin: 48px 0 0;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+  .article-nav-card {
+    flex: 1;
+    background: var(--black2);
+    border: 1px solid var(--border);
+    padding: 18px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .article-nav-card:hover { border-color: var(--gold); }
+  .article-nav-dir { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .article-nav-title { font-size: 14px; color: var(--cream); line-height: 1.4; }
+
 </style>
 </head>
 <body>
+
+<!-- NAVEGACIÓN -->
+<nav>
+  <div class="site-nav">
+    <a href="https://aurumpeptides.mx" class="nav-logo">Aurum Peptides</a>
+    <div class="nav-links">
+      <a href="https://aurumpeptides.mx" class="nav-link">← Inicio</a>
+      <a href="https://aurumpeptides.mx/blog.html" class="nav-link active">Blog</a>
+    </div>
+  </div>
+</nav>
 
 <!-- HERO -->
 <header class="hero">
@@ -677,6 +744,19 @@
   <div class="faq-item">
     <div class="faq-q">¿Dónde se puede adquirir Retatrutide en México para investigación?</div>
     <p class="faq-a">Aurum Peptides ofrece Retatrutide para investigación en México con pureza ≥99% HPLC, certificado de análisis incluido, en presentaciones de 10 mg, 15 mg y 30 mg con envío a toda la república.</p>
+  </div>
+
+
+  <!-- NAV ENTRE ARTÍCULOS -->
+  <div class="article-nav">
+    <a href="https://aurumpeptides.mx/blog.html" class="article-nav-card">
+      <div class="article-nav-dir">← Ver todos</div>
+      <div class="article-nav-title">Blog de investigación — Aurum Peptides</div>
+    </a>
+    <a href="https://aurumpeptides.mx/blog-tirzepatide-vs-semaglutida-vs-retatrutide.html" class="article-nav-card" style="text-align:right">
+      <div class="article-nav-dir">Artículo siguiente →</div>
+      <div class="article-nav-title">Tirzepatide vs Semaglutida vs Retatrutide: la comparativa que necesitas leer</div>
+    </a>
   </div>
 
   <!-- REFERENCIAS -->
