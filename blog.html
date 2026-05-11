@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Blog de Investigación Científica | Aurum Peptides México</title>
+<meta name="description" content="Guías científicas sobre péptidos de investigación: Retatrutide, Tirzepatide, GLP-1, reconstitución y más. Contenido riguroso para investigadores en México.">
+<meta name="keywords" content="blog péptidos investigación, retatrutide guía, tirzepatide México, GLP-1 investigación, péptidos científicos México, Aurum Peptides blog">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://aurumpeptides.mx/blog.html">
+
+<meta property="og:title" content="Blog de Investigación Científica | Aurum Peptides México">
+<meta property="og:description" content="Guías científicas rigurosas sobre péptidos de investigación. Retatrutide, Tirzepatide, GLP-1 y más. Para investigadores en México.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aurumpeptides.mx/blog.html">
+<meta property="og:site_name" content="Aurum Peptides">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "Blog de Investigación Científica — Aurum Peptides",
+  "description": "Guías científicas sobre péptidos de investigación: Retatrutide, Tirzepatide, GLP-1, protocolos de laboratorio y más.",
+  "url": "https://aurumpeptides.mx/blog.html",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Aurum Peptides",
+    "url": "https://aurumpeptides.mx"
+  },
+  "blogPost": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Retatrutide: qué es y cómo funciona el triple agonista más avanzado",
+      "url": "https://aurumpeptides.mx/blog-retatrutide.html",
+      "datePublished": "2025-05-11",
+      "description": "Guía científica completa sobre Retatrutide: mecanismo triple agonista GIP/GLP-1/Glucagón, estudios clínicos y comparativa."
+    },
+    {
+      "@type": "BlogPosting",
+      "headline": "Tirzepatide vs Semaglutida vs Retatrutide: la comparativa que necesitas leer",
+      "url": "https://aurumpeptides.mx/blog-tirzepatide-vs-semaglutida-vs-retatrutide.html",
+      "datePublished": "2025-05-11",
+      "description": "Análisis comparativo de los tres péptidos incretínicos más estudiados: mecanismos, diferencias moleculares y evidencia clínica."
+    },
+    {
+      "@type": "BlogPosting",
+      "headline": "Péptidos GLP-1: guía completa para investigadores 2025",
+      "url": "https://aurumpeptides.mx/blog-peptidos-glp1-guia-completa.html",
+      "datePublished": "2025-05-11",
+      "description": "Historia, mecanismos, generaciones y estado de investigación de los péptidos agonistas GLP-1 en 2025."
+    },
+    {
+      "@type": "BlogPosting",
+      "headline": "Cómo reconstituir péptidos liofilizados: guía paso a paso",
+      "url": "https://aurumpeptides.mx/blog-reconstituir-peptidos.html",
+      "datePublished": "2025-05-11",
+      "description": "Protocolo completo de reconstitución: agua bacteriostática, calculadora de concentración, técnica y almacenamiento."
+    }
+  ]
+}
+</script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap');
+
+  :root {
+    --gold: #C9A84C;
+    --gold2: rgba(201,168,76,0.15);
+    --gold3: rgba(201,168,76,0.07);
+    --black: #0A0A08;
+    --black2: #111110;
+    --cream: #F5F0E8;
+    --muted: #6B6B65;
+    --border: rgba(201,168,76,0.18);
+    --green: #4CAF6B;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--black); color: var(--cream); font-family: 'Outfit', sans-serif; font-weight: 300; line-height: 1.8; font-size: 17px; }
+
+  /* ── NAV ── */
+  .site-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 40px; border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; background: var(--black); z-index: 10;
+  }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--cream); text-decoration: none; letter-spacing: 3px; text-transform: uppercase; }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-link { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-link:hover { color: var(--gold); }
+  .nav-link.active { color: var(--gold); }
+
+  /* ── HERO DEL BLOG ── */
+  .blog-hero {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 40px 60px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: end;
+  }
+  @media (max-width: 700px) {
+    .blog-hero { grid-template-columns: 1fr; padding: 60px 24px 40px; gap: 32px; }
+    .site-nav { padding: 20px 24px; }
+  }
+
+  .blog-hero-left {}
+  .blog-tag { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .blog-tag::before { content: ''; display: block; width: 30px; height: 1px; background: var(--gold); }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 24px;
+  }
+  h1 em { font-style: italic; color: var(--gold); }
+
+  .blog-hero-desc {
+    font-size: 16px;
+    color: rgba(245,240,232,0.7);
+    line-height: 1.75;
+    max-width: 420px;
+  }
+
+  .blog-hero-right {
+    padding-bottom: 4px;
+  }
+
+  .blog-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .blog-stat {
+    background: var(--black2);
+    padding: 20px 22px;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .blog-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .topic-tag {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 5px 12px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .topic-tag:hover, .topic-tag.active {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ── ARTÍCULO DESTACADO ── */
+  .section-label {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 56px 40px 20px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  @media (max-width: 700px) { .section-label { padding: 40px 24px 16px; } }
+
+  .featured-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  @media (max-width: 700px) { .featured-wrap { padding: 0 24px; } }
+
+  .featured-article {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: border-color 0.3s;
+    background: var(--black2);
+  }
+  .featured-article:hover { border-color: var(--gold); }
+  @media (max-width: 700px) { .featured-article { grid-template-columns: 1fr; } }
+
+  .featured-visual {
+    background: var(--gold3);
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid var(--border);
+    min-height: 280px;
+  }
+  @media (max-width: 700px) { .featured-visual { border-right: none; border-bottom: 1px solid var(--border); min-height: 160px; } }
+
+  .featured-badge {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 2px;
+    width: fit-content;
+  }
+
+  .featured-receptors {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .featured-receptor {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--cream);
+  }
+
+  .receptor-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .featured-content {
+    padding: 36px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .featured-meta {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .featured-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.25;
+    margin-bottom: 16px;
+  }
+
+  .featured-excerpt {
+    font-size: 14px;
+    color: rgba(245,240,232,0.7);
+    line-height: 1.7;
+    margin-bottom: 28px;
+    flex: 1;
+  }
+
+  .article-link {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .article-link::after {
+    content: '→';
+    transition: transform 0.2s;
+  }
+
+  .featured-article:hover .article-link::after { transform: translateX(4px); }
+
+  /* ── GRID DE ARTÍCULOS ── */
+  .articles-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 900px) { .articles-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .articles-grid { grid-template-columns: 1fr; padding: 0 24px 60px; } }
+
+  .article-card {
+    background: var(--black2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 24px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .article-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-2px);
+  }
+
+  .card-category {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.3;
+    margin-bottom: 12px;
+    flex: 1;
+  }
+
+  .card-excerpt {
+    font-size: 13px;
+    color: rgba(245,240,232,0.6);
+    line-height: 1.65;
+    margin-bottom: 22px;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .card-read {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .card-arrow {
+    font-size: 14px;
+    color: var(--gold);
+    transition: transform 0.2s;
+  }
+
+  .article-card:hover .card-arrow { transform: translateX(4px); }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+
+  .card-tag {
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid rgba(107,107,101,0.3);
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  /* ── SECCIÓN PRÓXIMAMENTE ── */
+  .upcoming-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+  }
+  @media (max-width: 700px) { .upcoming-section { padding: 0 24px 60px; } }
+
+  .upcoming-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .upcoming-card {
+    background: rgba(107,107,101,0.06);
+    border: 1px dashed rgba(107,107,101,0.25);
+    border-radius: 4px;
+    padding: 20px 22px;
+  }
+
+  .upcoming-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(107,107,101,0.6);
+    margin-bottom: 8px;
+  }
+
+  .upcoming-title {
+    font-size: 15px;
+    color: rgba(245,240,232,0.4);
+    line-height: 1.4;
+  }
+
+  /* ── NEWSLETTER ── */
+  .newsletter {
+    max-width: 1100px;
+    margin: 0 auto 0;
+    padding: 0 40px 80px;
+  }
+  @media (max-width: 700px) { .newsletter { padding: 0 24px 60px; } }
+
+  .newsletter-inner {
+    background: var(--gold3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 48px 40px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (max-width: 700px) { .newsletter-inner { grid-template-columns: 1fr; gap: 24px; } }
+
+  .newsletter-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .newsletter-text p {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .newsletter-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 260px;
+  }
+
+  @media (max-width: 700px) { .newsletter-cta { min-width: auto; } }
+
+  .newsletter-btn {
+    display: block;
+    background: var(--gold);
+    color: var(--black);
+    padding: 14px 28px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    text-align: center;
+    transition: opacity 0.2s;
+  }
+  .newsletter-btn:hover { opacity: 0.85; }
+
+  .newsletter-alt {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .newsletter-alt a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  @media (max-width: 700px) { .footer { padding: 24px; flex-direction: column; gap: 16px; text-align: center; } }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer-link {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-link:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-size: 11px;
+    color: rgba(107,107,101,0.5);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="site-nav">
+    <a href="https://aurumpeptides.mx" class="nav-logo">Aurum Peptides</a>
+    <div class="nav-links">
+      <a href="https://aurumpeptides.mx" class="nav-link">Inicio</a>
+      <a href="https://aurumpeptides.mx/#catalogo" class="nav-link">Catálogo</a>
+      <a href="https://aurumpeptides.mx/blog.html" class="nav-link active">Blog</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="blog-hero">
+  <div class="blog-hero-left">
+    <div class="blog-tag">Investigación Científica</div>
+    <h1>Ciencia<br>que <em>informa</em><br>decisiones</h1>
+    <p class="blog-hero-desc">Guías rigurosas sobre péptidos de investigación, protocolos de laboratorio y evidencia clínica. Para investigadores que necesitan información de calidad, en español.</p>
+  </div>
+  <div class="blog-hero-right">
+    <div class="blog-stats">
+      <div class="blog-stat">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Artículos publicados</div>
+      </div>
+      <div class="blog-stat">
+        <div class="stat-num">6+</div>
+        <div class="stat-label">Referencias NEJM</div>
+      </div>
+      <div class="blog-stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Contenido en español</div>
+      </div>
+      <div class="blog-stat">
+        <div class="stat-num">≥99%</div>
+        <div class="stat-label">Pureza HPLC productos</div>
+      </div>
+    </div>
+    <div class="blog-topics">
+      <button class="topic-tag active">Todos</button>
+      <button class="topic-tag">GLP-1</button>
+      <button class="topic-tag">Retatrutide</button>
+      <button class="topic-tag">Tirzepatide</button>
+      <button class="topic-tag">Protocolos</button>
+      <button class="topic-tag">Comparativas</button>
+    </div>
+  </div>
+</section>
+
+<!-- ARTÍCULO DESTACADO -->
+<div class="section-label">Artículo destacado</div>
+
+<div class="featured-wrap">
+  <a href="https://aurumpeptides.mx/blog-retatrutide.html" class="featured-article">
+    <div class="featured-visual">
+      <div class="featured-badge">Triple agonista · Más buscado</div>
+      <div class="featured-receptors">
+        <div class="featured-receptor"><div class="receptor-dot"></div>Receptor GIP</div>
+        <div class="featured-receptor"><div class="receptor-dot"></div>Receptor GLP-1</div>
+        <div class="featured-receptor"><div class="receptor-dot"></div>Receptor Glucagón</div>
+      </div>
+    </div>
+    <div class="featured-content">
+      <div>
+        <div class="featured-meta">Guía científica · Mayo 2025 · 9 min de lectura</div>
+        <div class="featured-title">Retatrutide: qué es y cómo funciona el triple agonista más avanzado</div>
+        <p class="featured-excerpt">El primer compuesto que activa simultáneamente los receptores GIP, GLP-1 y Glucagón. Mecanismo de acción, estructura molecular, resultados de Fase 2 publicados en el NEJM y estado actual de investigación clínica.</p>
+      </div>
+      <div class="article-link">Leer artículo completo</div>
+    </div>
+  </a>
+</div>
+
+<!-- GRID DE ARTÍCULOS -->
+<div class="section-label" style="margin-top:40px">Todos los artículos</div>
+
+<div class="articles-grid">
+
+  <!-- Artículo 2 -->
+  <a href="https://aurumpeptides.mx/blog-tirzepatide-vs-semaglutida-vs-retatrutide.html" class="article-card">
+    <div class="card-category">Comparativa · Alta conversión</div>
+    <div class="card-title">Tirzepatide vs Semaglutida vs Retatrutide</div>
+    <p class="card-excerpt">Análisis comparativo de los tres péptidos incretínicos más estudiados. Mecanismos, diferencias moleculares, timeline clínico y tabla de selección por objetivo de investigación.</p>
+    <div class="card-tags">
+      <span class="card-tag">GLP-1</span>
+      <span class="card-tag">GIP</span>
+      <span class="card-tag">Glucagón</span>
+      <span class="card-tag">Comparativa</span>
+    </div>
+    <div class="card-footer">
+      <span class="card-read">10 min · Mayo 2025</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <!-- Artículo 3 -->
+  <a href="https://aurumpeptides.mx/blog-peptidos-glp1-guia-completa.html" class="article-card">
+    <div class="card-category">Guía paraguas · Tráfico amplio</div>
+    <div class="card-title">Péptidos GLP-1: guía completa para investigadores 2025</div>
+    <p class="card-excerpt">Desde la biología del sistema incretínico hasta las tres generaciones de agonistas GLP-1. Todo lo que un investigador necesita saber sobre esta clase de compuestos.</p>
+    <div class="card-tags">
+      <span class="card-tag">GLP-1</span>
+      <span class="card-tag">Incretinas</span>
+      <span class="card-tag">Metabolismo</span>
+    </div>
+    <div class="card-footer">
+      <span class="card-read">11 min · Mayo 2025</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <!-- Artículo 4 -->
+  <a href="https://aurumpeptides.mx/blog-reconstituir-peptidos.html" class="article-card">
+    <div class="card-category">Protocolo · Long tail comprador</div>
+    <div class="card-title">Cómo reconstituir péptidos liofilizados: guía paso a paso</div>
+    <p class="card-excerpt">Protocolo completo con calculadora interactiva de concentración, técnica correcta de reconstitución, errores comunes y tabla de estabilidad por condición de almacenamiento.</p>
+    <div class="card-tags">
+      <span class="card-tag">Protocolo</span>
+      <span class="card-tag">BAC Water</span>
+      <span class="card-tag">Laboratorio</span>
+    </div>
+    <div class="card-footer">
+      <span class="card-read">8 min · Mayo 2025</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+</div>
+
+<!-- PRÓXIMAMENTE -->
+<div class="upcoming-section">
+  <div class="section-label" style="padding: 0 0 0 0; margin: 0 0 0 0;">Próximos artículos</div>
+  <div class="upcoming-grid" style="margin-top:20px">
+    <div class="upcoming-card">
+      <div class="upcoming-label">En preparación</div>
+      <div class="upcoming-title">NAD+ vs NMN: diferencias, biodisponibilidad y uso en investigación</div>
+    </div>
+    <div class="upcoming-card">
+      <div class="upcoming-label">En preparación</div>
+      <div class="upcoming-title">Ipamorelin: el secretagogo de GH más estudiado — revisión de la evidencia</div>
+    </div>
+    <div class="upcoming-card">
+      <div class="upcoming-label">En preparación</div>
+      <div class="upcoming-title">GHK-Cu en investigación de piel y regeneración: qué dice la ciencia</div>
+    </div>
+    <div class="upcoming-card">
+      <div class="upcoming-label">En preparación</div>
+      <div class="upcoming-title">CJC-1295 vs Ipamorelin: ¿por qué se combinan en investigación?</div>
+    </div>
+  </div>
+</div>
+
+<!-- NEWSLETTER / CTA -->
+<div class="newsletter">
+  <div class="newsletter-inner">
+    <div class="newsletter-text">
+      <h2>Investiga con los mejores compuestos</h2>
+      <p>Tirzepatide, Retatrutide, NAD+, GHK-Cu y más. Pureza ≥99% HPLC, COA incluido, envío discreto a toda la república.</p>
+    </div>
+    <div class="newsletter-cta">
+      <a href="https://aurumpeptides.mx/#catalogo" class="newsletter-btn">Ver catálogo completo</a>
+      <p class="newsletter-alt">o regresa al <a href="https://aurumpeptides.mx">inicio</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer">
+    <a href="https://aurumpeptides.mx" class="footer-logo">Aurum Peptides</a>
+    <div class="footer-links">
+      <a href="https://aurumpeptides.mx" class="footer-link">Inicio</a>
+      <a href="https://aurumpeptides.mx/#catalogo" class="footer-link">Catálogo</a>
+      <a href="https://aurumpeptides.mx/blog.html" class="footer-link">Blog</a>
+    </div>
+    <span class="footer-copy">© 2025 Aurum Peptides · Solo para investigación científica</span>
+  </div>
+</footer>
+
+</body>
+</html>
