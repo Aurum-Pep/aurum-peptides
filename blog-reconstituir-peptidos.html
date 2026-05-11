@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cómo Reconstituir Péptidos Liofilizados: Guía Paso a Paso | Aurum Peptides</title>
+<meta name="description" content="Guía completa para reconstituir péptidos liofilizados de forma correcta: qué agua usar, cómo calcular la concentración, técnica de inyección y almacenamiento. Para investigadores en México.">
+<meta name="keywords" content="reconstituir péptidos, reconstitución péptidos liofilizados, agua bacteriostática péptidos, cómo diluir péptidos, concentración péptidos investigación, BAC water péptidos México">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://aurumpeptides.mx/blog/como-reconstituir-peptidos-liofilizados">
+
+<meta property="og:title" content="Cómo Reconstituir Péptidos Liofilizados: Guía Paso a Paso">
+<meta property="og:description" content="Protocolo completo de reconstitución de péptidos liofilizados: agua bacteriostática, cálculo de concentración, técnica y almacenamiento correcto.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://aurumpeptides.mx/blog/como-reconstituir-peptidos-liofilizados">
+<meta property="og:site_name" content="Aurum Peptides">
+<meta property="article:published_time" content="2025-05-11">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Cómo Reconstituir Péptidos Liofilizados: Guía Paso a Paso para Investigadores",
+  "description": "Protocolo completo de reconstitución de péptidos liofilizados: selección del disolvente, cálculo de concentración, técnica de inyección y condiciones de almacenamiento.",
+  "author": { "@type": "Organization", "name": "Aurum Peptides", "url": "https://aurumpeptides.mx" },
+  "publisher": { "@type": "Organization", "name": "Aurum Peptides", "url": "https://aurumpeptides.mx" },
+  "datePublished": "2025-05-11",
+  "dateModified": "2025-05-11",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://aurumpeptides.mx/blog/como-reconstituir-peptidos-liofilizados" }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Qué agua se usa para reconstituir péptidos liofilizados?",
+      "acceptedAnswer": { "@type": "Answer", "text": "El estándar para investigación es el agua bacteriostática (BAC water), que contiene 0.9% de alcohol bencílico como conservante antimicrobiano. Permite almacenar el péptido reconstituido hasta 4-6 semanas a 4°C. Alternativamente se usa agua estéril para bacteriostasis, aunque sin el conservante la estabilidad es menor." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cómo calcular la concentración al reconstituir un péptido?",
+      "acceptedAnswer": { "@type": "Answer", "text": "La fórmula es: Concentración (mg/mL) = masa del péptido (mg) ÷ volumen de agua añadido (mL). Por ejemplo, 10 mg de péptido + 2 mL de agua bacteriostática = 5 mg/mL. Si se trabaja en microgramos: 10 mg = 10,000 µg. Con 2 mL = 5,000 µg/mL = 5 mg/mL." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cuánto tiempo dura un péptido reconstituido?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Reconstituido con agua bacteriostática y almacenado a 4°C: 4-6 semanas en condiciones óptimas. Si se almacena a -20°C en alícuotas: hasta 3-6 meses, aunque los ciclos de congelación-descongelación degradan la estructura del péptido. En forma liofilizada sin reconstituir a -20°C: >24 meses." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Por qué no se debe agitar el vial al reconstituir?",
+      "acceptedAnswer": { "@type": "Answer", "text": "La agitación vigorosa puede desnaturalizar las proteínas y péptidos al introducir burbujas de aire y someter la molécula a fuerzas mecánicas que alteran su estructura tridimensional. El protocolo correcto es hacer rodar suavemente el vial entre las palmas o dejarlo reposar hasta que el polvo se disuelva completamente." }
+    }
+  ]
+}
+</script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap');
+
+  :root {
+    --gold: #C9A84C;
+    --gold3: rgba(201,168,76,0.07);
+    --black: #0A0A08;
+    --black2: #111110;
+    --cream: #F5F0E8;
+    --muted: #6B6B65;
+    --border: rgba(201,168,76,0.18);
+    --green: #4CAF6B;
+    --red: #E07070;
+    --amber: #E8A83C;
+    --blue: #5B9BD5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--black); color: var(--cream); font-family: 'Outfit', sans-serif; font-weight: 300; line-height: 1.8; font-size: 17px; }
+
+  .site-nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; max-width: 780px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--cream); text-decoration: none; letter-spacing: 3px; text-transform: uppercase; }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-link { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-link:hover, .nav-link.active { color: var(--gold); }
+
+  .hero { padding: 80px 24px 60px; max-width: 780px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+  .hero-tag { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .hero-tag::before { content: ''; display: block; width: 30px; height: 1px; background: var(--gold); }
+  h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(34px, 5.5vw, 52px); font-weight: 400; line-height: 1.15; margin-bottom: 24px; color: var(--cream); }
+  h1 em { font-style: italic; color: var(--gold); }
+  .hero-meta { font-size: 12px; color: var(--muted); letter-spacing: 1px; margin-bottom: 28px; }
+  .hero-intro { font-size: 19px; color: rgba(245,240,232,0.85); line-height: 1.75; font-weight: 300; }
+
+  .article { max-width: 780px; margin: 0 auto; padding: 60px 24px 80px; }
+  h2 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 400; color: var(--cream); margin: 56px 0 20px; line-height: 1.3; }
+  h3 { font-size: 14px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin: 36px 0 14px; }
+  p { margin-bottom: 20px; color: rgba(245,240,232,0.88); }
+  strong { font-weight: 500; color: var(--cream); }
+  ul, ol { margin: 0 0 20px 20px; }
+  ul li, ol li { color: rgba(245,240,232,0.88); margin-bottom: 8px; line-height: 1.7; }
+
+  /* ── PASOS NUMERADOS ── */
+  .steps { margin: 32px 0; display: flex; flex-direction: column; gap: 2px; }
+  .step { display: grid; grid-template-columns: 64px 1fr; background: var(--black2); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .step-num { display: flex; align-items: center; justify-content: center; background: var(--gold3); border-right: 1px solid var(--border); padding: 24px 12px; }
+  .step-number { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--gold); }
+  .step-body { padding: 22px 24px; }
+  .step-title { font-size: 15px; font-weight: 500; color: var(--cream); margin-bottom: 8px; }
+  .step-desc { font-size: 14px; color: rgba(245,240,232,0.8); line-height: 1.7; margin: 0; }
+  .step-warning { display: inline-block; font-size: 11px; letter-spacing: 1px; color: var(--red); margin-top: 8px; }
+  .step-tip { display: inline-block; font-size: 11px; letter-spacing: 1px; color: var(--green); margin-top: 8px; }
+
+  /* ── CALLOUT ── */
+  .callout { background: var(--gold3); border: 1px solid var(--border); border-left: 3px solid var(--gold); padding: 20px 24px; margin: 32px 0; border-radius: 0 4px 4px 0; }
+  .callout p { margin: 0; font-size: 15px; color: rgba(245,240,232,0.9); }
+  .callout strong { color: var(--gold); }
+  .callout-danger { border-left-color: var(--red); }
+  .callout-danger strong { color: var(--red); }
+  .callout-tip { border-left-color: var(--green); }
+  .callout-tip strong { color: var(--green); }
+
+  /* ── CALCULADORA ── */
+  .calculator { background: var(--black2); border: 1px solid var(--border); border-radius: 4px; padding: 28px; margin: 32px 0; }
+  .calc-title { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+  .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  @media (max-width: 500px) { .calc-grid { grid-template-columns: 1fr; } }
+  .calc-field label { display: block; font-size: 11px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+  .calc-field input, .calc-field select {
+    width: 100%; background: var(--black); border: 1px solid var(--border); color: var(--cream);
+    padding: 10px 14px; font-size: 16px; font-family: 'Outfit', sans-serif; border-radius: 2px; outline: none;
+  }
+  .calc-field input:focus, .calc-field select:focus { border-color: var(--gold); }
+  .calc-result { background: var(--gold3); border: 1px solid var(--border); border-radius: 2px; padding: 16px 20px; text-align: center; }
+  .calc-result-label { font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+  .calc-result-value { font-family: 'Cormorant Garamond', serif; font-size: 36px; color: var(--gold); }
+  .calc-result-unit { font-size: 14px; color: var(--muted); }
+  .calc-table { width: 100%; margin-top: 16px; border-collapse: collapse; font-size: 13px; }
+  .calc-table td { padding: 8px 12px; border-bottom: 1px solid rgba(201,168,76,0.08); color: rgba(245,240,232,0.8); }
+  .calc-table td:first-child { color: var(--muted); }
+  .calc-table tr:last-child td { border-bottom: none; }
+
+  /* ── TABLA ── */
+  .table-wrap { overflow-x: auto; margin: 32px 0; border: 1px solid var(--border); border-radius: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead tr { background: var(--gold3); }
+  th { padding: 14px 16px; text-align: left; font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid var(--border); }
+  td { padding: 12px 16px; color: rgba(245,240,232,0.85); border-bottom: 1px solid rgba(201,168,76,0.08); vertical-align: top; line-height: 1.5; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(201,168,76,0.03); }
+  .highlight-row td { background: var(--gold3); }
+  .check { color: var(--green); }
+  .cross { color: var(--red); }
+
+  /* ── MATERIAL LIST ── */
+  .materials { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 28px 0; }
+  .material-item { background: var(--black2); border: 1px solid var(--border); padding: 16px 18px; border-radius: 4px; }
+  .material-name { font-size: 14px; font-weight: 500; color: var(--cream); margin-bottom: 4px; }
+  .material-note { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .material-required { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+  .material-optional { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+
+  /* ── CTA ── */
+  .cta { background: var(--gold3); border: 1px solid var(--border); padding: 40px; border-radius: 4px; margin: 56px 0; text-align: center; }
+  .cta h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--cream); margin-bottom: 12px; }
+  .cta p { font-size: 15px; color: var(--muted); margin-bottom: 24px; }
+  .cta-btn { display: inline-block; background: var(--gold); color: var(--black); padding: 13px 32px; font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: opacity 0.2s; }
+  .cta-btn:hover { opacity: 0.85; }
+  .cta-sub { margin-top: 14px; font-size: 12px; color: var(--muted); margin-bottom: 0; }
+
+  .article-nav { display: flex; gap: 16px; margin: 48px 0 0; padding-top: 32px; border-top: 1px solid var(--border); }
+  .article-nav-card { flex: 1; background: var(--black2); border: 1px solid var(--border); padding: 18px 20px; border-radius: 4px; text-decoration: none; transition: border-color 0.2s; }
+  .article-nav-card:hover { border-color: var(--gold); }
+  .article-nav-dir { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .article-nav-title { font-size: 14px; color: var(--cream); line-height: 1.4; }
+
+  .faq-item { border-bottom: 1px solid var(--border); padding: 24px 0; }
+  .faq-q { font-size: 16px; font-weight: 500; color: var(--cream); margin-bottom: 10px; }
+  .faq-a { font-size: 15px; color: rgba(245,240,232,0.8); margin: 0; }
+
+  .disclaimer { background: var(--black2); border: 1px solid rgba(107,107,101,0.3); padding: 18px 22px; border-radius: 4px; margin-top: 48px; }
+  .disclaimer p { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.7; }
+  .refs { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border); }
+  .refs h3 { margin-bottom: 16px; }
+  .refs ol { padding-left: 20px; }
+  .refs li { font-size: 13px; color: var(--muted); margin-bottom: 8px; line-height: 1.6; }
+  .refs a { color: var(--gold); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="site-nav">
+    <a href="https://aurumpeptides.mx" class="nav-logo">Aurum Peptides</a>
+    <div class="nav-links">
+      <a href="https://aurumpeptides.mx" class="nav-link">← Inicio</a>
+      <a href="https://aurumpeptides.mx/blog.html" class="nav-link active">Blog</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-tag">Protocolo de Laboratorio · Guía Práctica</div>
+  <h1>Cómo reconstituir péptidos liofilizados: <em>guía paso a paso</em></h1>
+  <div class="hero-meta">Por Aurum Peptides · Actualizado: mayo 2025 · Lectura: 8 min</div>
+  <p class="hero-intro">
+    La reconstitución incorrecta es la causa más común de degradación de péptidos en el laboratorio. Esta guía cubre el protocolo completo: qué disolvente usar, cómo calcular la concentración exacta, la técnica correcta y las condiciones de almacenamiento que maximizan la estabilidad.
+  </p>
+</header>
+
+<article class="article">
+
+  <h2>¿Qué significa que un péptido esté liofilizado?</h2>
+
+  <p>La <strong>liofilización</strong> (freeze-drying) es el proceso por el cual se elimina el agua de una solución de péptido mediante congelación seguida de sublimación al vacío. El resultado es un polvo seco, estable y altamente concentrado que puede almacenarse a -20°C durante 24 meses o más sin degradación significativa.</p>
+
+  <p>La liofilización es el estándar de oro para la conservación de péptidos de investigación porque elimina el principal agente de degradación — el agua — sin exponer el compuesto a temperaturas elevadas que alterarían su estructura. Todos los péptidos de Aurum Peptides se suministran liofilizados precisamente por esta razón.</p>
+
+  <div class="callout">
+    <p><strong>Por qué importa la técnica de reconstitución:</strong> Un péptido liofilizado de pureza ≥99% puede degradarse significativamente en minutos si se reconstituye con agua incorrecta, se agita vigorosamente o se expone a temperatura ambiente durante demasiado tiempo. La técnica correcta es tan importante como la calidad del compuesto.</p>
+  </div>
+
+  <h2>Material necesario</h2>
+
+  <div class="materials">
+    <div class="material-item">
+      <div class="material-required">Requerido</div>
+      <div class="material-name">Agua bacteriostática</div>
+      <div class="material-note">0.9% alcohol bencílico. Viales de 30 mL estériles. Es el estándar para investigación con péptidos.</div>
+    </div>
+    <div class="material-item">
+      <div class="material-required">Requerido</div>
+      <div class="material-name">Jeringa de insulina</div>
+      <div class="material-note">Calibre 29–31G, 0.5 mL o 1 mL. Graduación en unidades o mL. Para transferir el disolvente al vial.</div>
+    </div>
+    <div class="material-item">
+      <div class="material-required">Requerido</div>
+      <div class="material-name">Alcohol isopropílico 70%</div>
+      <div class="material-note">Para limpiar los tapones de los viales antes de perforar. Gasas estériles o hisopos.</div>
+    </div>
+    <div class="material-item">
+      <div class="material-optional">Recomendado</div>
+      <div class="material-name">Guantes de nitrilo</div>
+      <div class="material-note">Protegen tanto al investigador como al péptido de contaminación por aceites de la piel.</div>
+    </div>
+    <div class="material-item">
+      <div class="material-optional">Recomendado</div>
+      <div class="material-name">Marcador permanente</div>
+      <div class="material-note">Para etiquetar el vial con: nombre del péptido, concentración, fecha de reconstitución, lote.</div>
+    </div>
+    <div class="material-item">
+      <div class="material-optional">Opcional</div>
+      <div class="material-name">Ácido acético diluido</div>
+      <div class="material-note">Para péptidos hidrofóbicos que no se disuelven bien en agua pura. Concentración 0.1–1%.</div>
+    </div>
+  </div>
+
+  <h3>¿Por qué agua bacteriostática y no agua destilada común?</h3>
+
+  <p>El agua bacteriostática contiene <strong>0.9% de alcohol bencílico</strong>, un conservante antimicrobiano que inhibe el crecimiento bacteriano en el vial una vez abierto. Sin este conservante, cualquier contaminación microbiana durante la reconstitución o entre usos puede degradar rápidamente el péptido.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Disolvente</th>
+          <th>Conservante</th>
+          <th>Estabilidad post-reconstitución</th>
+          <th>Uso recomendado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-row">
+          <td>Agua bacteriostática (BAC)</td>
+          <td>0.9% alcohol bencílico</td>
+          <td>4–6 semanas a 4°C</td>
+          <td>Estándar para investigación</td>
+        </tr>
+        <tr>
+          <td>Agua estéril para inyección</td>
+          <td>Ninguno</td>
+          <td>24–48 h a 4°C</td>
+          <td>Uso único o inmediato</td>
+        </tr>
+        <tr>
+          <td>Solución salina estéril 0.9%</td>
+          <td>Ninguno</td>
+          <td>24–48 h a 4°C</td>
+          <td>Solo cuando el protocolo lo requiere</td>
+        </tr>
+        <tr>
+          <td>Ácido acético 0.1–1%</td>
+          <td>Ninguno</td>
+          <td>Variable</td>
+          <td>Péptidos hidrofóbicos insolubles en agua</td>
+        </tr>
+        <tr>
+          <td>Agua del grifo / destilada común</td>
+          <td>Ninguno</td>
+          <td class="cross">No usar</td>
+          <td class="cross">Nunca — contaminada y sin esterilidad</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Calculadora de concentración</h2>
+
+  <p>Antes de reconstituir, calcula exactamente cuánto agua añadir para obtener la concentración deseada:</p>
+
+  <div class="calculator">
+    <div class="calc-title">Calculadora de reconstitución</div>
+    <div class="calc-grid">
+      <div class="calc-field">
+        <label>Masa del péptido</label>
+        <input type="number" id="masa" value="10" min="0.1" step="0.1">
+      </div>
+      <div class="calc-field">
+        <label>Unidad de masa</label>
+        <select id="unidad">
+          <option value="mg">mg (miligramos)</option>
+          <option value="ug">µg (microgramos)</option>
+        </select>
+      </div>
+      <div class="calc-field">
+        <label>Concentración deseada</label>
+        <input type="number" id="conc" value="5" min="0.01" step="0.1">
+      </div>
+      <div class="calc-field">
+        <label>Unidad de concentración</label>
+        <select id="concUnit">
+          <option value="mgml">mg/mL</option>
+          <option value="ugml">µg/mL</option>
+        </select>
+      </div>
+    </div>
+    <div class="calc-result">
+      <div class="calc-result-label">Agua a añadir</div>
+      <div class="calc-result-value" id="resultado">2.00</div>
+      <div class="calc-result-unit">mL de agua bacteriostática</div>
+    </div>
+    <table class="calc-table" id="ejemplos">
+      <tr><td>Concentración final</td><td id="concFinal">5 mg/mL</td></tr>
+      <tr><td>Total de solución</td><td id="totalSol">2.00 mL</td></tr>
+      <tr><td>En jeringa de insulina (100 U/mL)</td><td id="jeringaInfo">0.1 mL = 10 unidades = 0.5 mg</td></tr>
+    </table>
+  </div>
+
+  <h2>Protocolo de reconstitución paso a paso</h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num"><div class="step-number">1</div></div>
+      <div class="step-body">
+        <div class="step-title">Sacar el vial del congelador y esperar</div>
+        <p class="step-desc">Retira el vial de péptido liofilizado del congelador y déjalo reposar a temperatura ambiente durante <strong>15–20 minutos</strong> antes de abrirlo. Esto evita la condensación de humedad sobre el polvo cuando el frío del vial entra en contacto con el aire ambiente, que podría comenzar a hidratarlo de forma incontrolada.</p>
+        <span class="step-warning">⚠ No abras el vial directamente del congelador</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num"><div class="step-number">2</div></div>
+      <div class="step-body">
+        <div class="step-title">Calcular el volumen de agua</div>
+        <p class="step-desc">Usando la fórmula o la calculadora de arriba, determina exactamente cuántos mL de agua bacteriostática necesitas añadir para obtener la concentración deseada en tu protocolo de investigación. Anótalo antes de continuar. Ejemplos comunes: 10 mg de péptido + 1 mL BAC = 10 mg/mL · 10 mg + 2 mL BAC = 5 mg/mL · 10 mg + 10 mL BAC = 1 mg/mL.</p>
+        <span class="step-tip">✓ Concentraciones más bajas facilitan la medición precisa de volúmenes pequeños</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num"><div class="step-number">3</div></div>
+      <div class="step-body">
+        <div class="step-title">Limpiar ambos tapones con alcohol</div>
+        <p class="step-desc">Con una gasa o hisopo impregnado en alcohol isopropílico 70%, limpia el tapón de goma del vial de péptido y el tapón del vial de agua bacteriostática. Deja que el alcohol se evapore completamente (15–30 segundos) antes de insertar la aguja. Este paso es crítico para mantener la esterilidad.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num"><div class="step-number">4</div></div>
+      <div class="step-body">
+        <div class="step-title">Cargar la jeringa con el volumen calculado</div>
+        <p class="step-desc">Inserta la aguja en el vial de agua bacteriostática e invierte el vial. Aspira lentamente el volumen exacto calculado. Verifica que no haya burbujas de aire en la jeringa — si las hay, da unos golpecitos suaves con el dedo y expúlsalas antes de proceder.</p>
+        <span class="step-tip">✓ Usa una jeringa de insulina de 1 mL para mayor precisión en volúmenes pequeños</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num"><div class="step-number">5</div></div>
+      <div class="step-body">
+        <div class="step-title">Inyectar el agua sobre la pared del vial</div>
+        <p class="step-desc">Inserta la aguja en el vial de péptido liofilizado e inyecta el agua <strong>lentamente, apuntando a la pared interior del vial</strong> — nunca directamente sobre el polvo. Esto permite que el agua resbale suavemente sobre el polvo en lugar de impactar sobre él, reduciendo la fragmentación mecánica del péptido.</p>
+        <span class="step-warning">⚠ No inyectes el agua directamente sobre el polvo — apunta a la pared del vial</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num"><div class="step-number">6</div></div>
+      <div class="step-body">
+        <div class="step-title">Disolver con movimiento suave, nunca agitar</div>
+        <p class="step-desc">Una vez añada el agua, <strong>rueda suavemente el vial entre las palmas</strong> con movimientos circulares suaves. Si el polvo no se disuelve completamente, puedes dejarlo reposar a temperatura ambiente 5–10 minutos y repetir el movimiento. Si persiste un residuo, el vial puede colocarse en el refrigerador por unos minutos y volver a rodar.</p>
+        <span class="step-warning">⚠ Nunca agites el vial con fuerza — la agitación vigorosa desnaturaliza el péptido</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num"><div class="step-number">7</div></div>
+      <div class="step-body">
+        <div class="step-title">Verificar la solución y etiquetar</div>
+        <p class="step-desc">La solución correctamente reconstituida debe ser <strong>transparente e incolora</strong> (algunos péptidos pueden tener una leve coloración amarillenta, lo cual es normal). Si la solución es turbia o tiene partículas visibles, la reconstitución puede haber fallado. Etiqueta inmediatamente el vial con: nombre del péptido, concentración (mg/mL), fecha, número de lote.</p>
+        <span class="step-tip">✓ Solución transparente = reconstitución exitosa</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num"><div class="step-number">8</div></div>
+      <div class="step-body">
+        <div class="step-title">Almacenar correctamente</div>
+        <p class="step-desc">Coloca inmediatamente el vial reconstituido en el <strong>refrigerador a 4°C</strong>, alejado de la luz directa. Con agua bacteriostática, la estabilidad es de 4–6 semanas. Para protocolos de investigación más largos, considera fraccionar la solución en alícuotas de uso único usando viales de 1.5 mL y almacenarlas a -20°C — aunque debes saber que cada ciclo de congelación-descongelación degrada ligeramente el péptido.</p>
+        <span class="step-warning">⚠ Nunca congeles y descongeles el mismo vial más de 2–3 veces</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>Guía de concentraciones de referencia</h2>
+
+  <p>Las siguientes son concentraciones de trabajo habituales en investigación con péptidos. Ajusta según el volumen de tu protocolo específico:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Masa del péptido</th>
+          <th>Agua añadida</th>
+          <th>Concentración resultante</th>
+          <th>Uso típico</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>10 mg</td>
+          <td>1 mL BAC</td>
+          <td>10 mg/mL</td>
+          <td>Stock concentrado para alícuotas</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>10 mg</td>
+          <td>2 mL BAC</td>
+          <td>5 mg/mL</td>
+          <td>Concentración de trabajo más común</td>
+        </tr>
+        <tr>
+          <td>10 mg</td>
+          <td>5 mL BAC</td>
+          <td>2 mg/mL</td>
+          <td>Protocolo de dosis baja</td>
+        </tr>
+        <tr>
+          <td>10 mg</td>
+          <td>10 mL BAC</td>
+          <td>1 mg/mL</td>
+          <td>Máxima facilidad de medición</td>
+        </tr>
+        <tr>
+          <td>5 mg</td>
+          <td>1 mL BAC</td>
+          <td>5 mg/mL</td>
+          <td>Viales pequeños para investigación</td>
+        </tr>
+        <tr>
+          <td>30 mg</td>
+          <td>3 mL BAC</td>
+          <td>10 mg/mL</td>
+          <td>Viales de alta dosis (Retatrutide 30 mg)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Errores comunes y cómo evitarlos</h2>
+
+  <div class="callout callout-danger">
+    <p><strong>Error #1 — Usar agua del grifo o agua destilada común:</strong> El agua no estéril introduce bacterias que degradan el péptido en horas. El agua destilada común tampoco es estéril. Solo usar agua bacteriostática o agua estéril para inyección.</p>
+  </div>
+
+  <div class="callout callout-danger">
+    <p><strong>Error #2 — Agitar el vial con fuerza:</strong> La agitación mecánica intensa crea burbujas que aumentan la interfaz aire-líquido, donde los péptidos se desnaturalizan preferentemente. Siempre rodar suavemente, nunca agitar.</p>
+  </div>
+
+  <div class="callout callout-danger">
+    <p><strong>Error #3 — Abrir el vial directamente del congelador:</strong> El choque térmico y la condensación de humedad pueden comenzar a degradar el péptido antes de que decidas el volumen de reconstitución. Esperar 15–20 minutos a temperatura ambiente.</p>
+  </div>
+
+  <div class="callout callout-tip">
+    <p><strong>Consejo — Fraccionar en alícuotas de uso único:</strong> Si el protocolo de investigación se extiende más de 4 semanas, es mejor reconstituir con un volumen pequeño, fraccionar en alícuotas de 200–500 µL en viales Eppendorf estériles y congelar a -20°C. Se descongela solo la alícuota que se necesita ese día.</p>
+  </div>
+
+  <div class="callout callout-tip">
+    <p><strong>Consejo — Péptidos difíciles de disolver:</strong> Algunos péptidos hidrofóbicos no se disuelven bien en agua bacteriostática pura. En estos casos, puede ayudar añadir primero 5–10% del volumen total como ácido acético 0.1%, esperar 1–2 minutos, y luego completar el volumen con agua bacteriostática.</p>
+  </div>
+
+  <h2>Estabilidad por condición de almacenamiento</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Estado</th>
+          <th>Temperatura</th>
+          <th>Estabilidad</th>
+          <th>Notas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-row">
+          <td>Liofilizado (sin reconstituir)</td>
+          <td>-20°C</td>
+          <td>&gt;24 meses</td>
+          <td>Forma óptima de almacenamiento a largo plazo</td>
+        </tr>
+        <tr>
+          <td>Reconstituido con BAC water</td>
+          <td>4°C</td>
+          <td>4–6 semanas</td>
+          <td>Estándar de investigación. Proteger de la luz.</td>
+        </tr>
+        <tr>
+          <td>Reconstituido con agua estéril</td>
+          <td>4°C</td>
+          <td>24–48 horas</td>
+          <td>Solo para uso inmediato</td>
+        </tr>
+        <tr>
+          <td>Alícuotas congeladas (BAC)</td>
+          <td>-20°C</td>
+          <td>3–6 meses</td>
+          <td>Descongelar solo lo necesario. No recongelar.</td>
+        </tr>
+        <tr>
+          <td>Temperatura ambiente</td>
+          <td>20–25°C</td>
+          <td class="cross">Horas</td>
+          <td class="cross">No almacenar. Solo durante manipulación activa.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cta">
+    <h3>Péptidos y BAC Water disponibles en México</h3>
+    <p>Aurum Peptides ofrece péptidos liofilizados ≥99% HPLC y agua bacteriostática para investigación. Todo lo que necesitas para tu protocolo, con envío discreto a toda la república.</p>
+    <a href="https://aurumpeptides.mx/#catalogo" class="cta-btn">Ver catálogo completo</a>
+    <p class="cta-sub">BAC Water 3 mL disponible · COA incluido en cada pedido</p>
+  </div>
+
+  <h2>Preguntas frecuentes sobre reconstitución</h2>
+
+  <div class="faq-item">
+    <div class="faq-q">¿Se puede usar agua del grifo hervida para reconstituir péptidos?</div>
+    <p class="faq-a">No. Hervir el agua elimina algunas bacterias pero no garantiza esterilidad ni elimina endotoxinas. El agua del grifo también contiene cloro, flúor y minerales que pueden afectar la solubilidad y estabilidad del péptido. Siempre usar agua bacteriostática o agua estéril para inyección.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">¿Qué pasa si el péptido no se disuelve completamente?</div>
+    <p class="faq-a">Si después de rodar suavemente durante 5–10 minutos persiste un residuo, prueba: (1) dejar reposar en refrigerador 30 minutos y volver a rodar, (2) añadir ácido acético 0.1% en una parte del volumen antes de añadir el resto del agua, (3) verificar que el agua esté a temperatura ambiente y no fría. Si el problema persiste, contacta al proveedor.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">¿Cuántas veces se puede congelar y descongelar un péptido reconstituido?</div>
+    <p class="faq-a">Lo recomendable es no superar 2–3 ciclos de congelación-descongelación. Cada ciclo somete el péptido a estrés mecánico durante la formación y fusión de cristales de hielo, lo que puede fragmentar la estructura molecular. Por eso se recomienda fraccionar en alícuotas de uso único antes de congelar.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">¿Cómo sé si un péptido se ha degradado?</div>
+    <p class="faq-a">Los indicadores de degradación incluyen: solución turbia o con precipitado visible, coloración inusual (más allá de la leve tonalidad amarillenta normal), olor extraño o efectos en investigación inconsistentes con lotes anteriores. Si tienes dudas sobre la integridad del compuesto, no uses esa solución.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">¿El alcohol bencílico del agua bacteriostática afecta al péptido?</div>
+    <p class="faq-a">A la concentración de 0.9%, el alcohol bencílico es compatible con la gran mayoría de péptidos de investigación y no altera su estructura molecular. Es el conservante estándar aceptado internacionalmente para soluciones de péptidos de uso en investigación.</p>
+  </div>
+
+  <div class="article-nav">
+    <a href="https://aurumpeptides.mx/blog-peptidos-glp1-guia-completa.html" class="article-nav-card">
+      <div class="article-nav-dir">← Artículo anterior</div>
+      <div class="article-nav-title">Péptidos GLP-1: guía completa para investigadores 2025</div>
+    </a>
+    <a href="https://aurumpeptides.mx/blog.html" class="article-nav-card" style="text-align:right">
+      <div class="article-nav-dir">Ver todos →</div>
+      <div class="article-nav-title">Blog de investigación — Aurum Peptides</div>
+    </a>
+  </div>
+
+  <div class="refs">
+    <h3>Referencias</h3>
+    <ol>
+      <li>Franks F. "Freeze-drying of bioproducts: putting principles into practice." <em>European Journal of Pharmaceutics and Biopharmaceutics.</em> 1998;45(3):221-229.</li>
+      <li>Wang W. "Lyophilization and development of solid protein pharmaceuticals." <em>International Journal of Pharmaceutics.</em> 2000;203(1-2):1-60.</li>
+      <li>Carpenter JF, et al. "Rational design of stable lyophilized protein formulations: some practical advice." <em>Pharmaceutical Research.</em> 1997;14(8):969-975.</li>
+      <li>Manning MC, et al. "Stability of protein pharmaceuticals." <em>Pharmaceutical Research.</em> 1989;6(11):903-918.</li>
+    </ol>
+  </div>
+
+  <div class="disclaimer">
+    <p><strong>Aviso importante:</strong> Este protocolo es de carácter científico y educativo. Los péptidos de investigación de Aurum Peptides están destinados exclusivamente a uso en investigación científica en entornos controlados. Este artículo no constituye asesoramiento médico ni instrucciones para uso terapéutico en humanos.</p>
+  </div>
+
+</article>
+
+<script>
+function calcular() {
+  var masa = parseFloat(document.getElementById('masa').value) || 0;
+  var unidad = document.getElementById('unidad').value;
+  var conc = parseFloat(document.getElementById('conc').value) || 0;
+  var concUnit = document.getElementById('concUnit').value;
+
+  if (!masa || !conc) return;
+
+  // Convertir todo a mg
+  var masaMg = unidad === 'ug' ? masa / 1000 : masa;
+  // Convertir concentración a mg/mL
+  var concMgMl = concUnit === 'ugml' ? conc / 1000 : conc;
+
+  var volumen = masaMg / concMgMl;
+
+  document.getElementById('resultado').textContent = volumen.toFixed(2);
+  document.getElementById('concFinal').textContent = concMgMl.toFixed(2) + ' mg/mL (' + (concMgMl * 1000).toFixed(0) + ' µg/mL)';
+  document.getElementById('totalSol').textContent = volumen.toFixed(2) + ' mL';
+
+  // Info de jeringa: con 100 U/mL de jeringa de insulina, 1 U = 0.01 mL
+  var por01mL = (concMgMl * 0.1).toFixed(3);
+  document.getElementById('jeringaInfo').textContent = '0.1 mL (10 unidades) = ' + por01mL + ' mg';
+}
+
+document.getElementById('masa').addEventListener('input', calcular);
+document.getElementById('unidad').addEventListener('change', calcular);
+document.getElementById('conc').addEventListener('input', calcular);
+document.getElementById('concUnit').addEventListener('change', calcular);
+calcular();
+</script>
+
+</body>
+</html>
