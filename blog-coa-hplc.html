@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qué es un COA HPLC y Cómo Interpretarlo: Guía para Investigadores | Aurum Peptides</title>
+<meta name="description" content="Guía completa para interpretar un certificado de análisis HPLC de péptidos: qué datos contiene, cómo leer el cromatograma, qué significa pureza ≥99% y qué pedir a tu proveedor.">
+<meta name="keywords" content="COA HPLC péptidos, certificado análisis péptidos, pureza HPLC péptidos, cómo leer COA, HPLC cromatograma péptidos, espectrometría masas péptidos, calidad péptidos investigación México">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://aurumpeptides.mx/blog/coa-hplc-como-interpretarlo">
+<meta property="og:title" content="Qué es un COA HPLC y Cómo Interpretarlo: Guía para Investigadores">
+<meta property="og:description" content="Aprende a leer un certificado de análisis HPLC de péptidos: cromatograma, pureza, identidad por masa y qué exigir a tu proveedor. Guía práctica para investigadores.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://aurumpeptides.mx/blog/coa-hplc-como-interpretarlo">
+<meta property="og:site_name" content="Aurum Peptides">
+<meta property="article:published_time" content="2025-05-12">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org", "@type": "Article",
+  "headline": "Qué es un COA HPLC y Cómo Interpretarlo: Guía Completa para Investigadores",
+  "description": "Guía práctica para interpretar certificados de análisis HPLC de péptidos de investigación: cromatograma, cálculo de pureza, espectrometría de masas y criterios de aceptación.",
+  "author": {"@type": "Organization", "name": "Aurum Peptides", "url": "https://aurumpeptides.mx"},
+  "publisher": {"@type": "Organization", "name": "Aurum Peptides", "url": "https://aurumpeptides.mx"},
+  "datePublished": "2025-05-12"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org", "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question","name": "¿Qué es un COA de un péptido?","acceptedAnswer": {"@type": "Answer","text": "Un COA (Certificate of Analysis) es el documento que certifica la identidad y calidad de un péptido específico de un lote determinado. Un COA completo para péptidos de investigación incluye: pureza por HPLC (cromatografía líquida de alta resolución), identidad por espectrometría de masas (EM), aspecto visual, contenido de agua y condiciones de almacenamiento recomendadas."}},
+    {"@type": "Question","name": "¿Qué significa pureza ≥99% HPLC?","acceptedAnswer": {"@type": "Answer","text": "Significa que el 99% o más del área total del cromatograma HPLC corresponde al péptido de interés, y el 1% o menos corresponde a impurezas (fragmentos de síntesis, isómeros, reactivos residuales). Se calcula como: % área del pico principal / área total × 100. Es el estándar más alto de pureza para péptidos de investigación."}},
+    {"@type": "Question","name": "¿Por qué importa el COA al comprar péptidos para investigación?","acceptedAnswer": {"@type": "Answer","text": "Un péptido sin COA verificable podría tener una pureza real muy inferior a la declarada, contener impurezas que interfieren con los resultados experimentales, o incluso ser un compuesto diferente al etiquetado. El COA es la única garantía objetiva de que el compuesto que recibes es lo que esperas usar en tu protocolo de investigación."}}
+  ]
+}
+</script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap');
+  :root{--gold:#C9A84C;--gold3:rgba(201,168,76,0.07);--black:#0A0A08;--black2:#111110;--cream:#F5F0E8;--muted:#6B6B65;--border:rgba(201,168,76,0.18);--green:#4CAF6B;--red:#E07070;--amber:#E8A83C}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--black);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.8;font-size:17px}
+  nav{position:sticky;top:0;z-index:100;background:rgba(10,10,8,0.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+  .site-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:780px;margin:0 auto}
+  .nav-logo{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream);text-decoration:none;letter-spacing:3px;text-transform:uppercase}
+  .nav-links{display:flex;align-items:center;gap:28px}
+  .nav-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+  .nav-link:hover,.nav-link.active{color:var(--gold)}
+  .hero{padding:80px 24px 60px;max-width:780px;margin:0 auto;border-bottom:1px solid var(--border)}
+  .hero-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+  .hero-tag::before{content:'';display:block;width:30px;height:1px;background:var(--gold)}
+  h1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5.5vw,52px);font-weight:400;line-height:1.15;margin-bottom:24px}
+  h1 em{font-style:italic;color:var(--gold)}
+  .hero-meta{font-size:12px;color:var(--muted);letter-spacing:1px;margin-bottom:28px}
+  .hero-intro{font-size:19px;color:rgba(245,240,232,0.85);line-height:1.75;font-weight:300}
+  .article{max-width:780px;margin:0 auto;padding:60px 24px 80px}
+  h2{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;color:var(--cream);margin:56px 0 20px;line-height:1.3}
+  h3{font-size:14px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:36px 0 14px}
+  p{margin-bottom:20px;color:rgba(245,240,232,0.88)}
+  strong{font-weight:500;color:var(--cream)}
+  ul,ol{margin:0 0 20px 20px}
+  ul li,ol li{color:rgba(245,240,232,0.88);margin-bottom:8px;line-height:1.7}
+  .callout{background:var(--gold3);border:1px solid var(--border);border-left:3px solid var(--gold);padding:20px 24px;margin:32px 0;border-radius:0 4px 4px 0}
+  .callout p{margin:0;font-size:15px;color:rgba(245,240,232,0.9)}
+  .callout strong{color:var(--gold)}
+  .callout-danger{border-left-color:var(--red)}
+  .callout-danger strong{color:var(--red)}
+  .callout-ok{border-left-color:var(--green)}
+  .callout-ok strong{color:var(--green)}
+  .table-wrap{overflow-x:auto;margin:32px 0;border:1px solid var(--border);border-radius:4px}
+  table{width:100%;border-collapse:collapse;font-size:14px;min-width:480px}
+  thead tr{background:var(--gold3)}
+  th{padding:14px 16px;text-align:left;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--border)}
+  td{padding:12px 16px;color:rgba(245,240,232,0.85);border-bottom:1px solid rgba(201,168,76,0.08);vertical-align:top;line-height:1.5}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(201,168,76,0.03)}
+  .highlight-row td{background:var(--gold3)}
+  .highlight-row td:first-child{color:var(--gold);font-weight:500}
+  .check{color:var(--green)}
+  .cross{color:var(--red)}
+  /* COA mockup */
+  .coa-mockup{background:var(--black2);border:1px solid var(--border);border-radius:4px;padding:0;margin:32px 0;overflow:hidden}
+  .coa-header{background:var(--gold3);padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+  .coa-title{font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+  .coa-body{padding:20px}
+  .coa-row{display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(201,168,76,0.07)}
+  .coa-row:last-child{border-bottom:none}
+  .coa-key{color:var(--muted)}
+  .coa-val{color:var(--cream);font-weight:400}
+  .coa-val.pass{color:var(--green)}
+  .coa-val.fail{color:var(--red)}
+  /* Cromatograma simulado */
+  .chromato{background:var(--black2);border:1px solid var(--border);border-radius:4px;padding:24px;margin:28px 0}
+  .chromato-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+  .chromato-area{position:relative;height:120px;background:rgba(107,107,101,0.05);border:1px solid rgba(107,107,101,0.15);border-radius:2px;overflow:hidden;margin-bottom:12px}
+  .chromato-line{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(107,107,101,0.2)}
+  .chromato-peak{position:absolute;bottom:2px;display:flex;flex-direction:column;align-items:center}
+  .peak-shape{background:linear-gradient(to top, var(--gold), rgba(201,168,76,0.3));border-radius:4px 4px 0 0;width:100%}
+  .peak-main{width:60px;left:50%;transform:translateX(-50%)}
+  .peak-small-1{width:8px;left:25%}
+  .peak-small-2{width:5px;left:72%}
+  .peak-label{font-size:9px;color:var(--gold);margin-top:4px;text-align:center;letter-spacing:1px}
+  .chromato-stats{display:flex;gap:20px;flex-wrap:wrap}
+  .chrom-stat{font-size:12px}
+  .chrom-stat-val{color:var(--green);font-weight:500}
+  .chrom-stat-label{color:var(--muted)}
+  /* Secciones del COA */
+  .coa-sections{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0}
+  @media(max-width:600px){.coa-sections{grid-template-columns:1fr}}
+  .coa-section{background:var(--black2);border:1px solid var(--border);padding:18px;border-radius:4px}
+  .coa-section-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+  .coa-section-content{font-size:13px;color:rgba(245,240,232,0.75);line-height:1.7}
+  .coa-section.required{border-color:var(--gold)}
+  .coa-section-badge{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--green);margin-bottom:8px;display:block}
+  .coa-section-badge.optional{color:var(--amber)}
+  /* Checklist */
+  .checklist{margin:28px 0;display:flex;flex-direction:column;gap:10px}
+  .check-item{display:flex;align-items:flex-start;gap:12px;background:var(--black2);border:1px solid var(--border);padding:14px 16px;border-radius:4px}
+  .check-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+  .check-text{font-size:14px;color:rgba(245,240,232,0.85);line-height:1.5}
+  .check-text strong{color:var(--cream)}
+  /* CTA */
+  .cta{background:var(--gold3);border:1px solid var(--border);padding:40px;border-radius:4px;margin:56px 0;text-align:center}
+  .cta h3{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--cream);margin-bottom:12px}
+  .cta p{font-size:15px;color:var(--muted);margin-bottom:24px}
+  .cta-btn{display:inline-block;background:var(--gold);color:var(--black);padding:13px 32px;font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:opacity .2s}
+  .cta-btn:hover{opacity:.85}
+  .cta-sub{margin-top:14px;font-size:12px;color:var(--muted);margin-bottom:0}
+  .article-nav{display:flex;gap:16px;margin:48px 0 0;padding-top:32px;border-top:1px solid var(--border)}
+  .article-nav-card{flex:1;background:var(--black2);border:1px solid var(--border);padding:18px 20px;border-radius:4px;text-decoration:none;transition:border-color .2s}
+  .article-nav-card:hover{border-color:var(--gold)}
+  .article-nav-dir{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .article-nav-title{font-size:14px;color:var(--cream);line-height:1.4}
+  .faq-item{border-bottom:1px solid var(--border);padding:24px 0}
+  .faq-q{font-size:16px;font-weight:500;color:var(--cream);margin-bottom:10px}
+  .faq-a{font-size:15px;color:rgba(245,240,232,0.8);margin:0}
+  .disclaimer{background:var(--black2);border:1px solid rgba(107,107,101,0.3);padding:18px 22px;border-radius:4px;margin-top:48px}
+  .disclaimer p{font-size:12px;color:var(--muted);margin:0;line-height:1.7}
+</style>
+</head>
+<body>
+<nav><div class="site-nav"><a href="https://aurumpeptides.mx" class="nav-logo">Aurum Peptides</a><div class="nav-links"><a href="https://aurumpeptides.mx" class="nav-link">← Inicio</a><a href="https://aurumpeptides.mx/blog.html" class="nav-link active">Blog</a></div></div></nav>
+
+<header class="hero">
+  <div class="hero-tag">Calidad · Guía Práctica</div>
+  <h1>Qué es un COA HPLC y <em>cómo interpretarlo</em></h1>
+  <div class="hero-meta">Por Aurum Peptides · Actualizado: mayo 2025 · Lectura: 7 min</div>
+  <p class="hero-intro">El COA (Certificate of Analysis) es el documento más importante que acompaña a cualquier péptido de investigación. Saber leerlo te permite verificar que el compuesto que recibes es lo que pediste — y detectar proveedores que inflan sus datos de pureza.</p>
+</header>
+
+<article class="article">
+
+  <h2>¿Qué es un COA?</h2>
+
+  <p>Un <strong>COA (Certificate of Analysis)</strong> es el informe de control de calidad emitido por el laboratorio que sintetizó o analizó el péptido. Documenta los resultados de los ensayos realizados sobre un lote específico, confirmando su identidad y pureza.</p>
+
+  <p>Para péptidos de investigación, un COA completo y confiable incluye obligatoriamente dos análisis: <strong>HPLC</strong> para cuantificar la pureza y <strong>espectrometría de masas (EM)</strong> para confirmar la identidad molecular. Sin ambos, el COA es incompleto.</p>
+
+  <h2>Ejemplo de COA: qué contiene cada sección</h2>
+
+  <div class="coa-mockup">
+    <div class="coa-header">
+      <div class="coa-title">Certificate of Analysis — Ejemplo</div>
+      <div style="font-size:11px;color:var(--muted)">Lote: AU-RET-10-2025-047</div>
+    </div>
+    <div class="coa-body">
+      <div class="coa-row"><span class="coa-key">Producto</span><span class="coa-val">Retatrutide (LY3437943)</span></div>
+      <div class="coa-row"><span class="coa-key">Número de lote</span><span class="coa-val">AU-RET-10-2025-047</span></div>
+      <div class="coa-row"><span class="coa-key">Cantidad</span><span class="coa-val">10 mg · Polvo liofilizado</span></div>
+      <div class="coa-row"><span class="coa-key">Pureza (HPLC)</span><span class="coa-val pass">99.4% ✓</span></div>
+      <div class="coa-row"><span class="coa-key">Masa molecular teórica</span><span class="coa-val">4,759.4 Da</span></div>
+      <div class="coa-row"><span class="coa-key">Masa observada (EM)</span><span class="coa-val pass">4,759.2 Da ✓</span></div>
+      <div class="coa-row"><span class="coa-key">Aspecto</span><span class="coa-val">Polvo blanco liofilizado</span></div>
+      <div class="coa-row"><span class="coa-key">Almacenamiento</span><span class="coa-val">-20°C · Proteger de la luz</span></div>
+      <div class="coa-row"><span class="coa-key">Fecha de análisis</span><span class="coa-val">2025-04-15</span></div>
+    </div>
+  </div>
+
+  <h2>El cromatograma HPLC: el corazón del COA</h2>
+
+  <p>El cromatograma es la representación gráfica de la separación cromatográfica del péptido. En el eje X está el tiempo de retención (minutos) y en el eje Y la absorbancia UV a 214 nm (longitud de onda donde absorben los enlaces peptídicos).</p>
+
+  <div class="chromato">
+    <div class="chromato-title">Cromatograma HPLC representativo — Pureza ≥99%</div>
+    <div class="chromato-area">
+      <div class="chromato-line"></div>
+      <!-- Pico principal -->
+      <div class="chromato-peak peak-main" style="left:calc(50% - 30px)">
+        <div class="peak-shape" style="height:95px"></div>
+      </div>
+      <!-- Impurezas pequeñas -->
+      <div class="chromato-peak" style="left:28%">
+        <div class="peak-shape" style="height:4px;width:8px;background:linear-gradient(to top, rgba(201,168,76,0.4), rgba(201,168,76,0.1))"></div>
+      </div>
+      <div class="chromato-peak" style="left:68%">
+        <div class="peak-shape" style="height:3px;width:6px;background:linear-gradient(to top, rgba(201,168,76,0.4), rgba(201,168,76,0.1))"></div>
+      </div>
+    </div>
+    <div class="chromato-stats">
+      <div class="chrom-stat"><span class="chrom-stat-val">99.4%</span> <span class="chrom-stat-label">Área pico principal</span></div>
+      <div class="chrom-stat"><span class="chrom-stat-val">0.6%</span> <span class="chrom-stat-label">Impurezas totales</span></div>
+      <div class="chrom-stat"><span class="chrom-stat-val">12.4 min</span> <span class="chrom-stat-label">Tiempo de retención</span></div>
+    </div>
+  </div>
+
+  <h3>Cómo se calcula la pureza HPLC</h3>
+  <p>La pureza se calcula por el <strong>método de área relativa</strong>:</p>
+  <div class="callout">
+    <p><strong>Fórmula:</strong> % Pureza = (Área del pico principal ÷ Área total de todos los picos) × 100<br><br>
+    Si el pico principal tiene 9,940 unidades de área y todos los picos suman 10,000 → pureza = 99.4%</p>
+  </div>
+
+  <h2>Las secciones del COA: cuáles son obligatorias</h2>
+
+  <div class="coa-sections">
+    <div class="coa-section required">
+      <span class="coa-section-badge">Obligatorio</span>
+      <div class="coa-section-title">HPLC — Pureza</div>
+      <div class="coa-section-content">Cromatograma + porcentaje de pureza calculado por área relativa. Sin esto, no hay verificación de pureza.</div>
+    </div>
+    <div class="coa-section required">
+      <span class="coa-section-badge">Obligatorio</span>
+      <div class="coa-section-title">Espectrometría de masas</div>
+      <div class="coa-section-content">Masa molecular observada vs. teórica. Confirma que el péptido es el compuesto correcto, no una impureza o sustitución.</div>
+    </div>
+    <div class="coa-section">
+      <span class="coa-section-badge optional">Recomendado</span>
+      <div class="coa-section-title">Número de lote</div>
+      <div class="coa-section-content">Permite rastrear el análisis a un lote específico. Un COA sin número de lote no es trazable.</div>
+    </div>
+    <div class="coa-section">
+      <span class="coa-section-badge optional">Recomendado</span>
+      <div class="coa-section-title">Fecha de análisis</div>
+      <div class="coa-section-content">Los COA sin fecha pueden corresponder a lotes anteriores o ser genéricos. La fecha confirma que el análisis es del lote recibido.</div>
+    </div>
+  </div>
+
+  <h2>Cómo detectar un COA fraudulento o de baja calidad</h2>
+
+  <div class="callout callout-danger">
+    <p><strong>Señal de alerta #1 — Sin cromatograma, solo número:</strong> Algunos proveedores declaran "99% de pureza" en la ficha de producto pero no publican el cromatograma HPLC real. Sin el cromatograma, no hay forma de verificar la pureza declarada. Siempre exige el cromatograma completo.</p>
+  </div>
+
+  <div class="callout callout-danger">
+    <p><strong>Señal de alerta #2 — COA genérico sin número de lote:</strong> Un COA sin número de lote puede ser el mismo documento para todos los pedidos, independientemente del lote real despachado. El COA debe ser específico del lote que recibes.</p>
+  </div>
+
+  <div class="callout callout-danger">
+    <p><strong>Señal de alerta #3 — Sin espectrometría de masas:</strong> Un HPLC sin EM confirma pureza pero no identidad. Un péptido diferente al etiquetado podría mostrar un pico puro en HPLC. La EM confirma que la masa molecular corresponde al compuesto declarado.</p>
+  </div>
+
+  <div class="callout callout-ok">
+    <p><strong>Buena práctica — Verificar la masa teórica:</strong> Puedes calcular la masa teórica de cualquier péptido usando calculadoras online (como la del ExPASy). Si la masa observada en el COA difiere en más de 1–2 Da de la teórica, hay un problema de identidad.</p>
+  </div>
+
+  <h2>Niveles de pureza: qué significa cada uno</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Pureza HPLC</th><th>Uso apropiado</th><th>Limitaciones</th></tr></thead>
+      <tbody>
+        <tr><td>&gt;95%</td><td>Screening inicial, ensayos de baja sensibilidad</td><td>5% de impurezas pueden interferir en ensayos celulares</td></tr>
+        <tr><td>&gt;98%</td><td>Investigación general, ensayos in vitro</td><td>Estándar mínimo aceptable para publicación</td></tr>
+        <tr class="highlight-row"><td>≥99%</td><td>Investigación de alta precisión, ensayos in vivo, publicaciones</td><td>Estándar de Aurum Peptides — máxima confiabilidad</td></tr>
+        <tr><td>&gt;99.5%</td><td>Uso clínico (GMP) o investigación ultraprecisa</td><td>Requiere síntesis GMP, costo significativamente mayor</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Checklist: qué verificar al recibir un péptido</h2>
+
+  <div class="checklist">
+    <div class="check-item"><div class="check-icon">✅</div><div class="check-text"><strong>Nombre del compuesto</strong> — coincide con lo que pediste, incluyendo el código de investigación si aplica (ej. LY3437943 para Retatrutide)</div></div>
+    <div class="check-item"><div class="check-icon">✅</div><div class="check-text"><strong>Número de lote</strong> — el COA tiene un lote específico que puedes relacionar con tu pedido</div></div>
+    <div class="check-item"><div class="check-icon">✅</div><div class="check-text"><strong>Pureza HPLC con cromatograma</strong> — el gráfico muestra un pico principal dominante con impurezas mínimas o ausentes</div></div>
+    <div class="check-item"><div class="check-icon">✅</div><div class="check-text"><strong>Masa molecular por EM</strong> — la masa observada coincide con la teórica (tolerancia ±1–2 Da)</div></div>
+    <div class="check-item"><div class="check-icon">✅</div><div class="check-text"><strong>Fecha de análisis</strong> — el COA es reciente y corresponde al lote del pedido actual</div></div>
+    <div class="check-item"><div class="check-icon">✅</div><div class="check-text"><strong>Cantidad y presentación</strong> — el COA indica la cantidad en mg y la forma (liofilizado)</div></div>
+  </div>
+
+  <div class="cta">
+    <h3>COA incluido en cada pedido de Aurum Peptides</h3>
+    <p>Todos nuestros péptidos incluyen COA con cromatograma HPLC completo, espectrometría de masas verificada y número de lote trazable. Pureza ≥99% garantizada en cada vial.</p>
+    <a href="https://aurumpeptides.mx/#catalogo" class="cta-btn">Ver catálogo completo</a>
+    <p class="cta-sub">≥99% HPLC · EM verificada · Lote trazable · Envío discreto</p>
+  </div>
+
+  <h2>Preguntas frecuentes</h2>
+  <div class="faq-item">
+    <div class="faq-q">¿Puedo pedir el COA antes de comprar?</div>
+    <p class="faq-a">Sí, y es recomendable para péptidos de alto costo o protocolos críticos. En Aurum Peptides puedes solicitar el COA del lote disponible antes de confirmar tu pedido. Un proveedor que no comparte el COA pre-venta genera una señal de alerta sobre la transparencia de su calidad.</p>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">¿Qué diferencia hay entre pureza HPLC y contenido neto del péptido?</div>
+    <p class="faq-a">La pureza HPLC mide qué porcentaje del material analizado es el péptido de interés vs impurezas relacionadas con la síntesis. El contenido neto considera también el agua (humedad) y las sales de contraión (como TFA o acetato). Un péptido puede tener 99% de pureza HPLC pero solo 80% de contenido neto si tiene alta humedad residual. Los proveedores de calidad declaran ambos parámetros.</p>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">¿Qué es la detección a 214 nm en HPLC de péptidos?</div>
+    <p class="faq-a">214 nm es la longitud de onda de absorción UV donde detectan los enlaces peptídicos (amida). Es la longitud de onda estándar para análisis HPLC de péptidos porque permite detectar todos los aminoácidos, incluyendo los que no tienen cromóforos específicos como glicina o alanina. Algunos HPLC de péptidos también reportan 220 nm o 254 nm como canales secundarios.</p>
+  </div>
+
+  <div class="article-nav">
+    <a href="https://aurumpeptides.mx/blog-tesamorelin.html" class="article-nav-card">
+      <div class="article-nav-dir">← Artículo anterior</div>
+      <div class="article-nav-title">Tesamorelin: el análogo GHRH aprobado y su uso en investigación</div>
+    </a>
+    <a href="https://aurumpeptides.mx/blog.html" class="article-nav-card" style="text-align:right">
+      <div class="article-nav-dir">Ver todos →</div>
+      <div class="article-nav-title">Blog de investigación — Aurum Peptides</div>
+    </a>
+  </div>
+
+  <div class="disclaimer"><p><strong>Aviso importante:</strong> Artículo de carácter exclusivamente científico y educativo. Los productos de Aurum Peptides están destinados únicamente a investigación científica en entornos controlados.</p></div>
+</article>
+</body>
+</html>
