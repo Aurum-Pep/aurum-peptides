@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cómo Diseñar un Protocolo de Investigación con Péptidos: Guía Completa | Aurum Peptides</title>
+<meta name="description" content="Guía práctica para diseñar protocolos de investigación con péptidos: selección del compuesto, cálculo de dosis, vías de administración, controles, variables y documentación científica.">
+<meta name="keywords" content="protocolo investigación péptidos, diseño experimento péptidos, dosis péptidos investigación, controles experimentales péptidos, investigación científica péptidos México, cómo investigar con péptidos">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://aurumpeptides.mx/blog/protocolo-investigacion-peptidos">
+<meta property="og:title" content="Cómo Diseñar un Protocolo de Investigación con Péptidos: Guía Completa">
+<meta property="og:description" content="De la pregunta de investigación al protocolo ejecutable: selección del compuesto, dosis, vías de administración, controles y documentación. Guía práctica para investigadores en México.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://aurumpeptides.mx/blog/protocolo-investigacion-peptidos">
+<meta property="og:site_name" content="Aurum Peptides">
+<meta property="article:published_time" content="2025-05-13">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org", "@type": "Article",
+  "headline": "Cómo Diseñar un Protocolo de Investigación con Péptidos: Guía Completa",
+  "description": "Guía metodológica para el diseño de protocolos de investigación con péptidos: desde la definición de la pregunta científica hasta la documentación y análisis de resultados.",
+  "author": {"@type": "Organization", "name": "Aurum Peptides", "url": "https://aurumpeptides.mx"},
+  "publisher": {"@type": "Organization", "name": "Aurum Peptides", "url": "https://aurumpeptides.mx"},
+  "datePublished": "2025-05-13"
+}
+</script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap');
+  :root{--gold:#C9A84C;--gold3:rgba(201,168,76,0.07);--black:#0A0A08;--black2:#111110;--cream:#F5F0E8;--muted:#6B6B65;--border:rgba(201,168,76,0.18);--green:#4CAF6B;--red:#E07070;--amber:#E8A83C}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--black);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.8;font-size:17px}
+  nav{position:sticky;top:0;z-index:100;background:rgba(10,10,8,0.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+  .site-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:780px;margin:0 auto}
+  .nav-logo{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream);text-decoration:none;letter-spacing:3px;text-transform:uppercase}
+  .nav-links{display:flex;align-items:center;gap:28px}
+  .nav-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+  .nav-link:hover,.nav-link.active{color:var(--gold)}
+  .hero{padding:80px 24px 60px;max-width:780px;margin:0 auto;border-bottom:1px solid var(--border)}
+  .hero-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+  .hero-tag::before{content:'';display:block;width:30px;height:1px;background:var(--gold)}
+  h1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5.5vw,52px);font-weight:400;line-height:1.15;margin-bottom:24px}
+  h1 em{font-style:italic;color:var(--gold)}
+  .hero-meta{font-size:12px;color:var(--muted);letter-spacing:1px;margin-bottom:28px}
+  .hero-intro{font-size:19px;color:rgba(245,240,232,0.85);line-height:1.75;font-weight:300}
+  .article{max-width:780px;margin:0 auto;padding:60px 24px 80px}
+  h2{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;color:var(--cream);margin:56px 0 20px;line-height:1.3}
+  h3{font-size:14px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:36px 0 14px}
+  p{margin-bottom:20px;color:rgba(245,240,232,0.88)}
+  strong{font-weight:500;color:var(--cream)}
+  ul,ol{margin:0 0 20px 20px}
+  ul li,ol li{color:rgba(245,240,232,0.88);margin-bottom:8px;line-height:1.7}
+  .callout{background:var(--gold3);border:1px solid var(--border);border-left:3px solid var(--gold);padding:20px 24px;margin:32px 0;border-radius:0 4px 4px 0}
+  .callout p{margin:0;font-size:15px;color:rgba(245,240,232,0.9)}
+  .callout strong{color:var(--gold)}
+  .callout-ok{border-left-color:var(--green)}
+  .callout-ok strong{color:var(--green)}
+  .callout-warn{border-left-color:var(--amber)}
+  .callout-warn strong{color:var(--amber)}
+  .table-wrap{overflow-x:auto;margin:32px 0;border:1px solid var(--border);border-radius:4px}
+  table{width:100%;border-collapse:collapse;font-size:14px;min-width:480px}
+  thead tr{background:var(--gold3)}
+  th{padding:14px 16px;text-align:left;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--border)}
+  td{padding:12px 16px;color:rgba(245,240,232,0.85);border-bottom:1px solid rgba(201,168,76,0.08);vertical-align:top;line-height:1.5}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(201,168,76,0.03)}
+  .highlight-row td{background:var(--gold3)}
+  .highlight-row td:first-child{color:var(--gold);font-weight:500}
+  /* Pasos */
+  .phase{background:var(--black2);border:1px solid var(--border);border-radius:4px;padding:24px;margin:20px 0}
+  .phase-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+  .phase-num{font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--gold);line-height:1;flex-shrink:0}
+  .phase-title{font-size:16px;font-weight:500;color:var(--cream)}
+  .phase-sub{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+  .phase-content{font-size:14px;color:rgba(245,240,232,0.8);line-height:1.75}
+  .phase-content ul{margin:10px 0 0 18px}
+  .phase-content ul li{margin-bottom:6px;font-size:13px}
+  /* Vías de admin */
+  .vias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:24px 0}
+  .via-card{background:var(--black2);border:1px solid var(--border);padding:16px;border-radius:4px;text-align:center}
+  .via-abbr{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);margin-bottom:4px}
+  .via-name{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px}
+  .via-desc{font-size:11px;color:rgba(245,240,232,0.6);line-height:1.5}
+  /* Checklist final */
+  .final-checklist{margin:28px 0;display:flex;flex-direction:column;gap:8px}
+  .fc-item{display:flex;align-items:flex-start;gap:12px;background:var(--black2);border:1px solid var(--border);padding:12px 16px;border-radius:4px;font-size:13px;color:rgba(245,240,232,0.85)}
+  .fc-check{color:var(--gold);flex-shrink:0;font-size:15px;margin-top:1px}
+  .cta{background:var(--gold3);border:1px solid var(--border);padding:40px;border-radius:4px;margin:56px 0;text-align:center}
+  .cta h3{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--cream);margin-bottom:12px}
+  .cta p{font-size:15px;color:var(--muted);margin-bottom:24px}
+  .cta-btn{display:inline-block;background:var(--gold);color:var(--black);padding:13px 32px;font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:opacity .2s}
+  .cta-btn:hover{opacity:.85}
+  .cta-sub{margin-top:14px;font-size:12px;color:var(--muted);margin-bottom:0}
+  .article-nav{display:flex;gap:16px;margin:48px 0 0;padding-top:32px;border-top:1px solid var(--border)}
+  .article-nav-card{flex:1;background:var(--black2);border:1px solid var(--border);padding:18px 20px;border-radius:4px;text-decoration:none;transition:border-color .2s}
+  .article-nav-card:hover{border-color:var(--gold)}
+  .article-nav-dir{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .article-nav-title{font-size:14px;color:var(--cream);line-height:1.4}
+  .faq-item{border-bottom:1px solid var(--border);padding:24px 0}
+  .faq-q{font-size:16px;font-weight:500;color:var(--cream);margin-bottom:10px}
+  .faq-a{font-size:15px;color:rgba(245,240,232,0.8);margin:0}
+  .disclaimer{background:var(--black2);border:1px solid rgba(107,107,101,0.3);padding:18px 22px;border-radius:4px;margin-top:48px}
+  .disclaimer p{font-size:12px;color:var(--muted);margin:0;line-height:1.7}
+</style>
+</head>
+<body>
+<nav><div class="site-nav"><a href="https://aurumpeptides.mx" class="nav-logo">Aurum Peptides</a><div class="nav-links"><a href="https://aurumpeptides.mx" class="nav-link">← Inicio</a><a href="https://aurumpeptides.mx/blog.html" class="nav-link active">Blog</a></div></div></nav>
+
+<header class="hero">
+  <div class="hero-tag">Metodología · Diseño Experimental</div>
+  <h1>Cómo diseñar un <em>protocolo de investigación</em> con péptidos</h1>
+  <div class="hero-meta">Por Aurum Peptides · Actualizado: mayo 2025 · Lectura: 10 min</div>
+  <p class="hero-intro">Un protocolo bien diseñado es la diferencia entre resultados interpretables y datos que no se pueden publicar. Esta guía cubre los elementos esenciales del diseño experimental con péptidos: desde la pregunta de investigación hasta el análisis estadístico.</p>
+</header>
+
+<article class="article">
+
+  <h2>El principio fundamental: la pregunta primero</h2>
+  <p>Antes de seleccionar un péptido, establecer una dosis o elegir un modelo, la pregunta de investigación debe estar definida con precisión. Una pregunta mal formulada produce protocolos que generan datos imposibles de interpretar, independientemente de la calidad del compuesto utilizado.</p>
+  <p>Una pregunta de investigación bien formulada para péptidos tiene la estructura PICO: <strong>P</strong>oblación/modelo, <strong>I</strong>ntervención (péptido y dosis), <strong>C</strong>omparación (control), <strong>O</strong>utcome (resultado medible). Por ejemplo: "¿Incrementa la administración subcutánea de Ipamorelin (100 µg/kg, 2x/día) los niveles plasmáticos de IGF-1 en ratas Wistar adultas comparado con solución salina?"</p>
+
+  <div class="callout">
+    <p><strong>El error más común:</strong> Comenzar con el péptido y luego buscar la pregunta. "Quiero investigar Retatrutide" no es un protocolo — es un punto de partida. El diseño correcto es: identificar el mecanismo o efecto que se quiere estudiar → determinar qué péptido es el mejor agente para estudiarlo → diseñar el experimento.</p>
+  </div>
+
+  <h2>Las 6 fases del diseño de protocolo</h2>
+
+  <div class="phase">
+    <div class="phase-header"><div class="phase-num">1</div><div><div class="phase-title">Definición del modelo experimental</div><div class="phase-sub">In vitro · Ex vivo · In vivo</div></div></div>
+    <div class="phase-content">
+      <p>La selección del modelo determina qué preguntas se pueden responder y con qué nivel de certeza:</p>
+      <ul>
+        <li><strong>In vitro (cultivo celular):</strong> Ideal para mecanismo molecular, screening inicial, estudios dosis-respuesta. Alta controlabilidad, baja traslación directa.</li>
+        <li><strong>Ex vivo (tejido aislado):</strong> Mantiene arquitectura tisular, permite estudios farmacodinámicos. Útil para músculo, intestino, tejido cardíaco.</li>
+        <li><strong>In vivo (modelos animales):</strong> Necesario para farmacocinética, efectos sistémicos y validación de hallazgos in vitro. Requiere aprobación ética (IACUC o equivalente).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header"><div class="phase-num">2</div><div><div class="phase-title">Selección del péptido y justificación</div><div class="phase-sub">Mecanismo · Selectividad · Pureza</div></div></div>
+    <div class="phase-content">
+      <p>La selección del péptido debe estar justificada por su mecanismo de acción en relación con la pregunta. Consideraciones clave:</p>
+      <ul>
+        <li>¿Actúa específicamente sobre el receptor o vía de interés?</li>
+        <li>¿Tiene metabolitos activos que podrían confundir los resultados?</li>
+        <li>¿Su vida media es compatible con el esquema de dosificación del protocolo?</li>
+        <li>¿La pureza ≥99% HPLC está verificada por COA con número de lote?</li>
+        <li>¿Existe un péptido de control apropiado (scrambled sequence, péptido inactivo)?</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header"><div class="phase-num">3</div><div><div class="phase-title">Determinación de la dosis y vía de administración</div><div class="phase-sub">Farmacocinética · Dosis-respuesta</div></div></div>
+    <div class="phase-content">
+      <p>La dosis debe basarse en literatura publicada con el mismo compuesto o análogos, ajustada al modelo específico. Para modelos animales, la conversión entre especies usando el factor de alometría es necesaria — las dosis en rata no se escalan linealmente a humanos.</p>
+      <ul>
+        <li>Siempre incluir al menos 3 grupos de dosis para establecer la curva dosis-respuesta</li>
+        <li>Calcular la dosis en µg o mg por kg de peso corporal, no como cantidad absoluta</li>
+        <li>Ajustar la frecuencia según la vida media del péptido</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Vías de administración para péptidos</h2>
+
+  <div class="vias-grid">
+    <div class="via-card"><div class="via-abbr">SC</div><div class="via-name">Subcutánea</div><div class="via-desc">La más usada en investigación con péptidos. Absorción controlada, biodisponibilidad moderada-alta.</div></div>
+    <div class="via-card"><div class="via-abbr">IP</div><div class="via-name">Intraperitoneal</div><div class="via-desc">Común en modelos murinos. Absorción rápida, buena biodisponibilidad. Más variable que SC.</div></div>
+    <div class="via-card"><div class="via-abbr">IV</div><div class="via-name">Intravenosa</div><div class="via-desc">Biodisponibilidad 100%. Ideal para farmacocinética. Requiere vehículo acuoso estéril.</div></div>
+    <div class="via-card"><div class="via-abbr">IM</div><div class="via-name">Intramuscular</div><div class="via-desc">Menos común para péptidos. Absorción más lenta que IV, depósito local variable.</div></div>
+    <div class="via-card"><div class="via-abbr">PO</div><div class="via-name">Oral</div><div class="via-desc">Relevante para BPC-157 y algunos péptidos con actividad oral. Degradación GI es el principal desafío.</div></div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header"><div class="phase-num">4</div><div><div class="phase-title">Diseño de grupos y controles</div><div class="phase-sub">Randomización · Cegamiento · Controles</div></div></div>
+    <div class="phase-content">
+      <p>Un diseño sin controles adecuados produce resultados ininterpretables. Los grupos mínimos necesarios son:</p>
+      <ul>
+        <li><strong>Control negativo (vehículo):</strong> Recibe exactamente el mismo volumen de agua bacteriostática o solución salina sin el péptido. Controla el efecto del procedimiento de administración.</li>
+        <li><strong>Grupos de tratamiento:</strong> Al menos 2–3 dosis del péptido de interés para curva dosis-respuesta.</li>
+        <li><strong>Control positivo:</strong> Si existe, un agente con efecto conocido en el modelo que permita validar que el experimento es capaz de detectar efectos.</li>
+        <li><strong>Control de vehículo inyectable:</strong> Si el péptido requiere un solvente especial, asegurar que el solvente solo no produce el efecto observado.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header"><div class="phase-num">5</div><div><div class="phase-title">Endpoints y mediciones</div><div class="phase-sub">Variables primarias · Secundarias · Biomarcadores</div></div></div>
+    <div class="phase-content">
+      <p>Los endpoints deben estar definidos antes de iniciar el experimento — no después de ver los resultados. Esto previene el <em>p-hacking</em> y garantiza la integridad del diseño.</p>
+      <ul>
+        <li><strong>Endpoint primario:</strong> La medición principal que responde directamente la pregunta de investigación (ej. niveles plasmáticos de IGF-1 a las 2h post-administración).</li>
+        <li><strong>Endpoints secundarios:</strong> Mediciones adicionales que complementan la interpretación (peso corporal, biomarcadores de seguridad, histología).</li>
+        <li><strong>Puntos de tiempo:</strong> Definir exactamente cuándo se tomarán las muestras — la farmacocinética del péptido determina los tiempos relevantes.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header"><div class="phase-num">6</div><div><div class="phase-title">Documentación y trazabilidad</div><div class="phase-sub">Cuaderno de laboratorio · COA · Registro</div></div></div>
+    <div class="phase-content">
+      <p>Un experimento sin documentación adecuada no es reproducible y no puede publicarse. Elementos mínimos a documentar:</p>
+      <ul>
+        <li>COA del péptido utilizado con número de lote — archivado con los datos</li>
+        <li>Cálculos de reconstitución y dosis con el volumen exacto añadido</li>
+        <li>Condiciones de almacenamiento y fecha de reconstitución</li>
+        <li>Protocolo completo firmado y fechado antes de iniciar</li>
+        <li>Registro individual de cada animal o muestra con ID único</li>
+        <li>Cualquier desviación del protocolo con fecha, descripción y justificación</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Cálculo del tamaño de muestra</h2>
+  <p>Uno de los errores más frecuentes en investigación con péptidos es el subdimensionamiento de grupos — usar 3 animales por grupo cuando se necesitan 8–10 para tener potencia estadística suficiente. El cálculo del tamaño de muestra debe hacerse antes del experimento, basado en:</p>
+  <ul>
+    <li>La variabilidad esperada de la medición (SD de estudios previos similares)</li>
+    <li>El tamaño del efecto mínimo que se considera biológicamente relevante</li>
+    <li>El nivel de significancia estadística (α = 0.05 típicamente)</li>
+    <li>La potencia deseada (1-β = 0.80 como mínimo, 0.90 preferible)</li>
+  </ul>
+
+  <div class="callout callout-warn">
+    <p><strong>Sobre el uso de n=3:</strong> En muchos estudios de investigación básica con péptidos se ven grupos de n=3. Este tamaño de muestra tiene potencia estadística insuficiente para detectar diferencias moderadas y produce resultados altamente variables. Para experimentos in vivo, n≥6 por grupo es el mínimo recomendable para análisis estadístico con potencia razonable.</p>
+  </div>
+
+  <h2>Checklist de protocolo completo</h2>
+
+  <div class="final-checklist">
+    <div class="fc-item"><div class="fc-check">◈</div>Pregunta de investigación en formato PICO definida por escrito</div>
+    <div class="fc-item"><div class="fc-check">◈</div>Justificación de la selección del péptido basada en mecanismo</div>
+    <div class="fc-item"><div class="fc-check">◈</div>COA del péptido archivado con número de lote, pureza ≥99% y fecha</div>
+    <div class="fc-item"><div class="fc-check">◈</div>Cálculo de dosis en µg/mg por kg con conversión alométrica si aplica</div>
+    <div class="fc-item"><div class="fc-check">◈</div>Protocolo de reconstitución documentado (volumen BAC, concentración, fecha)</div>
+    <div class="fc-item"><div class="fc-check">◈</div>Grupos: control vehículo + ≥2 dosis + control positivo si disponible</div>
+    <div class="fc-item"><div class="fc-check">◈</div>Tamaño de muestra calculado con análisis de potencia estadística</div>
+    <div class="fc-item"><div class="fc-check">◈</div>Endpoints primario y secundarios definidos antes de iniciar</div>
+    <div class="fc-item"><div class="fc-check">◈</div>Puntos de tiempo de muestreo alineados con la farmacocinética del péptido</div>
+    <div class="fc-item"><div class="fc-check">◈</div>Sistema de ID único para muestras o animales</div>
+    <div class="fc-item"><div class="fc-check">◈</div>Aprobación de comité de ética si aplica (IACUC para in vivo)</div>
+    <div class="fc-item"><div class="fc-check">◈</div>Plan de análisis estadístico predefinido</div>
+  </div>
+
+  <div class="cta">
+    <h3>Péptidos de alta pureza para tu investigación</h3>
+    <p>Aurum Peptides ofrece 12+ péptidos con pureza ≥99% HPLC, COA con número de lote incluido y soporte científico. Todo lo que necesitas para un protocolo riguroso.</p>
+    <a href="https://aurumpeptides.mx/#catalogo" class="cta-btn">Ver catálogo completo</a>
+    <p class="cta-sub">COA incluido · Lote trazable · Envío discreto a toda la república</p>
+  </div>
+
+  <h2>Preguntas frecuentes</h2>
+  <div class="faq-item">
+    <div class="faq-q">¿Necesito aprobación de un comité de ética para usar péptidos en investigación?</div>
+    <p class="faq-a">Depende del modelo. Para estudios in vitro (cultivo celular, tejido humano anonimizado), generalmente se requiere aprobación de comité de bioética institucional pero no IACUC. Para cualquier estudio in vivo con animales vertebrados, la aprobación de un comité de uso y cuidado de animales (IACUC o equivalente institucional) es obligatoria en México e internacionalmente. Sin esta aprobación, los resultados no son publicables en revistas indexadas.</p>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">¿Qué vehículo usar para administrar péptidos in vivo?</div>
+    <p class="faq-a">Para administración subcutánea o intraperitoneal en roedores, el estándar más común es solución salina normal (0.9% NaCl) o PBS estéril. El agua bacteriostática (0.9% alcohol bencílico) usada para reconstitución puede no ser apropiada para todos los modelos — el alcohol bencílico puede tener efectos en algunos tejidos a concentraciones altas. Asegúrate de que el vehículo de administración sea el mismo en el grupo control y los grupos tratados.</p>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">¿Cómo manejar la variabilidad entre lotes al diseñar estudios longitudinales?</div>
+    <p class="faq-a">Para estudios que se extienden más de 4–6 semanas, es probable que necesites más de un lote del péptido. Lo ideal es adquirir suficiente cantidad del mismo lote (verificado por número de lote en el COA) para completar el estudio completo. Si se requieren múltiples lotes, documentar ambos COA, verificar que la pureza y masa son equivalentes, y considerar incluir el lote como variable en el análisis estadístico.</p>
+  </div>
+
+  <div class="article-nav">
+    <a href="https://aurumpeptides.mx/blog-sinteticos-vs-recombinantes.html" class="article-nav-card">
+      <div class="article-nav-dir">← Artículo anterior</div>
+      <div class="article-nav-title">Péptidos sintéticos vs recombinantes: diferencias para investigación</div>
+    </a>
+    <a href="https://aurumpeptides.mx/blog.html" class="article-nav-card" style="text-align:right">
+      <div class="article-nav-dir">Ver todos →</div>
+      <div class="article-nav-title">Blog de investigación — Aurum Peptides</div>
+    </a>
+  </div>
+
+  <div class="disclaimer"><p><strong>Aviso importante:</strong> Este artículo es de carácter exclusivamente científico y metodológico. Los productos de Aurum Peptides están destinados únicamente a investigación científica en entornos controlados. Este artículo no constituye asesoramiento médico ni reemplaza la supervisión de un investigador principal calificado.</p></div>
+</article>
+</body>
+</html>
