@@ -1826,7 +1826,7 @@ function notifyWhatsApp(shipping, orderRef) {
   try { window.open('https://wa.me/526572844902?text='+msg,'_blank','noopener'); } catch(e) {}
 }
 
-async async async function proceedToPayment(shipping) {
+async function proceedToPayment(shipping) {
   var btn = document.querySelector('.btn-checkout');
   if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; btn.style.opacity = '0.7'; }
   var orderRef = 'AURUM-' + Date.now();
