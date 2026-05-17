@@ -509,8 +509,8 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 <nav>
   <a href="#inicio" class="logo" style="display:flex;align-items:center;gap:12px;text-decoration:none">
     <svg width="36" height="36" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-      <polygon points="19,2 35,11 35,29 19,38 3,29 3,11" fill="none" stroke="#C9A84C" stroke-width="1.8"/>
-      <polygon points="19,9 29,14.8 29,26.2 19,32 9,26.2 9,14.8" fill="rgba(201,168,76,0.09)" stroke="#C9A84C" stroke-width="0.7"/>
+      <polygon points="19,2 35,11 35,29 19,38 3,29 3,11" fill="none" stroke="#C9A84C" stroke-width="1.8"></polygon>
+      <polygon points="19,9 29,14.8 29,26.2 19,32 9,26.2 9,14.8" fill="rgba(201,168,76,0.09)" stroke="#C9A84C" stroke-width="0.7"></polygon>
       <text x="19" y="25" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="15" font-weight="400" fill="#C9A84C">A</text>
     </svg>
     <span style="display:flex;flex-direction:column;line-height:1;gap:2px">
@@ -519,7 +519,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     </span>
   </a>
   <ul class="nav-center">
-    <li><a href="catalogo.html">Catálogo</a></li>
+    <li><a href="/catalogo">Catálogo</a></li>
     <li><a href="#nosotros">Nosotros</a></li>
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#recursos">Recursos</a></li>
@@ -582,7 +582,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
   <div class="sec-hdr">
     <div>
       <div class="sec-tag">Catálogo completo</div>
-      <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:8px"><div class="sec-title">Los más populares</div><a href="catalogo.html" style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;opacity:.7" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.7">Ver todos →</a></div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:8px"><div class="sec-title">Los más populares</div><a href="/catalogo" onmouseout="this.style.opacity=.7" onmouseover="this.style.opacity=1" style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;opacity:.7">Ver todos →</a></div>
     </div>
     <div class="prod-count">13 productos disponibles</div>
   </div>
@@ -659,81 +659,13 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       </div>
     </div>
   </div><!-- end grid -->
-</section<div class="grid" id="main-grid">
 
-    <div class="card featured fade-in vis" id="card-retatrutide" style="">
-      <div class="badge">Más buscado</div>
-      <div class="p-cat">Triple agonista · GIP / GLP-1 / Glucagón</div>
-      <div class="p-name">Retatrutide</div>
-      <div class="p-dose" id="reta-dose">10 mg · Polvo liofilizado</div>
-      <p class="p-desc">El péptido metabólico más avanzado. Triple mecanismo de acción sobre receptores GIP, GLP-1 y Glucagón para investigación de regulación metabólica profunda.</p>
-      <div class="var-btns">
-        <button class="vb sel" id="rb10" onclick="selReta(10)">10 mg</button>
-        <button class="vb" id="rb15" onclick="selReta(15)">15 mg</button>
-        <button class="vb" id="rb30" onclick="selReta(30)">30 mg</button>
-      </div>
-      <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">BTLabs</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.5%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">WTSBX5G</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: wtsbx5g →</a></div>
-      <a class="vml" href="/peptide_detail?p=retatrutide">Ver información detallada →</a>
-      <div class="p-foot">
-        <div class="p-price"><span id="reta-price">$1,699</span><small>MXN por vial</small></div>
-        <button class="btn-add" id="reta-add">Agregar</button>
-      </div>
-    </div>
-    <div class="card fade-in vis" id="card-tirzepatide">
-      <div class="p-cat">Agonista dual · GIP / GLP-1</div>
-      <div class="p-name">Tirzepatide</div>
-      <div class="p-dose" id="tirze-dose">10 mg · Polvo liofilizado</div>
-      <div class="out-of-stock">⛔ Agotado temporalmente</div>
-      <div class="low-stock"></div>
-      <p class="p-desc">Agonista dual GIP/GLP-1 de segunda generación. Investigado en modelos de regulación metabólica y composición corporal.</p>
-      <div class="var-btns">
-        <button class="vb sel" id="tb10" onclick="selTirze(10)">10 mg</button>
-        <button class="vb" id="tb30" onclick="selTirze(30)">30 mg</button>
-      </div>
-      <div class="coa" id="tirze-coa">
-        <div class="cr"><span class="ck">Lab</span><span class="cv" id="tc-lab">Krause Analytical</span></div>
-        <div class="cr"><span class="ck">Pureza</span><span class="cv" id="tc-pur">&gt;99.9%</span></div>
-        <div class="cr"><span class="ck">Lote</span><span class="cv" id="tc-lot">j9f35yh</span></div>
-        <div class="cr"><span class="ck">Fecha</span><span class="cv" id="tc-date">FEB 2026</span></div>
-        <a class="cl" id="tc-link" href="https://finnrick.com/verify" target="_blank">Verificar: j9f35yh →</a>
-      </div>
-      <a class="vml" href="/peptide_detail?p=tirzepatide">Ver información detallada →</a>
-      <div class="p-foot">
-        <div class="p-price"><span id="tirze-price">$1,099</span><small>MXN por vial</small></div>
-        <button class="btn-add" id="tirze-add">Agregar</button>
-      </div>
-    </div>
-    <div class="card fade-in vis" id="card-nad">
-      <div class="p-cat">Longevidad · Energía mitocondrial</div>
-      <div class="p-name">NAD+</div>
-      <div class="p-dose">500 mg · Alta concentración</div>
-      <div class="out-of-stock">⛔ Agotado temporalmente</div>
-      <div class="low-stock"></div>
-      <p class="p-desc">Coenzima investigada en reparación de ADN, producción de energía celular y procesos de longevidad. Presentación de alta concentración.</p>
-      <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Janoshik</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">≥99%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">H2YBDF</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">2025</span></div><a class="cl" href="https://www.janoshik.com/verify/" target="_blank">Verificar: H2YBDFJG9UGP →</a></div>
-      <a class="vml" href="/peptide_detail?p=nad">Ver información detallada →</a>
-      <div class="p-foot">
-        <div class="p-price">$1,190<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('NAD+','500 mg · Alta concentración',1190)">Agregar</button>
-      </div>
-    </div>
-    <div class="card fade-in vis" id="card-motsc">
-      <div class="p-cat">Longevidad · Péptido mitocondrial</div>
-      <div class="p-name">Mots-C</div>
-      <div class="p-dose">10 mg · Polvo liofilizado</div>
-      <div class="out-of-stock">⛔ Agotado temporalmente</div>
-      <div class="low-stock"></div>
-      <p class="p-desc">Derivado del ADN mitocondrial humano. Investigado en regulación del metabolismo energético y sensibilidad a la insulina en tejido muscular.</p>
-      <a class="vml" href="/peptide_detail?p=motsc">Ver información detallada →</a>
-      <div class="p-foot">
-        <div class="p-price">$1,799<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('Mots-C','10 mg · Polvo liofilizado',1799)">Agregar</button>
-      </div>
-    </div>
-  </div>
+
+    
+  
 
   <div style="text-align:center;margin-top:44px">
-    <a href="catalogo.html" style="display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid rgba(201,168,76,0.3);padding:14px 32px;border-radius:2px;transition:all .2s" onmouseover="this.style.background='rgba(201,168,76,0.08)'" onmouseout="this.style.background='transparent'">Ver catálogo completo — 12 péptidos →</a>
+    <a href="/catalogo" onmouseout="this.style.background=\" transparent\''="" onmouseover="this.style.background=\" rgba(201,168,76,0.08)\''="" style="display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid rgba(201,168,76,0.3);padding:14px 32px;border-radius:2px;transition:all .2s">Ver catálogo completo — 12 péptidos →</a>
     <p style="font-size:11px;color:var(--muted);margin-top:10px;letter-spacing:1px">Ipamorelin · GHK-Cu · SS-31 · CJC-1295 · Tesamorelin · BPC-157 · Semax</p>
   </div>
 
@@ -1812,7 +1744,7 @@ function sendWhatsApp() {
   var msg = '¡Hola Aurum Peptides! Quiero hacer el siguiente pedido:\n\n' + lines.join('\n') + '\n\n*Total: $' + total.toLocaleString('es-MX') + ' MXN*\n\n¿Me pueden confirmar disponibilidad?';
   window.open('https://wa.me/526572844902?text=' + encodeURIComponent(msg), '_blank');
 }
-var NETLIFY_FUNCTION_URL = 'https://aurumpeptides.netlify.app';
+var NETLIFY_FUNCTION_URL = '';
 
 function openShipModal() {
   if (cart.length === 0) { showToast('El carrito esta vacio'); return; }
@@ -1894,7 +1826,7 @@ function notifyWhatsApp(shipping, orderRef) {
   try { window.open('https://wa.me/526572844902?text='+msg,'_blank','noopener'); } catch(e) {}
 }
 
-async async function proceedToPayment(shipping) {
+async async async function proceedToPayment(shipping) {
   var btn = document.querySelector('.btn-checkout');
   if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; btn.style.opacity = '0.7'; }
   var orderRef = 'AURUM-' + Date.now();
@@ -1905,9 +1837,9 @@ async async function proceedToPayment(shipping) {
     var itemsPayload = cart.map(function(item){return {name:item.name,dose:item.dose,qty:item.qty,price:item.price};});
     var buyerEmail = null;
     try { buyerEmail = localStorage.getItem('aurum_client_email'); } catch(e) {}
-    var response = await fetch(NETLIFY_FUNCTION_URL + '/.netlify/functions/create-preference', {
+    var response = await fetch((typeof NETLIFY_FUNCTION_URL !== 'undefined' ? NETLIFY_FUNCTION_URL : '') + '/.netlify/functions/create-preference', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail, promoCode:activePromoCode}),
+      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail, promoCode:(typeof activePromoCode !== "undefined" ? activePromoCode : null)}),
     });
     if (!response.ok) throw new Error('Error servidor: '+response.status);
     var data = await response.json();
