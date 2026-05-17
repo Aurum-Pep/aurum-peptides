@@ -1062,5 +1062,34 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 
 </script>
 
+
+<script>
+// ── Persistencia del carrito ──
+(function(){
+  function getCart(){
+    try{
+      var s=localStorage.getItem('aurum_cart_v2');
+      if(s){var p=JSON.parse(s);if(Array.isArray(p))return p;}
+    }catch(e){}
+    return [];
+  }
+  function updateCounter(){
+    var cart=getCart();
+    var count=cart.reduce(function(s,i){return s+(i.qty||1);},0);
+    var els=document.querySelectorAll('.cart-count,#cart-count,[class*=cart-count]');
+    els.forEach(function(el){
+      el.textContent=count;
+      el.style.display=count>0?'flex':'none';
+    });
+  }
+  // Actualizar al cargar
+  document.addEventListener('DOMContentLoaded',updateCounter);
+  // Escuchar cambios desde otras pestañas
+  window.addEventListener('storage',function(e){
+    if(e.key==='aurum_cart_v2')updateCounter();
+  });
+})();
+</script>
+
 </body>
 </html>
