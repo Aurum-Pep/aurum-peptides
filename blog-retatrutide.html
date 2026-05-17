@@ -81,6 +81,24 @@
 }
 </script>
 <style>
+nav{position:sticky;top:0;z-index:100;background:rgba(10,10,8,0.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.12)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:80px;max-width:820px;margin:0 auto}
+.nav-logo-wrap{display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0}
+.nav-links-art{display:flex;align-items:center;gap:24px}
+.nav-links-art a{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(107,107,101,0.8);text-decoration:none;transition:color .2s}
+.nav-links-art a:hover,.nav-links-art a.active-link{color:#C9A84C}
+.art-hbg{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-direction:column;gap:5px}
+.art-hbg span{display:block;width:22px;height:1.5px;background:#F5F0E8;transition:all .3s}
+.art-mob-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,10,8,0.98);z-index:300;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+.art-mob-menu.open{display:flex}
+.art-mob-menu a{font-size:14px;letter-spacing:3px;text-transform:uppercase;color:#F5F0E8;text-decoration:none}
+.art-mob-menu a:hover{color:#C9A84C}
+.art-mob-close{position:absolute;top:24px;right:24px;background:none;border:none;color:#6B6B65;font-size:28px;cursor:pointer;line-height:1}
+@media(max-width:768px){
+  .nav-links-art{display:none}
+  .art-hbg{display:flex}
+}
+
   .site-
 
 
@@ -99,10 +117,10 @@ body{background:var(--black);color:var(--cream);font-family:'Outfit',sans-serif;
 
 .logo img{height:52px;display:block}
 .logo svg
-.nav-center{display:flex;gap:28px;list-style:none}
-.nav-center a{color:var(--muted);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:color .2s}
-.nav-center a:hover{color:var(--gold)}
-.nav-right{display:flex;align-items:center;gap:12px}
+.
+.
+.
+.
 .cart-btn{position:relative;background:none;border:none;cursor:pointer;padding:8px;display:flex;align-items:center}
 .cart-btn svg{width:22px;height:22px;stroke:var(--gold);stroke-width:1.5;fill:none}
 .cart-count{position:absolute;top:2px;right:2px;background:var(--gold);color:var(--black);font-size:9px;font-weight:600;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;display:none}
@@ -322,7 +340,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
    ══════════════════════════════════════ */
 @media (max-width:1024px){
   :root { --grid-cols: repeat(2,1fr); }
-  .nav-center{display:none}
+  .
   .hbg{display:flex}
   .trust{grid-template-columns:repeat(2,1fr)}
   .ti:nth-child(even){border-right:none}
@@ -340,7 +358,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
   :root { --grid-cols: 1fr !important; }
   /* NAV */
   .logo img{height:44px}
-  .nav-center{display:none}
+  .
   .hbg{display:flex}
 
   /* HERO */
@@ -910,66 +928,16 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap');
 
   /* ── NAV ── */
-  nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(10,10,8,0.96);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-  .site-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 24px;
-    max-width: 780px;
-    margin: 0 auto;
-  }
-  .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--cream);
-    text-decoration: none;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-  }
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-  }
-  .nav-link {
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .nav-link.active { color: var(--gold); }
+  .site-
+  .
+  .
+  .
 
-  .article-nav {
-    display: flex;
-    gap: 16px;
-    margin: 48px 0 0;
-    padding-top: 32px;
-    border-top: 1px solid var(--border);
-  }
-  .article-nav-card {
-    flex: 1;
-    background: var(--black2);
-    border: 1px solid var(--border);
-    padding: 18px 20px;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: border-color 0.2s;
-  }
-  .article-nav-card:hover { border-color: var(--gold); }
-  .article-nav-dir { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-  .article-nav-title { font-size: 14px; color: var(--cream); line-height: 1.4; }
+  .article-
+  .article-
+  .article-
+  .article-
+  .article-
 
 
 </style>
@@ -1012,26 +980,36 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
   </div>
 </div>
 <!-- ADMIN: Accede con ?admin=aurum2026 en tu URL local -->
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,8,0.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.12)">
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:80px;max-width:820px;margin:0 auto">
-    <a href="/" style="display:flex;align-items:center;gap:12px;text-decoration:none">
-      <svg width="34" height="34" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo-wrap">
+      <svg width="32" height="32" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
         <polygon points="19,2 35,11 35,29 19,38 3,29 3,11" fill="none" stroke="#C9A84C" stroke-width="1.8"/>
         <polygon points="19,9 29,14.8 29,26.2 19,32 9,26.2 9,14.8" fill="rgba(201,168,76,0.09)" stroke="#C9A84C" stroke-width="0.7"/>
         <text x="19" y="25" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="15" font-weight="400" fill="#C9A84C">A</text>
       </svg>
       <span style="display:flex;flex-direction:column;line-height:1;gap:2px">
-        <span style="font-family:Cormorant Garamond,Georgia,serif;font-size:20px;font-weight:400;letter-spacing:5px;color:#C9A84C;text-transform:uppercase">AURUM</span>
-        <span style="font-family:Outfit,sans-serif;font-size:7.5px;font-weight:300;letter-spacing:5px;color:rgba(201,168,76,0.5);text-transform:uppercase">PEPTIDES</span>
+        <span style="font-family:Cormorant Garamond,Georgia,serif;font-size:19px;font-weight:400;letter-spacing:5px;color:#C9A84C;text-transform:uppercase">AURUM</span>
+        <span style="font-family:Outfit,sans-serif;font-size:7px;font-weight:300;letter-spacing:5px;color:rgba(201,168,76,0.5);text-transform:uppercase">PEPTIDES</span>
       </span>
     </a>
-    <div style="display:flex;align-items:center;gap:24px">
-      <a href="/" style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(107,107,101,0.8);text-decoration:none">Inicio</a>
-      <a href="/catalogo.html" style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(107,107,101,0.8);text-decoration:none">Catálogo</a>
-      <a href="/blog.html" style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;text-decoration:none">Blog</a>
+    <div class="nav-links-art">
+      <a href="/">Inicio</a>
+      <a href="/catalogo.html">Catálogo</a>
+      <a href="/blog.html" class="active-link">Blog</a>
     </div>
+    <button class="art-hbg" onclick="toggleArtMenu()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<div class="art-mob-menu" id="art-mob-menu">
+  <button class="art-mob-close" onclick="toggleArtMenu()">×</button>
+  <a href="/" onclick="toggleArtMenu()">Inicio</a>
+  <a href="/catalogo.html" onclick="toggleArtMenu()">Catálogo</a>
+  <a href="/blog.html" onclick="toggleArtMenu()" style="color:#C9A84C">Blog</a>
+</div>
 
 
 
@@ -1298,6 +1276,35 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     <a href="https://wa.me/526572844902" target="_blank">Contacto</a>
   </div>
 </footer>
+
+
+<script>
+// ── Persistencia del carrito ──
+(function(){
+  function getCart(){
+    try{
+      var s=localStorage.getItem('aurum_cart_v2');
+      if(s){var p=JSON.parse(s);if(Array.isArray(p))return p;}
+    }catch(e){}
+    return [];
+  }
+  function updateCounter(){
+    var cart=getCart();
+    var count=cart.reduce(function(s,i){return s+(i.qty||1);},0);
+    var els=document.querySelectorAll('.cart-count,#cart-count,[class*=cart-count]');
+    els.forEach(function(el){
+      el.textContent=count;
+      el.style.display=count>0?'flex':'none';
+    });
+  }
+  // Actualizar al cargar
+  document.addEventListener('DOMContentLoaded',updateCounter);
+  // Escuchar cambios desde otras pestañas
+  window.addEventListener('storage',function(e){
+    if(e.key==='aurum_cart_v2')updateCounter();
+  });
+})();
+</script>
 
 </body>
 </html>

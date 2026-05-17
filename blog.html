@@ -10,6 +10,26 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5NLLKNT58"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-F5NLLKNT58');</script>
 <style>
+nav{position:sticky;top:0;z-index:100;background:rgba(10,10,8,0.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:80px;transition:transform .35s cubic-bezier(.4,0,.2,1)}
+nav>*,.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:80px;max-width:1200px;margin:0 auto;width:100%}
+.nav-logo-wrap{display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0}
+.nav-center{display:flex;gap:28px;list-style:none;align-items:center}
+.nav-center a{color:var(--muted);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:color .2s}
+.nav-center a:hover,.nav-center a.active{color:var(--gold)}
+.nav-right{display:flex;align-items:center;gap:16px;flex-shrink:0}
+.hbg{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-direction:column;gap:5px}
+.hbg span{display:block;width:22px;height:1.5px;background:var(--cream);transition:all .3s}
+.mob-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,10,8,0.98);z-index:300;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+.mob-menu.open{display:flex}
+.mob-menu a{font-size:14px;letter-spacing:3px;text-transform:uppercase;color:var(--cream);text-decoration:none;transition:color .2s}
+.mob-menu a:hover{color:var(--gold)}
+.mob-close{position:absolute;top:24px;right:24px;background:none;border:none;color:var(--muted);font-size:28px;cursor:pointer;line-height:1}
+@media(max-width:768px){
+  .nav-center{display:none}
+  .nav-right .cart-btn,.nav-right a[href*="pedidos"]{display:none}
+  .hbg{display:flex}
+}
+
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -23,28 +43,17 @@ html{scroll-behavior:smooth}
 body{background:var(--black);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.6;overflow-x:hidden}
 
 /* ── NAV ── */
-nav{position:sticky;top:0;z-index:100;background:rgba(10,10,8,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:80px;transition:transform .35s}
 .logo img{height:52px;display:block}
-.logo svg.nav-logo{height:48px;width:auto;display:block}
-.nav-center{display:flex;gap:28px;list-style:none}
-.nav-center a{color:var(--muted);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:color .2s}
-.nav-center a:hover{color:var(--gold)}
-.nav-right{display:flex;align-items:center;gap:12px}
+.logo svg.
+.
+.
+.
+.
 .cart-btn{position:relative;background:none;border:none;cursor:pointer;padding:8px;display:flex;align-items:center}
 .cart-btn svg{width:22px;height:22px;stroke:var(--gold);stroke-width:1.5;fill:none}
 .cart-count{position:absolute;top:2px;right:2px;background:var(--gold);color:var(--black);font-size:9px;font-weight:600;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;display:none}
-.hbg{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;width:36px}
-.hbg span{display:block;height:1.5px;background:var(--gold);transition:all .3s}
-.hbg.open span:nth-child(1){transform:rotate(45deg) translate(4.7px,4.7px)}
-.hbg.open span:nth-child(2){opacity:0;transform:scaleX(0)}
-.hbg.open span:nth-child(3){transform:rotate(-45deg) translate(4.7px,-4.7px)}
 
 /* ── MOBILE MENU ── */
-.mob-menu{display:none;position:fixed;inset:0;z-index:190;background:rgba(10,10,8,0.98);flex-direction:column;align-items:center;justify-content:center;gap:8px;padding-top:60px}
-.mob-menu.open{display:flex}
-.mob-menu a{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--cream);text-decoration:none;letter-spacing:2px;text-transform:uppercase;transition:color .2s}
-.mob-menu a:hover{color:var(--gold)}
-.mob-menu .mob-cta{margin-top:8px;padding:14px 40px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
 
 /* ── HERO ── */
 .hero{min-height:100svh;display:flex;align-items:center;padding:120px 24px 60px;position:relative;overflow:hidden}
@@ -249,8 +258,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
    ══════════════════════════════════════ */
 @media (max-width:1024px){
   :root { --grid-cols: repeat(2,1fr); }
-  .nav-center{display:none}
-  .hbg{display:flex}
+  .
   .trust{grid-template-columns:repeat(2,1fr)}
   .ti:nth-child(even){border-right:none}
   .ti:nth-child(n+3){border-top:1px solid var(--border)}
@@ -266,10 +274,8 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 @media (max-width:768px){
   :root { --grid-cols: 1fr !important; }
   /* NAV */
-  nav{padding:0 16px;height:60px}
   .logo img{height:44px}
-  .nav-center{display:none}
-  .hbg{display:flex}
+  .
 
   /* HERO */
   .hero{padding:108px 16px 48px;min-height:100svh}
@@ -551,38 +557,50 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 </div>
 <!-- ADMIN: Accede con ?admin=aurum2026 en tu URL local -->
 <nav>
-  <a href="/" class="logo" style="display:flex;align-items:center;gap:12px;text-decoration:none">
-    <svg width="36" height="36" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-      <polygon points="19,2 35,11 35,29 19,38 3,29 3,11" fill="none" stroke="#C9A84C" stroke-width="1.8"/>
-      <polygon points="19,9 29,14.8 29,26.2 19,32 9,26.2 9,14.8" fill="rgba(201,168,76,0.09)" stroke="#C9A84C" stroke-width="0.7"/>
-      <text x="19" y="25" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="15" font-weight="400" fill="#C9A84C">A</text>
-    </svg>
-    <span style="display:flex;flex-direction:column;line-height:1;gap:2px">
-      <span style="font-family:Cormorant Garamond,Georgia,serif;font-size:22px;font-weight:400;letter-spacing:5px;color:#C9A84C;text-transform:uppercase">AURUM</span>
-      <span style="font-family:Outfit,sans-serif;font-size:8px;font-weight:300;letter-spacing:5px;color:rgba(201,168,76,0.5);text-transform:uppercase">PEPTIDES</span>
-    </span>
-  </a>
-  <ul class="nav-center">
-    <li><a href="/catalogo.html">Catálogo</a></li>
-    <li><a href="/#nosotros">Nosotros</a></li>
-    <li><a href="/#faq">FAQ</a></li>
-    <li><a href="/#recursos">Recursos</a></li>
-    <li><a href="/blog">Blog</a></li>
-    <li><a href="/mis-pedidos" style="color:var(--gold)">Mi Cuenta</a></li>
-  </ul>
-  <div class="nav-right">
-    <a aria-label="Mi Cuenta" class="cart-btn" href="/mis-pedidos" title="Mi Cuenta">
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo-wrap">
+      <svg width="34" height="34" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <polygon points="19,2 35,11 35,29 19,38 3,29 3,11" fill="none" stroke="#C9A84C" stroke-width="1.8"/>
+        <polygon points="19,9 29,14.8 29,26.2 19,32 9,26.2 9,14.8" fill="rgba(201,168,76,0.09)" stroke="#C9A84C" stroke-width="0.7"/>
+        <text x="19" y="25" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="15" font-weight="400" fill="#C9A84C">A</text>
+      </svg>
+      <span style="display:flex;flex-direction:column;line-height:1;gap:2px">
+        <span style="font-family:Cormorant Garamond,Georgia,serif;font-size:20px;font-weight:400;letter-spacing:5px;color:#C9A84C;text-transform:uppercase">AURUM</span>
+        <span style="font-family:Outfit,sans-serif;font-size:7.5px;font-weight:300;letter-spacing:5px;color:rgba(201,168,76,0.5);text-transform:uppercase">PEPTIDES</span>
+      </span>
     </a>
-    <button class="hbg" id="hbg" onclick="toggleMenu()" aria-label="Menú">
-      <span></span><span></span><span></span>
-    </button>
-    <button class="cart-btn" onclick="openCart()" aria-label="Carrito">
-      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 01-8 0"></path></svg>
-      <span class="cart-count" id="cart-count">0</span>
-    </button>
+
+    <ul class="nav-center">
+      <li><a href="/catalogo.html">Catálogo</a></li>
+      <li><a href="/#nosotros">Nosotros</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+      <li><a href="/#recursos">Recursos</a></li>
+      <li><a href="/blog.html" class="active">Blog</a></li>
+      <li><a href="/mis-pedidos.html" style="color:var(--gold)">Mi Cuenta</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <a href="/mis-pedidos.html" aria-label="Mi Cuenta" style="color:var(--muted);display:flex;align-items:center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </a>
+      <button class="hbg" id="blog-hbg" onclick="toggleBlogMenu()" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </nav>
+
+<!-- Mobile menu -->
+<div class="mob-menu" id="blog-mob-menu">
+  <button class="mob-close" onclick="toggleBlogMenu()">×</button>
+  <a href="/" onclick="toggleBlogMenu()">Inicio</a>
+  <a href="/catalogo.html" onclick="toggleBlogMenu()">Catálogo</a>
+  <a href="/blog.html" onclick="toggleBlogMenu()" style="color:var(--gold)">Blog</a>
+  <a href="/#nosotros" onclick="toggleBlogMenu()">Nosotros</a>
+  <a href="/#faq" onclick="toggleBlogMenu()">FAQ</a>
+  <a href="/#recursos" onclick="toggleBlogMenu()">Recursos</a>
+  <a href="/mis-pedidos.html" onclick="toggleBlogMenu()" style="color:var(--gold)">Mi Cuenta</a>
+</div>
 
 
 
@@ -1089,6 +1107,26 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     if(e.key==='aurum_cart_v2')updateCounter();
   });
 })();
+</script>
+
+
+<script>
+function toggleBlogMenu(){
+  var menu = document.getElementById('blog-mob-menu');
+  if(!menu) return;
+  menu.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+// Cerrar con Escape
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape') {
+    var menu = document.getElementById('blog-mob-menu');
+    if(menu && menu.classList.contains('open')){
+      menu.classList.remove('open');
+      document.body.style.overflow='';
+    }
+  }
+});
 </script>
 
 </body>
