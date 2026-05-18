@@ -138,10 +138,10 @@ body{background:var(--black);color:var(--cream);font-family:'Outfit',sans-serif;
 .mob-menu .mob-cta{margin-top:8px;padding:14px 40px;background:var(--gold);color:var(--black);border:none;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
 
 /* ── HERO ── */
-.hero{min-height:100svh;display:flex;align-items:center;padding:120px 24px 60px;position:relative;overflow:hidden}
+.hero{padding:80px 24px 60px;border-bottom:1px solid var(--border)}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 70% at 70% 50%,rgba(201,168,76,0.06) 0%,transparent 70%)}
 .hero-hex-svg{position:absolute;right:-60px;top:50%;transform:translateY(-50%);width:min(500px,60vw);opacity:0.06;pointer-events:none}
-.hero-inner{position:relative;z-index:1;max-width:680px}
+.hero-inner{max-width:780px;margin:0 auto}
 .hero-tag{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:24px}
 .hero-tag::before{content:'';width:28px;height:1px;background:var(--gold)}
 .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(44px,8vw,96px);font-weight:300;line-height:1;letter-spacing:-1px;margin-bottom:20px}
@@ -1015,12 +1015,14 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 
 <!-- HERO -->
 <header class="hero">
+  <div class="hero-inner">
   <div class="hero-tag">Investigación Científica · Péptidos</div>
   <h1>Retatrutide: qué es y cómo funciona el <em>triple agonista</em> más avanzado</h1>
   <div class="hero-meta">Por Aurum Peptides · Actualizado: mayo 2025 · Lectura: 9 min</div>
   <p class="hero-intro">
     Retatrutide representa un salto cualitativo en la investigación de péptidos metabólicos. A diferencia de sus predecesores, activa simultáneamente tres receptores hormonales distintos, lo que lo convierte en el compuesto más complejo y prometedor de su clase disponible hasta 2025.
   </p>
+  </div>
 </header>
 
 <!-- ARTICLE BODY -->
