@@ -940,6 +940,15 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
   .article-
 
 
+
+/* ── Navegación anterior/siguiente ── */
+.article-nav{display:flex;gap:16px;margin-top:48px;padding-top:32px;border-top:1px solid var(--border)}
+.article-nav-card{flex:1;background:#111110;border:1px solid var(--border);padding:20px 22px;border-radius:4px;text-decoration:none;display:block;transition:border-color .2s,transform .2s}
+.article-nav-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.article-nav-dir{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.article-nav-title{font-size:15px;color:var(--cream);line-height:1.4;font-family:'Cormorant Garamond',serif;font-weight:400}
+@media(max-width:600px){.article-nav{flex-direction:column}}
+
 </style>
 </head>
 <body>
