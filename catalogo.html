@@ -806,7 +806,9 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <span class="cart-discount-lbl">Descuento (<span id="discount-pct"></span>)</span>
       <span class="cart-discount-v" id="discount-amt"></span>
     </div>
-    <div class="cart-sub"><span>Total</span><span class="cart-sub-v" id="cart-total">$0</span></div>
+    <div class="cart-sub" id="cart-subtotal-row" style="display:none"><span style="color:var(--muted);font-size:13px">Subtotal</span><span class="cart-sub-v" id="cart-subtotal-val" style="font-size:13px;color:var(--muted)">$0</span></div>
+    <div class="cart-sub" id="cart-shipping-row" style="display:none"><span style="color:var(--muted);font-size:13px">Envío</span><span class="cart-sub-v" id="cart-shipping-val" style="font-size:13px;color:var(--muted)">$250</span></div>
+    <div class="cart-sub" style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px"><span style="font-weight:500">Total</span><span class="cart-sub-v" id="cart-total" style="font-weight:500">$0</span></div>
     <button class="btn-checkout" onclick="checkout()">Proceder al pago</button>
     <button class="btn-wa" onclick="sendWhatsApp()">Pedir por WhatsApp</button>
   </div>
@@ -1105,11 +1107,17 @@ function claimPromo() {
 
 function getCartTotals() {
   var raw = cart.reduce(function(s,i){ return s+i.price*i.qty; },0);
+  var SHIPPING_COST = 250;
+  var FREE_SHIPPING_THRESHOLD = 4000;
+  var disc = 0, code = null;
   if (activePromoCode && activePromoDiscount>0) {
-    var disc = Math.round(raw*activePromoDiscount);
-    return {raw:raw, discount:disc, total:raw-disc, code:activePromoCode};
+    disc = Math.round(raw*activePromoDiscount);
+    code = activePromoCode;
   }
-  return {raw:raw, discount:0, total:raw, code:null};
+  var subtotal = raw - disc;
+  var shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+  var total = subtotal + shipping;
+  return {raw:raw, discount:disc, total:total, subtotal:subtotal, shipping:shipping, code:code};
 }
 
 // Init promo
@@ -1426,11 +1434,11 @@ function updateShippingBar() {
   if(!bar) return;
   if(!cart.length){ bar.style.display='none'; return; }
   bar.style.display='block';
-  var pct=Math.min(100,Math.round(t.raw/3000*100));
+  var pct=Math.min(100,Math.round(t.raw/4000*100));
   fill.style.width=pct+'%';
-  if(t.raw>=3000){ msg.innerHTML='🎉 <span style="color:var(--gold)">¡Envío gratis desbloqueado!</span>'; }
+  if(t.raw>=4000){ msg.innerHTML='🎉 <span style="color:var(--gold)">¡Envío gratis desbloqueado!</span>'; }
   else{
-    var falta=(3000-t.raw).toLocaleString('es-MX');
+    var falta=(4000-t.raw).toLocaleString('es-MX');
     msg.innerHTML='Agrega <strong style="color:var(--cream)">$'+falta+' MXN</strong> más para <span style="color:var(--gold)">envío gratis</span>';
   }
   // Discount row
@@ -1685,7 +1693,854 @@ function updateCartUI() {
   var cc = document.getElementById('cart-count');
   cc.textContent = count;
   cc.style.display = count > 0 ? 'flex' : 'none';
-  document.getElementById('cart-total').textContent = '$' + t.total.toLocaleString('es-MX');
+  var sR=document.getElementById('cart-subtotal-row'),sV=document.getElementById('cart-subtotal-val');
+  if(sR&&sV){sR.style.display=cart.length>0?'flex':'none';sV.textContent='
+  // Discount row
+  var dr = document.getElementById('cart-discount-row');
+  var dv = document.getElementById('cart-discount-val');
+  if (dr && dv) {
+    dr.style.display = t.code ? 'flex' : 'none';
+    if (t.code) dv.textContent = '-$' + t.discount.toLocaleString('es-MX') + ' (' + t.code + ')';
+  }
+  updateShippingBar();
+  updateBacWarning();
+  var ci = document.getElementById('cart-items');
+  if (cart.length === 0) {
+    ci.innerHTML = '<div class="cart-empty">Tu carrito está vacío</div>';
+    return;
+  }
+  ci.innerHTML = cart.map(function(item,idx) {
+    return '<div class="ci">' +
+      '<div class="ci-info">' +
+        '<div class="ci-name">' + item.name + '</div>' +
+        '<div class="ci-dose">' + item.dose + '</div>' +
+        '<div class="ci-qty-row">' +
+          '<button class="ci-qb" onclick="changeCartQty(' + idx + ',-1)">−</button>' +
+          '<span class="ci-qn">' + item.qty + '</span>' +
+          '<button class="ci-qb" onclick="changeCartQty(' + idx + ',1)">+</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ci-right">' +
+        '<div class="ci-price">$' + (item.price*item.qty).toLocaleString('es-MX') + '</div>' +
+        '<button class="ci-rm" onclick="removeFromCart(' + idx + ')">×</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+function openCart() { document.getElementById('cart-overlay').classList.add('open'); document.getElementById('cart-drawer').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeCart() { document.getElementById('cart-overlay').classList.remove('open'); document.getElementById('cart-drawer').classList.remove('open'); document.body.style.overflow=''; }
+
+function sendWhatsApp() {
+  if (cart.length === 0) { showToast('El carrito está vacío'); return; }
+  var total = cart.reduce(function(s,i){ return s+i.price*i.qty; },0);
+  var lines = cart.map(function(i){ return '• '+i.name+' ('+i.dose+') × '+i.qty+' = $'+( i.price*i.qty).toLocaleString('es-MX')+' MXN'; });
+  var msg = '¡Hola Aurum Peptides! Quiero hacer el siguiente pedido:\n\n' + lines.join('\n') + '\n\n*Total: $' + total.toLocaleString('es-MX') + ' MXN*\n\n¿Me pueden confirmar disponibilidad?';
+  window.open('https://wa.me/526572844902?text=' + encodeURIComponent(msg), '_blank');
+}
+var NETLIFY_FUNCTION_URL = 'https://aurumpeptides.netlify.app';
+
+function openShipModal() {
+  if (cart.length === 0) { showToast('El carrito esta vacio'); return; }
+  try {
+    var saved = JSON.parse(localStorage.getItem('aurum_shipping') || '{}');
+    if (saved.nombre) {
+      ['nombre','tel','calle','colonia','cp','ciudad','estado'].forEach(function(f){
+        var el = document.getElementById('ship-'+f);
+        if (el && saved[f]) el.value = saved[f];
+      });
+    }
+  } catch(e) {}
+  document.getElementById('ship-modal-ov').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(function(){ document.getElementById('ship-nombre').focus(); }, 100);
+}
+
+function closeShipModal() {
+  document.getElementById('ship-modal-ov').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function validateShipField(id, errId, fn) {
+  var val = document.getElementById(id).value.trim();
+  var ok = fn(val);
+  document.getElementById(id).classList.toggle('ship-field-err', !ok);
+  document.getElementById(errId).style.display = ok ? 'none' : 'block';
+  return ok;
+}
+
+function confirmShipping() {
+  var ok = true;
+  ok = validateShipField('ship-nombre','err-nombre',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-tel','err-tel',function(v){return /^[0-9]{10}$/.test(v);}) && ok;
+  ok = validateShipField('ship-calle','err-calle',function(v){return v.length>3;}) && ok;
+  ok = validateShipField('ship-colonia','err-colonia',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-cp','err-cp',function(v){return /^[0-9]{5}$/.test(v);}) && ok;
+  ok = validateShipField('ship-ciudad','err-ciudad',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-estado','err-estado',function(v){return v.length>2;}) && ok;
+  if (!ok) { showToast('Por favor completa todos los campos'); return; }
+  var shipping = {
+    nombre: document.getElementById('ship-nombre').value.trim(),
+    tel: document.getElementById('ship-tel').value.trim(),
+    calle: document.getElementById('ship-calle').value.trim(),
+    colonia: document.getElementById('ship-colonia').value.trim(),
+    cp: document.getElementById('ship-cp').value.trim(),
+    ciudad: document.getElementById('ship-ciudad').value.trim(),
+    estado: document.getElementById('ship-estado').value.trim(),
+  };
+  if (document.getElementById('ship-guardar').checked) {
+    try { localStorage.setItem('aurum_shipping', JSON.stringify(shipping)); } catch(e) {}
+  }
+  try { localStorage.setItem('aurum_last_shipping', JSON.stringify(shipping)); } catch(e) {}
+  closeShipModal();
+  proceedToPayment(shipping);
+}
+
+function saveOrderToSheets(shipping, orderRef, total, shippingCost) {
+  if (typeof SHEETS_CONFIG === 'undefined' || SHEETS_CONFIG.webAppUrl.includes('TU_GOOGLE')) return;
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', SHEETS_CONFIG.webAppUrl, true);
+    xhr.setRequestHeader('Content-Type','application/json');
+    xhr.send(JSON.stringify({
+      action:'addOrder', secret: SHEETS_CONFIG.secretKey || 'aurum2026secret', sheet:'Pedidos',
+      ref: orderRef, fecha: new Date().toLocaleDateString('es-MX'),
+      nombre: shipping.nombre, tel: shipping.tel, calle: shipping.calle,
+      colonia: shipping.colonia, cp: shipping.cp, ciudad: shipping.ciudad, estado: shipping.estado,
+      total: total, envio: shippingCost||0, items: cart.map(function(i){return i.name+' x'+i.qty;}).join(', ')
+    }));
+  } catch(e) {}
+}
+
+function notifyWhatsApp(shipping, orderRef) {
+  var total = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
+  var items = cart.map(function(i){return '%E2%80%A2 '+encodeURIComponent(i.name+' x'+i.qty+' $'+(i.price*i.qty).toLocaleString('es-MX')+' MXN');}).join('%0A');
+  var dir = encodeURIComponent(shipping.calle+', Col. '+shipping.colonia+', CP '+shipping.cp+', '+shipping.ciudad+', '+shipping.estado);
+  var msg = '%F0%9F%A7%AC *Nuevo pedido Aurum Peptides*%0A%0A*Ref:* '+orderRef+'%0A*Cliente:* '+encodeURIComponent(shipping.nombre)+'%0A*Tel:* '+shipping.tel+'%0A%0A*Productos:*%0A'+items+'%0A%0A*Total:* $'+total.toLocaleString('es-MX')+' MXN%0A%0A*Direccion:*%0A'+dir;
+  try { window.open('https://wa.me/526572844902?text='+msg,'_blank','noopener'); } catch(e) {}
+}
+
+async function proceedToPayment(shipping) {
+  var btn = document.querySelector('.btn-checkout');
+  if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; btn.style.opacity = '0.7'; }
+  var orderRef = 'AURUM-' + Date.now();
+  var totals=getCartTotals();var total=totals.total;var shippingCost=totals.shipping;
+  saveOrderToSheets(shipping, orderRef, total, shippingCost);
+  notifyWhatsApp(shipping, orderRef);
+  try {
+    var itemsPayload = cart.map(function(item){return {name:item.name,dose:item.dose,qty:item.qty,price:item.price};});
+    var buyerEmail = null;
+    try { buyerEmail = localStorage.getItem('aurum_client_email'); } catch(e) {}
+    var response = await fetch(NETLIFY_FUNCTION_URL + '/.netlify/functions/create-preference', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail, promoCode:activePromoCode, shipping:shippingCost}),
+    });
+    if (!response.ok) throw new Error('Error servidor: '+response.status);
+    var data = await response.json();
+    if (!data.checkoutUrl) throw new Error('Sin URL de pago');
+    try { localStorage.setItem('aurum_last_cart', JSON.stringify(cart)); } catch(e) {}
+    window.location.href = data.checkoutUrl;
+  } catch(err) {
+    console.error('Checkout error:', err);
+    if (btn) { btn.textContent = 'Proceder al pago'; btn.disabled = false; btn.style.opacity = ''; }
+    if (confirm('Error al procesar el pago. Continuar por WhatsApp?')) sendWhatsApp();
+  }
+}
+
+
+
+// ── PROMO CODE INPUT (carrito) ──
+function applyPromoCode() {
+  var input = document.getElementById('promo-input');
+  var feedback = document.getElementById('promo-feedback');
+  var code = (input.value || '').trim().toUpperCase();
+  feedback.className = 'promo-feedback';
+  feedback.textContent = '';
+
+  if (!code) {
+    feedback.textContent = 'Ingresa un código de descuento.';
+    feedback.classList.add('err');
+    return;
+  }
+  // AURUM10 is only valid after email registration
+  if (code === 'AURUM10') {
+    var claimed = localStorage.getItem('aurum_promo_claimed');
+    if (!claimed) {
+      feedback.textContent = '✗ Regístrate para obtener este código.';
+      feedback.classList.add('err');
+      setTimeout(showEmailModal, 600);
+      return;
+    }
+  }
+  var VALID = { 'AURUM10': 0.10, 'BIENVENIDO': 0.15 };
+  var pct = VALID[code];
+  if (!pct) {
+    feedback.textContent = '✗ Código inválido o expirado.';
+    feedback.classList.add('err');
+    return;
+  }
+  activePromoCode = code;
+  activePromoDiscount = pct;
+  input.disabled = true;
+  document.querySelector('.promo-btn').textContent = '✓ Aplicado';
+  document.querySelector('.promo-btn').disabled = true;
+  document.querySelector('.promo-btn').style.opacity = '0.5';
+  feedback.textContent = '✓ ' + Math.round(pct * 100) + '% de descuento aplicado';
+  feedback.classList.add('ok');
+  renderCart();
+}
+
+async function checkout(){
+  if(!cart||cart.length===0){showToast('Tu carrito está vacío');return;}
+  openShipModal();
+}
+
+
+
+// ── TOAST ──
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+// ── FAQ ──
+function toggleFaq(el) {
+  var item = el.parentElement;
+  var wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('open'); });
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ── CALCULADORA ──
+function calcRecon() {
+  var dose = parseFloat(document.getElementById('calc-dose').value); // mg
+  var mg   = parseFloat(document.getElementById('calc-mg').value);   // mg en vial
+  var ml   = parseFloat(document.getElementById('calc-ml').value);   // mL agua añadida
+  var out  = document.getElementById('calc-out');
+  if (!dose || !mg || !ml || dose <= 0 || mg <= 0 || ml <= 0) { out.textContent = '—'; return; }
+  // Concentración resultante (mg/mL)
+  var concMgPerMl = mg / ml;
+  // Volumen a extraer (mL)
+  var mlNeeded = dose / concMgPerMl;
+  // Jeringa U-100 = 100 unidades por mL
+  var units = mlNeeded * 100;
+  out.textContent = units.toFixed(1) + ' U';
+}
+
+// ── FADE IN ON SCROLL ──
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('vis'); observer.unobserve(e.target); }
+  });
+}, {threshold:0.08});
+document.querySelectorAll('.fade-in').forEach(function(el){ observer.observe(el); });
+
+// ── HERO FADE ON LOAD ──
+window.addEventListener('load', function() {
+  document.querySelector('.hero .fade-in').classList.add('vis');
+});
+
+
+// NAV SCROLL BEHAVIOR
+(function(){
+  var nav=document.querySelector('nav');
+  if(!nav)return;
+  var lastY=window.scrollY,ticking=false;
+  function upd(){
+    var y=window.scrollY;
+    if(y<80){nav.style.transform='translateY(0)';nav.style.boxShadow='none';}
+    else if(y>lastY+5){nav.style.transform='translateY(-200%)';}
+    else if(y<lastY-5){nav.style.transform='translateY(0)';nav.style.boxShadow='0 4px 32px rgba(0,0,0,0.5)';}
+    lastY=y;ticking=false;
+  }
+  window.addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(upd);ticking=true;}},{passive:true});
+})();
+
+
+// Restaurar carrito desde localStorage al cargar
+(function() {
+  if (cart.length > 0) {
+    updateCartUI();
+    // Actualizar contador en el nav
+    var countEl = document.getElementById('cart-count');
+    if (countEl) {
+      var total = cart.reduce(function(s,i){return s+i.qty;},0);
+      countEl.textContent = total > 0 ? total : '0';
+      countEl.style.display = total > 0 ? '' : 'none';
+    }
+  }
+})();
+
+
+</script>
+</body>
+</html>+t.subtotal.toLocaleString('es-MX');}
+  var shR=document.getElementById('cart-shipping-row'),shV=document.getElementById('cart-shipping-val');
+  if(shR&&shV){shR.style.display=cart.length>0?'flex':'none';shV.innerHTML=t.shipping===0?'<span style="color:var(--gold);font-size:11px">GRATIS ✓</span>':'
+  // Discount row
+  var dr = document.getElementById('cart-discount-row');
+  var dv = document.getElementById('cart-discount-val');
+  if (dr && dv) {
+    dr.style.display = t.code ? 'flex' : 'none';
+    if (t.code) dv.textContent = '-$' + t.discount.toLocaleString('es-MX') + ' (' + t.code + ')';
+  }
+  updateShippingBar();
+  updateBacWarning();
+  var ci = document.getElementById('cart-items');
+  if (cart.length === 0) {
+    ci.innerHTML = '<div class="cart-empty">Tu carrito está vacío</div>';
+    return;
+  }
+  ci.innerHTML = cart.map(function(item,idx) {
+    return '<div class="ci">' +
+      '<div class="ci-info">' +
+        '<div class="ci-name">' + item.name + '</div>' +
+        '<div class="ci-dose">' + item.dose + '</div>' +
+        '<div class="ci-qty-row">' +
+          '<button class="ci-qb" onclick="changeCartQty(' + idx + ',-1)">−</button>' +
+          '<span class="ci-qn">' + item.qty + '</span>' +
+          '<button class="ci-qb" onclick="changeCartQty(' + idx + ',1)">+</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ci-right">' +
+        '<div class="ci-price">$' + (item.price*item.qty).toLocaleString('es-MX') + '</div>' +
+        '<button class="ci-rm" onclick="removeFromCart(' + idx + ')">×</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+function openCart() { document.getElementById('cart-overlay').classList.add('open'); document.getElementById('cart-drawer').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeCart() { document.getElementById('cart-overlay').classList.remove('open'); document.getElementById('cart-drawer').classList.remove('open'); document.body.style.overflow=''; }
+
+function sendWhatsApp() {
+  if (cart.length === 0) { showToast('El carrito está vacío'); return; }
+  var total = cart.reduce(function(s,i){ return s+i.price*i.qty; },0);
+  var lines = cart.map(function(i){ return '• '+i.name+' ('+i.dose+') × '+i.qty+' = $'+( i.price*i.qty).toLocaleString('es-MX')+' MXN'; });
+  var msg = '¡Hola Aurum Peptides! Quiero hacer el siguiente pedido:\n\n' + lines.join('\n') + '\n\n*Total: $' + total.toLocaleString('es-MX') + ' MXN*\n\n¿Me pueden confirmar disponibilidad?';
+  window.open('https://wa.me/526572844902?text=' + encodeURIComponent(msg), '_blank');
+}
+var NETLIFY_FUNCTION_URL = 'https://aurumpeptides.netlify.app';
+
+function openShipModal() {
+  if (cart.length === 0) { showToast('El carrito esta vacio'); return; }
+  try {
+    var saved = JSON.parse(localStorage.getItem('aurum_shipping') || '{}');
+    if (saved.nombre) {
+      ['nombre','tel','calle','colonia','cp','ciudad','estado'].forEach(function(f){
+        var el = document.getElementById('ship-'+f);
+        if (el && saved[f]) el.value = saved[f];
+      });
+    }
+  } catch(e) {}
+  document.getElementById('ship-modal-ov').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(function(){ document.getElementById('ship-nombre').focus(); }, 100);
+}
+
+function closeShipModal() {
+  document.getElementById('ship-modal-ov').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function validateShipField(id, errId, fn) {
+  var val = document.getElementById(id).value.trim();
+  var ok = fn(val);
+  document.getElementById(id).classList.toggle('ship-field-err', !ok);
+  document.getElementById(errId).style.display = ok ? 'none' : 'block';
+  return ok;
+}
+
+function confirmShipping() {
+  var ok = true;
+  ok = validateShipField('ship-nombre','err-nombre',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-tel','err-tel',function(v){return /^[0-9]{10}$/.test(v);}) && ok;
+  ok = validateShipField('ship-calle','err-calle',function(v){return v.length>3;}) && ok;
+  ok = validateShipField('ship-colonia','err-colonia',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-cp','err-cp',function(v){return /^[0-9]{5}$/.test(v);}) && ok;
+  ok = validateShipField('ship-ciudad','err-ciudad',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-estado','err-estado',function(v){return v.length>2;}) && ok;
+  if (!ok) { showToast('Por favor completa todos los campos'); return; }
+  var shipping = {
+    nombre: document.getElementById('ship-nombre').value.trim(),
+    tel: document.getElementById('ship-tel').value.trim(),
+    calle: document.getElementById('ship-calle').value.trim(),
+    colonia: document.getElementById('ship-colonia').value.trim(),
+    cp: document.getElementById('ship-cp').value.trim(),
+    ciudad: document.getElementById('ship-ciudad').value.trim(),
+    estado: document.getElementById('ship-estado').value.trim(),
+  };
+  if (document.getElementById('ship-guardar').checked) {
+    try { localStorage.setItem('aurum_shipping', JSON.stringify(shipping)); } catch(e) {}
+  }
+  try { localStorage.setItem('aurum_last_shipping', JSON.stringify(shipping)); } catch(e) {}
+  closeShipModal();
+  proceedToPayment(shipping);
+}
+
+function saveOrderToSheets(shipping, orderRef, total) {
+  if (typeof SHEETS_CONFIG === 'undefined' || SHEETS_CONFIG.webAppUrl.includes('TU_GOOGLE')) return;
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', SHEETS_CONFIG.webAppUrl, true);
+    xhr.setRequestHeader('Content-Type','application/json');
+    xhr.send(JSON.stringify({
+      action:'addOrder', secret: SHEETS_CONFIG.secretKey || 'aurum2026secret', sheet:'Pedidos',
+      ref: orderRef, fecha: new Date().toLocaleDateString('es-MX'),
+      nombre: shipping.nombre, tel: shipping.tel, calle: shipping.calle,
+      colonia: shipping.colonia, cp: shipping.cp, ciudad: shipping.ciudad, estado: shipping.estado,
+      total: total, items: cart.map(function(i){return i.name+' x'+i.qty;}).join(', ')
+    }));
+  } catch(e) {}
+}
+
+function notifyWhatsApp(shipping, orderRef) {
+  var total = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
+  var items = cart.map(function(i){return '%E2%80%A2 '+encodeURIComponent(i.name+' x'+i.qty+' $'+(i.price*i.qty).toLocaleString('es-MX')+' MXN');}).join('%0A');
+  var dir = encodeURIComponent(shipping.calle+', Col. '+shipping.colonia+', CP '+shipping.cp+', '+shipping.ciudad+', '+shipping.estado);
+  var msg = '%F0%9F%A7%AC *Nuevo pedido Aurum Peptides*%0A%0A*Ref:* '+orderRef+'%0A*Cliente:* '+encodeURIComponent(shipping.nombre)+'%0A*Tel:* '+shipping.tel+'%0A%0A*Productos:*%0A'+items+'%0A%0A*Total:* $'+total.toLocaleString('es-MX')+' MXN%0A%0A*Direccion:*%0A'+dir;
+  try { window.open('https://wa.me/526572844902?text='+msg,'_blank','noopener'); } catch(e) {}
+}
+
+async function proceedToPayment(shipping) {
+  var btn = document.querySelector('.btn-checkout');
+  if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; btn.style.opacity = '0.7'; }
+  var orderRef = 'AURUM-' + Date.now();
+  var total = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
+  saveOrderToSheets(shipping, orderRef, total);
+  notifyWhatsApp(shipping, orderRef);
+  try {
+    var itemsPayload = cart.map(function(item){return {name:item.name,dose:item.dose,qty:item.qty,price:item.price};});
+    var buyerEmail = null;
+    try { buyerEmail = localStorage.getItem('aurum_client_email'); } catch(e) {}
+    var response = await fetch(NETLIFY_FUNCTION_URL + '/.netlify/functions/create-preference', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail, promoCode:activePromoCode}),
+    });
+    if (!response.ok) throw new Error('Error servidor: '+response.status);
+    var data = await response.json();
+    if (!data.checkoutUrl) throw new Error('Sin URL de pago');
+    try { localStorage.setItem('aurum_last_cart', JSON.stringify(cart)); } catch(e) {}
+    window.location.href = data.checkoutUrl;
+  } catch(err) {
+    console.error('Checkout error:', err);
+    if (btn) { btn.textContent = 'Proceder al pago'; btn.disabled = false; btn.style.opacity = ''; }
+    if (confirm('Error al procesar el pago. Continuar por WhatsApp?')) sendWhatsApp();
+  }
+}
+
+
+
+// ── PROMO CODE INPUT (carrito) ──
+function applyPromoCode() {
+  var input = document.getElementById('promo-input');
+  var feedback = document.getElementById('promo-feedback');
+  var code = (input.value || '').trim().toUpperCase();
+  feedback.className = 'promo-feedback';
+  feedback.textContent = '';
+
+  if (!code) {
+    feedback.textContent = 'Ingresa un código de descuento.';
+    feedback.classList.add('err');
+    return;
+  }
+  // AURUM10 is only valid after email registration
+  if (code === 'AURUM10') {
+    var claimed = localStorage.getItem('aurum_promo_claimed');
+    if (!claimed) {
+      feedback.textContent = '✗ Regístrate para obtener este código.';
+      feedback.classList.add('err');
+      setTimeout(showEmailModal, 600);
+      return;
+    }
+  }
+  var VALID = { 'AURUM10': 0.10, 'BIENVENIDO': 0.15 };
+  var pct = VALID[code];
+  if (!pct) {
+    feedback.textContent = '✗ Código inválido o expirado.';
+    feedback.classList.add('err');
+    return;
+  }
+  activePromoCode = code;
+  activePromoDiscount = pct;
+  input.disabled = true;
+  document.querySelector('.promo-btn').textContent = '✓ Aplicado';
+  document.querySelector('.promo-btn').disabled = true;
+  document.querySelector('.promo-btn').style.opacity = '0.5';
+  feedback.textContent = '✓ ' + Math.round(pct * 100) + '% de descuento aplicado';
+  feedback.classList.add('ok');
+  renderCart();
+}
+
+async function checkout(){
+  if(!cart||cart.length===0){showToast('Tu carrito está vacío');return;}
+  openShipModal();
+}
+
+
+
+// ── TOAST ──
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+// ── FAQ ──
+function toggleFaq(el) {
+  var item = el.parentElement;
+  var wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('open'); });
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ── CALCULADORA ──
+function calcRecon() {
+  var dose = parseFloat(document.getElementById('calc-dose').value); // mg
+  var mg   = parseFloat(document.getElementById('calc-mg').value);   // mg en vial
+  var ml   = parseFloat(document.getElementById('calc-ml').value);   // mL agua añadida
+  var out  = document.getElementById('calc-out');
+  if (!dose || !mg || !ml || dose <= 0 || mg <= 0 || ml <= 0) { out.textContent = '—'; return; }
+  // Concentración resultante (mg/mL)
+  var concMgPerMl = mg / ml;
+  // Volumen a extraer (mL)
+  var mlNeeded = dose / concMgPerMl;
+  // Jeringa U-100 = 100 unidades por mL
+  var units = mlNeeded * 100;
+  out.textContent = units.toFixed(1) + ' U';
+}
+
+// ── FADE IN ON SCROLL ──
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('vis'); observer.unobserve(e.target); }
+  });
+}, {threshold:0.08});
+document.querySelectorAll('.fade-in').forEach(function(el){ observer.observe(el); });
+
+// ── HERO FADE ON LOAD ──
+window.addEventListener('load', function() {
+  document.querySelector('.hero .fade-in').classList.add('vis');
+});
+
+
+// NAV SCROLL BEHAVIOR
+(function(){
+  var nav=document.querySelector('nav');
+  if(!nav)return;
+  var lastY=window.scrollY,ticking=false;
+  function upd(){
+    var y=window.scrollY;
+    if(y<80){nav.style.transform='translateY(0)';nav.style.boxShadow='none';}
+    else if(y>lastY+5){nav.style.transform='translateY(-200%)';}
+    else if(y<lastY-5){nav.style.transform='translateY(0)';nav.style.boxShadow='0 4px 32px rgba(0,0,0,0.5)';}
+    lastY=y;ticking=false;
+  }
+  window.addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(upd);ticking=true;}},{passive:true});
+})();
+
+
+// Restaurar carrito desde localStorage al cargar
+(function() {
+  if (cart.length > 0) {
+    updateCartUI();
+    // Actualizar contador en el nav
+    var countEl = document.getElementById('cart-count');
+    if (countEl) {
+      var total = cart.reduce(function(s,i){return s+i.qty;},0);
+      countEl.textContent = total > 0 ? total : '0';
+      countEl.style.display = total > 0 ? '' : 'none';
+    }
+  }
+})();
+
+
+</script>
+</body>
+</html>+t.shipping.toLocaleString('es-MX');}
+  document.getElementById('cart-total').textContent='
+  // Discount row
+  var dr = document.getElementById('cart-discount-row');
+  var dv = document.getElementById('cart-discount-val');
+  if (dr && dv) {
+    dr.style.display = t.code ? 'flex' : 'none';
+    if (t.code) dv.textContent = '-$' + t.discount.toLocaleString('es-MX') + ' (' + t.code + ')';
+  }
+  updateShippingBar();
+  updateBacWarning();
+  var ci = document.getElementById('cart-items');
+  if (cart.length === 0) {
+    ci.innerHTML = '<div class="cart-empty">Tu carrito está vacío</div>';
+    return;
+  }
+  ci.innerHTML = cart.map(function(item,idx) {
+    return '<div class="ci">' +
+      '<div class="ci-info">' +
+        '<div class="ci-name">' + item.name + '</div>' +
+        '<div class="ci-dose">' + item.dose + '</div>' +
+        '<div class="ci-qty-row">' +
+          '<button class="ci-qb" onclick="changeCartQty(' + idx + ',-1)">−</button>' +
+          '<span class="ci-qn">' + item.qty + '</span>' +
+          '<button class="ci-qb" onclick="changeCartQty(' + idx + ',1)">+</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ci-right">' +
+        '<div class="ci-price">$' + (item.price*item.qty).toLocaleString('es-MX') + '</div>' +
+        '<button class="ci-rm" onclick="removeFromCart(' + idx + ')">×</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+function openCart() { document.getElementById('cart-overlay').classList.add('open'); document.getElementById('cart-drawer').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeCart() { document.getElementById('cart-overlay').classList.remove('open'); document.getElementById('cart-drawer').classList.remove('open'); document.body.style.overflow=''; }
+
+function sendWhatsApp() {
+  if (cart.length === 0) { showToast('El carrito está vacío'); return; }
+  var total = cart.reduce(function(s,i){ return s+i.price*i.qty; },0);
+  var lines = cart.map(function(i){ return '• '+i.name+' ('+i.dose+') × '+i.qty+' = $'+( i.price*i.qty).toLocaleString('es-MX')+' MXN'; });
+  var msg = '¡Hola Aurum Peptides! Quiero hacer el siguiente pedido:\n\n' + lines.join('\n') + '\n\n*Total: $' + total.toLocaleString('es-MX') + ' MXN*\n\n¿Me pueden confirmar disponibilidad?';
+  window.open('https://wa.me/526572844902?text=' + encodeURIComponent(msg), '_blank');
+}
+var NETLIFY_FUNCTION_URL = 'https://aurumpeptides.netlify.app';
+
+function openShipModal() {
+  if (cart.length === 0) { showToast('El carrito esta vacio'); return; }
+  try {
+    var saved = JSON.parse(localStorage.getItem('aurum_shipping') || '{}');
+    if (saved.nombre) {
+      ['nombre','tel','calle','colonia','cp','ciudad','estado'].forEach(function(f){
+        var el = document.getElementById('ship-'+f);
+        if (el && saved[f]) el.value = saved[f];
+      });
+    }
+  } catch(e) {}
+  document.getElementById('ship-modal-ov').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(function(){ document.getElementById('ship-nombre').focus(); }, 100);
+}
+
+function closeShipModal() {
+  document.getElementById('ship-modal-ov').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function validateShipField(id, errId, fn) {
+  var val = document.getElementById(id).value.trim();
+  var ok = fn(val);
+  document.getElementById(id).classList.toggle('ship-field-err', !ok);
+  document.getElementById(errId).style.display = ok ? 'none' : 'block';
+  return ok;
+}
+
+function confirmShipping() {
+  var ok = true;
+  ok = validateShipField('ship-nombre','err-nombre',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-tel','err-tel',function(v){return /^[0-9]{10}$/.test(v);}) && ok;
+  ok = validateShipField('ship-calle','err-calle',function(v){return v.length>3;}) && ok;
+  ok = validateShipField('ship-colonia','err-colonia',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-cp','err-cp',function(v){return /^[0-9]{5}$/.test(v);}) && ok;
+  ok = validateShipField('ship-ciudad','err-ciudad',function(v){return v.length>2;}) && ok;
+  ok = validateShipField('ship-estado','err-estado',function(v){return v.length>2;}) && ok;
+  if (!ok) { showToast('Por favor completa todos los campos'); return; }
+  var shipping = {
+    nombre: document.getElementById('ship-nombre').value.trim(),
+    tel: document.getElementById('ship-tel').value.trim(),
+    calle: document.getElementById('ship-calle').value.trim(),
+    colonia: document.getElementById('ship-colonia').value.trim(),
+    cp: document.getElementById('ship-cp').value.trim(),
+    ciudad: document.getElementById('ship-ciudad').value.trim(),
+    estado: document.getElementById('ship-estado').value.trim(),
+  };
+  if (document.getElementById('ship-guardar').checked) {
+    try { localStorage.setItem('aurum_shipping', JSON.stringify(shipping)); } catch(e) {}
+  }
+  try { localStorage.setItem('aurum_last_shipping', JSON.stringify(shipping)); } catch(e) {}
+  closeShipModal();
+  proceedToPayment(shipping);
+}
+
+function saveOrderToSheets(shipping, orderRef, total) {
+  if (typeof SHEETS_CONFIG === 'undefined' || SHEETS_CONFIG.webAppUrl.includes('TU_GOOGLE')) return;
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', SHEETS_CONFIG.webAppUrl, true);
+    xhr.setRequestHeader('Content-Type','application/json');
+    xhr.send(JSON.stringify({
+      action:'addOrder', secret: SHEETS_CONFIG.secretKey || 'aurum2026secret', sheet:'Pedidos',
+      ref: orderRef, fecha: new Date().toLocaleDateString('es-MX'),
+      nombre: shipping.nombre, tel: shipping.tel, calle: shipping.calle,
+      colonia: shipping.colonia, cp: shipping.cp, ciudad: shipping.ciudad, estado: shipping.estado,
+      total: total, items: cart.map(function(i){return i.name+' x'+i.qty;}).join(', ')
+    }));
+  } catch(e) {}
+}
+
+function notifyWhatsApp(shipping, orderRef) {
+  var total = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
+  var items = cart.map(function(i){return '%E2%80%A2 '+encodeURIComponent(i.name+' x'+i.qty+' $'+(i.price*i.qty).toLocaleString('es-MX')+' MXN');}).join('%0A');
+  var dir = encodeURIComponent(shipping.calle+', Col. '+shipping.colonia+', CP '+shipping.cp+', '+shipping.ciudad+', '+shipping.estado);
+  var msg = '%F0%9F%A7%AC *Nuevo pedido Aurum Peptides*%0A%0A*Ref:* '+orderRef+'%0A*Cliente:* '+encodeURIComponent(shipping.nombre)+'%0A*Tel:* '+shipping.tel+'%0A%0A*Productos:*%0A'+items+'%0A%0A*Total:* $'+total.toLocaleString('es-MX')+' MXN%0A%0A*Direccion:*%0A'+dir;
+  try { window.open('https://wa.me/526572844902?text='+msg,'_blank','noopener'); } catch(e) {}
+}
+
+async function proceedToPayment(shipping) {
+  var btn = document.querySelector('.btn-checkout');
+  if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; btn.style.opacity = '0.7'; }
+  var orderRef = 'AURUM-' + Date.now();
+  var total = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
+  saveOrderToSheets(shipping, orderRef, total);
+  notifyWhatsApp(shipping, orderRef);
+  try {
+    var itemsPayload = cart.map(function(item){return {name:item.name,dose:item.dose,qty:item.qty,price:item.price};});
+    var buyerEmail = null;
+    try { buyerEmail = localStorage.getItem('aurum_client_email'); } catch(e) {}
+    var response = await fetch(NETLIFY_FUNCTION_URL + '/.netlify/functions/create-preference', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail, promoCode:activePromoCode}),
+    });
+    if (!response.ok) throw new Error('Error servidor: '+response.status);
+    var data = await response.json();
+    if (!data.checkoutUrl) throw new Error('Sin URL de pago');
+    try { localStorage.setItem('aurum_last_cart', JSON.stringify(cart)); } catch(e) {}
+    window.location.href = data.checkoutUrl;
+  } catch(err) {
+    console.error('Checkout error:', err);
+    if (btn) { btn.textContent = 'Proceder al pago'; btn.disabled = false; btn.style.opacity = ''; }
+    if (confirm('Error al procesar el pago. Continuar por WhatsApp?')) sendWhatsApp();
+  }
+}
+
+
+
+// ── PROMO CODE INPUT (carrito) ──
+function applyPromoCode() {
+  var input = document.getElementById('promo-input');
+  var feedback = document.getElementById('promo-feedback');
+  var code = (input.value || '').trim().toUpperCase();
+  feedback.className = 'promo-feedback';
+  feedback.textContent = '';
+
+  if (!code) {
+    feedback.textContent = 'Ingresa un código de descuento.';
+    feedback.classList.add('err');
+    return;
+  }
+  // AURUM10 is only valid after email registration
+  if (code === 'AURUM10') {
+    var claimed = localStorage.getItem('aurum_promo_claimed');
+    if (!claimed) {
+      feedback.textContent = '✗ Regístrate para obtener este código.';
+      feedback.classList.add('err');
+      setTimeout(showEmailModal, 600);
+      return;
+    }
+  }
+  var VALID = { 'AURUM10': 0.10, 'BIENVENIDO': 0.15 };
+  var pct = VALID[code];
+  if (!pct) {
+    feedback.textContent = '✗ Código inválido o expirado.';
+    feedback.classList.add('err');
+    return;
+  }
+  activePromoCode = code;
+  activePromoDiscount = pct;
+  input.disabled = true;
+  document.querySelector('.promo-btn').textContent = '✓ Aplicado';
+  document.querySelector('.promo-btn').disabled = true;
+  document.querySelector('.promo-btn').style.opacity = '0.5';
+  feedback.textContent = '✓ ' + Math.round(pct * 100) + '% de descuento aplicado';
+  feedback.classList.add('ok');
+  renderCart();
+}
+
+async function checkout(){
+  if(!cart||cart.length===0){showToast('Tu carrito está vacío');return;}
+  openShipModal();
+}
+
+
+
+// ── TOAST ──
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+// ── FAQ ──
+function toggleFaq(el) {
+  var item = el.parentElement;
+  var wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('open'); });
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ── CALCULADORA ──
+function calcRecon() {
+  var dose = parseFloat(document.getElementById('calc-dose').value); // mg
+  var mg   = parseFloat(document.getElementById('calc-mg').value);   // mg en vial
+  var ml   = parseFloat(document.getElementById('calc-ml').value);   // mL agua añadida
+  var out  = document.getElementById('calc-out');
+  if (!dose || !mg || !ml || dose <= 0 || mg <= 0 || ml <= 0) { out.textContent = '—'; return; }
+  // Concentración resultante (mg/mL)
+  var concMgPerMl = mg / ml;
+  // Volumen a extraer (mL)
+  var mlNeeded = dose / concMgPerMl;
+  // Jeringa U-100 = 100 unidades por mL
+  var units = mlNeeded * 100;
+  out.textContent = units.toFixed(1) + ' U';
+}
+
+// ── FADE IN ON SCROLL ──
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('vis'); observer.unobserve(e.target); }
+  });
+}, {threshold:0.08});
+document.querySelectorAll('.fade-in').forEach(function(el){ observer.observe(el); });
+
+// ── HERO FADE ON LOAD ──
+window.addEventListener('load', function() {
+  document.querySelector('.hero .fade-in').classList.add('vis');
+});
+
+
+// NAV SCROLL BEHAVIOR
+(function(){
+  var nav=document.querySelector('nav');
+  if(!nav)return;
+  var lastY=window.scrollY,ticking=false;
+  function upd(){
+    var y=window.scrollY;
+    if(y<80){nav.style.transform='translateY(0)';nav.style.boxShadow='none';}
+    else if(y>lastY+5){nav.style.transform='translateY(-200%)';}
+    else if(y<lastY-5){nav.style.transform='translateY(0)';nav.style.boxShadow='0 4px 32px rgba(0,0,0,0.5)';}
+    lastY=y;ticking=false;
+  }
+  window.addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(upd);ticking=true;}},{passive:true});
+})();
+
+
+// Restaurar carrito desde localStorage al cargar
+(function() {
+  if (cart.length > 0) {
+    updateCartUI();
+    // Actualizar contador en el nav
+    var countEl = document.getElementById('cart-count');
+    if (countEl) {
+      var total = cart.reduce(function(s,i){return s+i.qty;},0);
+      countEl.textContent = total > 0 ? total : '0';
+      countEl.style.display = total > 0 ? '' : 'none';
+    }
+  }
+})();
+
+
+</script>
+</body>
+</html>+t.total.toLocaleString('es-MX');
   // Discount row
   var dr = document.getElementById('cart-discount-row');
   var dv = document.getElementById('cart-discount-val');
