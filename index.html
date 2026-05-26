@@ -937,8 +937,11 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <span class="cart-discount-lbl">Descuento (<span id="discount-pct"></span>)</span>
       <span class="cart-discount-v" id="discount-amt"></span>
     </div>
-    <div class="cart-sub" id="cart-subtotal-row" style="display:none"><span style="color:var(--muted);font-size:13px">Subtotal</span><span class="cart-sub-v" id="cart-subtotal-val" style="font-size:13px;color:var(--muted)">$0</span></div>
-    <div class="cart-sub" id="cart-shipping-row" style="display:none"><span style="color:var(--muted);font-size:13px">Envío</span><span class="cart-sub-v" id="cart-shipping-val" style="font-size:13px;color:var(--muted)">$250</span></div>
+  var sR=document.getElementById('cart-subtotal-row'),sV=document.getElementById('cart-subtotal-val');
+  if(sR&&sV){sR.style.display=cart.length>0?'flex':'none';sV.textContent='$'+t.subtotal.toLocaleString('es-MX');}
+  var shR=document.getElementById('cart-shipping-row'),shV=document.getElementById('cart-shipping-val');
+  if(shR&&shV){shR.style.display=cart.length>0?'flex':'none';shV.innerHTML=t.shipping===0?'<span style="color:var(--gold)">GRATIS<\/span>':'$'+t.shipping.toLocaleString('es-MX');}
+  document.getElementById('cart-total').textContent='$'+t.total.toLocaleString('es-MX');
     <div class="cart-sub" style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px"><span style="font-weight:500">Total</span><span class="cart-sub-v" id="cart-total" style="font-weight:500">$0</span></div>
     <button class="btn-checkout" onclick="checkout()">Proceder al pago</button>
     <button class="btn-wa" onclick="sendWhatsApp()">Pedir por WhatsApp</button>
@@ -1768,7 +1771,14 @@ function updateCartUI() {
   cc.textContent = count;
   cc.style.display = count > 0 ? 'flex' : 'none';
   var sR=document.getElementById('cart-subtotal-row'),sV=document.getElementById('cart-subtotal-val');
-  if(sR&&sV){sR.style.display=cart.length>0?'flex':'none';sV.textContent='
+  if(sR&&sV){sR.style.display=cart.length>0?'flex':'none';sV.textContent='$'+t.subtotal.toLocaleString('es-MX');}
+  var shR=document.getElementById('cart-shipping-row'),shV=document.getElementById('cart-shipping-val');
+  if(shR&&shV){shR.style.display=cart.length>0?'flex':'none';shV.innerHTML=t.shipping===0?'<span style="color:var(--gold);font-size:11px">GRATIS ✓<\/span>':'$'+t.shipping.toLocaleString('es-MX');}
+  document.getElementById('cart-total').textContent='$'+t.total.toLocaleString('es-MX');
+'+t.subtotal.toLocaleString('es-MX');}
+  var shR=document.getElementById('cart-shipping-row'),shV=document.getElementById('cart-shipping-val');
+  if(shR&&shV){shR.style.display=cart.length>0?'flex':'none';shV.innerHTML=t.shipping===0?'<span style="color:var(--gold);font-size:11px">GRATIS ✓</span>':'$'+t.shipping.toLocaleString('es-MX');}
+  document.getElementById('cart-total').textContent='$'+t.total.toLocaleString('es-MX');
   // Discount row
   var dr = document.getElementById('cart-discount-row');
   var dv = document.getElementById('cart-discount-val');
