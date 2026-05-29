@@ -542,13 +542,13 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 
 <!-- MOBILE MENU -->
 <div class="mob-menu" id="mob-menu">
-  <a href="#catalogo" onclick="closeMenu()">Catálogo</a>
+  <a href="/catalogo" onclick="closeMenu()">Catálogo</a>
   <a href="#nosotros" onclick="closeMenu()">Nosotros</a>
   <a href="#faq" onclick="closeMenu()">FAQ</a>
   <a href="#recursos" onclick="closeMenu()">Recursos</a>
   <a href="/blog" onclick="closeMenu()">Blog</a>
   <a href="/mis-pedidos" onclick="closeMenu()" style="color:var(--gold)">Mi Cuenta</a>
-  <button class="mob-cta" onclick="closeMenu();document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver péptidos</button>
+  <button class="mob-cta" onclick="closeMenu();window.location.href='/catalogo'">Ver péptidos</button>
 </div>
 
 <!-- HERO -->
@@ -563,7 +563,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     <h1>El péptido más avanzado.<br><em>En tu laboratorio</em><br>en 48 horas.</h1>
     <p class="hero-sub">Retatrutide, Tirzepatide, BPC-157 y 10 compuestos más — todos con COA público verificable. Pureza 99.5%+. Envío a toda la república.</p>
     <div class="hero-btns">
-      <a href="#catalogo" class="btn-g">Ver catálogo →</a>
+      <a href="/catalogo" class="btn-g">Ver catálogo →</a>
       <a href="https://finnrick.com/verify" target="_blank" class="btn-o">Verificar pureza</a>
     </div>
   </div>
@@ -873,7 +873,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
   <h2>Investigación sin<br><em style="font-style:italic;color:var(--gold)">compromisos</em></h2>
   <p>Péptidos verificados, entrega rápida, soporte técnico. Todo lo que necesitas para tu investigación.</p>
   <div class="cta-btns">
-    <a href="#catalogo" class="btn-g">Ver catálogo completo</a>
+    <a href="/catalogo" class="btn-g">Ver catálogo completo</a>
     <a href="https://wa.me/526572844902" target="_blank" class="btn-o">Contactar por WhatsApp</a>
   </div>
 </section>
@@ -887,9 +887,9 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
   </div>
   <div class="ft-col">
     <h4>Catálogo</h4>
-    <a href="#catalogo">Retatrutide</a>
-    <a href="#catalogo">Tirzepatide</a>
-    <a href="#catalogo">BPC-157</a>
+    <a href="/catalogo">Retatrutide</a>
+    <a href="/catalogo">Tirzepatide</a>
+    <a href="/catalogo">BPC-157</a>
     <a href="#catalogo">NAD+</a>
     <a href="#catalogo">Ver todos</a>
   </div>
