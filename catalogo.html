@@ -532,6 +532,16 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     </button>
   </div>
 </nav>
+<div class="mob-menu" id="mob-menu">
+  <a href="/catalogo" onclick="closeMenu()">Catálogo</a>
+  <a href="/#nosotros" onclick="closeMenu()">Nosotros</a>
+  <a href="/#faq" onclick="closeMenu()">FAQ</a>
+  <a href="/#recursos" onclick="closeMenu()">Recursos</a>
+  <a href="/blog" onclick="closeMenu()">Blog</a>
+  <a href="/mis-pedidos" onclick="closeMenu()" style="color:var(--gold)">Mi Cuenta</a>
+  <button class="mob-cta" onclick="closeMenu();window.location.href='/catalogo'">Ver péptidos</button>
+</div>
+
 
 <section class="sec" id="catalogo" style="padding-top:100px">
   <div class="sec-hdr">
