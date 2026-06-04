@@ -1898,7 +1898,8 @@ async function proceedToPayment(shipping) {
   var orderRef = 'AURUM-' + Date.now();
   var T2=getCartTotals(),total=T2.total,shC=T2.shipping;
   saveOrderToSheets(shipping,orderRef,total,shC);
-  notifyWhatsApp(shipping, orderRef);
+  // WA se envía desde success.html después de confirmar pago
+  try{ localStorage.setItem('aurum_pending_order', JSON.stringify({shipping:shipping,orderRef:orderRef,items:cart.map(function(i){return {name:i.name,dose:i.dose,qty:i.qty,price:i.price};}),total:total,shippingCost:shC})); }catch(e){}
   try {
     var itemsPayload = cart.map(function(item){return {name:item.name,dose:item.dose,qty:item.qty,price:item.price};});
     var buyerEmail = null;
