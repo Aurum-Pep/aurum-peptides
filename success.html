@@ -99,5 +99,44 @@ h1 em{font-style:italic;color:var(--gold)}
   }
 })();
 </script>
+
+<script>
+// WhatsApp post-pago: se ejecuta cuando MP confirma el pago
+(function() {
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var status = params.get('status') || params.get('collection_status') || 'approved';
+    if (status !== 'approved') return;
+
+    var raw = localStorage.getItem('aurum_pending_order');
+    if (!raw) return;
+    var order = JSON.parse(raw);
+    if (!order || !order.orderRef) return;
+
+    // Guard anti-duplicado
+    var key = 'aurum_wa_sent_' + order.orderRef;
+    if (localStorage.getItem(key)) return;
+    localStorage.setItem(key, '1');
+    localStorage.removeItem('aurum_pending_order');
+
+    // Llamar a la función serverless que construye el mensaje
+    fetch('/.netlify/functions/send-whatsapp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        shipping: order.shipping,
+        orderRef: order.orderRef,
+        items: order.items,
+        total: order.total,
+        shippingCost: order.shippingCost
+      })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(d){ if(d && d.waUrl) window.open(d.waUrl, '_blank'); })
+    .catch(function(e){ console.error('WA error:', e); });
+
+  } catch(e) { console.error('WA post-pago:', e); }
+})();
+</script>
 </body>
 </html>
