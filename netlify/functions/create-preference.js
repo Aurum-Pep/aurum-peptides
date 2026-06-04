@@ -24,7 +24,7 @@ exports.handler = async function (event) {
   }
 
   try {
-    const { items, buyerEmail, promoCode } = JSON.parse(event.body || '{}');
+    const { items, buyerEmail, promoCode, shipping, orderRef } = JSON.parse(event.body || '{}');
 
     if (!items || !items.length) {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'Carrito vacio' }) };
@@ -49,12 +49,12 @@ exports.handler = async function (event) {
       items: mpItems,
       ...(buyerEmail && { payer: { email: buyerEmail } }),
       back_urls: {
-        success: SUCCESS_URL,
+        success: SUCCESS_URL + '?ref=' + encodeURIComponent(orderRef || '') + '&status=approved',
         failure: FAILURE_URL,
         pending: SUCCESS_URL + '?status=pending',
       },
       auto_return: 'approved',
-      external_reference: 'AURUM-' + Date.now(),
+      external_reference: JSON.stringify({ ref: orderRef || ('AURUM-'+Date.now()), shipping: shipping || null }),
       statement_descriptor: 'AURUM PEPTIDES',
       expires: true,
       expiration_date_to: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
