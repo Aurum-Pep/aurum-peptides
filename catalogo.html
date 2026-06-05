@@ -1806,18 +1806,18 @@ function confirmShipping() {
 
 function saveOrderToSheets(shipping,orderRef,total,shC) {
   if (typeof SHEETS_CONFIG === 'undefined' || SHEETS_CONFIG.webAppUrl.includes('TU_GOOGLE')) return;
-  try {
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', SHEETS_CONFIG.webAppUrl, true);
-    xhr.setRequestHeader('Content-Type','application/json');
-    xhr.send(JSON.stringify({
-      action:'addOrder', secret: SHEETS_CONFIG.secretKey || 'aurum2026secret', sheet:'Pedidos',
-      ref: orderRef, fecha: new Date().toLocaleDateString('es-MX'),
-      nombre: shipping.nombre, tel: shipping.tel, calle: shipping.calle,
-      colonia: shipping.colonia, cp: shipping.cp, ciudad: shipping.ciudad, estado: shipping.estado,
-      total:total,envio:shC||0,items:cart.map(function(i){return i.name+' x'+i.qty;}).join(', ')
-    }));
-  } catch(e) {}
+  var payload = JSON.stringify({
+    action:'addOrder', secret: SHEETS_CONFIG.secretKey || 'aurum2026secret', sheet:'Pedidos',
+    ref: orderRef, fecha: new Date().toLocaleDateString(['es','-','MX'].join('')),
+    nombre: shipping.nombre, tel: shipping.tel, calle: shipping.calle,
+    colonia: shipping.colonia, cp: shipping.cp, ciudad: shipping.ciudad, estado: shipping.estado,
+    total:total, envio:shC||0, items:cart.map(function(i){return i.name+' x'+i.qty;}).join(', ')
+  });
+  fetch(SHEETS_CONFIG.webAppUrl, {
+    method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'text/plain'},
+    body: payload
+  }).catch(function(e){ console.warn('Sheets error:', e); });
 }
 
 function notifyWhatsApp(shipping, orderRef) {
