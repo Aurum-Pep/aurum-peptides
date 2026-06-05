@@ -105,8 +105,9 @@ h1 em{font-style:italic;color:var(--gold)}
 (function() {
   try {
     var params = new URLSearchParams(window.location.search);
-    var status = params.get('status') || params.get('collection_status') || 'approved';
-    if (status !== 'approved') return;
+    var status = params.get('collection_status') || params.get('status') || params.get('payment_status') || '';
+    var blocked = status === 'failure' || status === 'rejected' || status === 'cancelled';
+    if (blocked) return;
 
     var raw = localStorage.getItem('aurum_pending_order');
     if (!raw) return;
