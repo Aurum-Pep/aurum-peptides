@@ -45,6 +45,19 @@ exports.handler = async function (event) {
       };
     });
 
+    // Agregar costo de envío como ítem si aplica
+    const shippingCost = Number(shipping) || 0;
+    if (shippingCost > 0) {
+      mpItems.push({
+        id: 'aurum-envio',
+        title: 'Envío express',
+        description: 'Envío a domicilio · Aurum Peptides',
+        quantity: 1,
+        unit_price: shippingCost,
+        currency_id: 'MXN',
+      });
+    }
+
     const preference = {
       items: mpItems,
       ...(buyerEmail && { payer: { email: buyerEmail } }),
