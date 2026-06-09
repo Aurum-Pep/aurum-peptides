@@ -598,6 +598,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <div class="var-btns">
         <button class="vb sel" id="rb10" onclick="selReta(10)">10 mg</button>
         <button class="vb" id="rb15" onclick="selReta(15)">15 mg</button>
+        <button class="vb" id="rb20" onclick="selReta(20)">20 mg</button>
         <button class="vb" id="rb30" onclick="selReta(30)">30 mg</button>
       </div>
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">BTLabs</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.5%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">WTSBX5G</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: wtsbx5g →</a></div>
@@ -616,7 +617,9 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <p class="p-desc">Agonista dual GIP/GLP-1 de segunda generación. Investigado en modelos de regulación metabólica y composición corporal.</p>
       <div class="var-btns">
         <button class="vb sel" id="tb10" onclick="selTirze(10)">10 mg</button>
+        <button class="vb" id="tb20" onclick="selTirze(20)">20 mg</button>
         <button class="vb" id="tb30" onclick="selTirze(30)">30 mg</button>
+        <button class="vb" id="tb50" onclick="selTirze(50)">50 mg</button>
       </div>
       <div class="coa" id="tirze-coa">
         <div class="cr"><span class="ck">Lab</span><span class="cv" id="tc-lab">Krause Analytical</span></div>
@@ -1550,6 +1553,7 @@ document.addEventListener('DOMContentLoaded',function(){ setGrid(); applyInvento
 var retaData = {
   10: {price:1699, dose:'10 mg · Polvo liofilizado', label:'Retatrutide 10 mg'},
   15: {price:2499, dose:'15 mg · Polvo liofilizado', label:'Retatrutide 15 mg'},
+  20: {price:3199, dose:'20 mg · Polvo liofilizado', label:'Retatrutide 20 mg'},
   30: {price:3399, dose:'30 mg · Polvo liofilizado', label:'Retatrutide 30 mg'}
 };
 var retaSel = 10;
@@ -1558,7 +1562,7 @@ function selReta(mg) {
   var d = retaData[mg];
   document.getElementById('reta-dose').textContent = d.dose;
   document.getElementById('reta-price').textContent = '$' + d.price.toLocaleString('es-MX');
-  [10,15,30].forEach(function(v) {
+  [10,15,20,30].forEach(function(v) {
     document.getElementById('rb'+v).className = 'vb' + (v===mg?' sel':'');
   });
   updateRetaBtn();
@@ -1598,7 +1602,9 @@ document.getElementById('reta-add').addEventListener('click', function() {
 // ── TIRZEPATIDE ──
 var tirzeData = {
   10: {price:1099, dose:'10 mg · Polvo liofilizado', label:'Tirzepatide 10 mg', lab:'Krause Analytical', pur:'>99.9%', lot:'j9f35yh', date:'FEB 2026', id:'j9f35yh'},
-  30: {price:3199, dose:'30 mg · Polvo liofilizado', label:'Tirzepatide 30 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'}
+  20: {price:2099, dose:'20 mg · Polvo liofilizado', label:'Tirzepatide 20 mg', lab:'Krause Analytical', pur:'>99.9%', lot:'j9f35yh', date:'FEB 2026', id:'j9f35yh'},
+  30: {price:3199, dose:'30 mg · Polvo liofilizado', label:'Tirzepatide 30 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'},
+  50: {price:4999, dose:'50 mg · Polvo liofilizado', label:'Tirzepatide 50 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'}
 };
 var tirzeSel = 10;
 function selTirze(mg) {
@@ -1606,7 +1612,7 @@ function selTirze(mg) {
   var d = tirzeData[mg];
   document.getElementById('tirze-dose').textContent = d.dose;
   document.getElementById('tirze-price').textContent = '$' + d.price.toLocaleString('es-MX');
-  [10,30].forEach(function(v) {
+  [10,20,30,50].forEach(function(v) {
     document.getElementById('tb'+v).className = 'vb' + (v===mg?' sel':'');
   });
   document.getElementById('tc-lab').textContent = d.lab;
