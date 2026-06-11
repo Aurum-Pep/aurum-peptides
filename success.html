@@ -114,13 +114,11 @@ h1 em{font-style:italic;color:var(--gold)}
     var order = JSON.parse(raw);
     if (!order || !order.orderRef) return;
 
-    // Guard anti-duplicado
+    // Guard: si ya se envió, no mostrar de nuevo
     var key = 'aurum_wa_sent_' + order.orderRef;
     if (localStorage.getItem(key)) return;
-    localStorage.setItem(key, '1');
-    localStorage.removeItem('aurum_pending_order');
 
-    // Llamar a la función serverless que construye el mensaje
+    // Obtener la URL de WA del servidor y mostrar BOTÓN (los navegadores bloquean window.open sin click)
     fetch('/.netlify/functions/send-whatsapp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -133,7 +131,23 @@ h1 em{font-style:italic;color:var(--gold)}
       })
     })
     .then(function(r){ return r.json(); })
-    .then(function(d){ if(d && d.waUrl) window.open(d.waUrl, '_blank'); })
+    .then(function(d){
+      if (!d || !d.waUrl) return;
+      var btn = document.createElement('a');
+      btn.href = d.waUrl;
+      btn.target = '_blank';
+      btn.rel = 'noopener';
+      btn.textContent = 'Enviar confirmación por WhatsApp';
+      btn.style.cssText = 'display:inline-block;margin-top:28px;padding:16px 32px;background:#C9A84C;color:#0A0A08;font-family:Outfit,sans-serif;font-size:14px;font-weight:500;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:2px;';
+      btn.onclick = function() {
+        localStorage.setItem(key, '1');
+        localStorage.removeItem('aurum_pending_order');
+        setTimeout(function(){ btn.style.display = 'none'; }, 1500);
+      };
+      var anchor = document.querySelector('.order-box') || document.querySelector('h1') || document.body.firstElementChild;
+      anchor.parentNode.insertBefore(btn, anchor.nextSibling);
+      try { window.open(d.waUrl, '_blank'); } catch(e) {}
+    })
     .catch(function(e){ console.error('WA error:', e); });
 
   } catch(e) { console.error('WA post-pago:', e); }
