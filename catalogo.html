@@ -153,6 +153,10 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 .ft-brand{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);letter-spacing:3px;margin-bottom:8px}
 .ft-tag{font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:16px}
 .ft-copy{font-size:11px;color:var(--muted)}
+.ft-social{display:flex;gap:12px;margin-top:16px}
+.ft-social a{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:6px 12px;border-radius:2px;transition:color .2s,border-color .2s}
+.ft-social a:hover{color:var(--gold);border-color:var(--gold)}
+.ft-social svg{width:14px;height:14px;fill:currentColor;flex-shrink:0}
 .ft-col h4{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);margin-bottom:14px}
 .ft-col a{display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px;transition:color .2s}
 .ft-col a:hover{color:var(--gold)}
@@ -242,7 +246,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 .card.oos .btn-add{opacity:.4;pointer-events:none}
 /* ── FADE IN ── */
 .fade-in{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
-#catalogo .fade-in{opacity:1!important;transform:none!important}
 .fade-in.vis{opacity:1;transform:none}
 
 /* ══════════════════════════════════════
@@ -555,7 +558,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <div class="var-btns">
         <button class="vb sel" id="rb10" onclick="selReta(10)">10 mg</button>
         <button class="vb" id="rb15" onclick="selReta(15)">15 mg</button>
-        <button class="vb" id="rb20" onclick="selReta(20)">20 mg</button>
         <button class="vb" id="rb30" onclick="selReta(30)">30 mg</button>
       </div>
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">BTLabs</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.5%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">WTSBX5G</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: wtsbx5g →</a></div>
@@ -594,8 +596,8 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Janoshik</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.926%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">#106236</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">26 FEB 2026</span></div><a class="cl" href="https://www.janoshik.com/verify/" target="_blank">Verificar: LA2JN96V9R73 →</a></div>
       <a class="vml" href="/peptide_detail?p=ipamorelin">Ver información detallada →</a>
       <div class="p-foot">
-        <div class="p-price">$500<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('Ipamorelin','5 mg · Polvo liofilizado',500)">Agregar</button>
+        <div class="p-price">$949<small>MXN por vial</small></div>
+        <button class="btn-add" onclick="openModal('Ipamorelin','5 mg · Polvo liofilizado',949)">Agregar</button>
       </div>
     </div>
 
@@ -610,8 +612,8 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Janoshik</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">≥99%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">H2YBDF</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">2025</span></div><a class="cl" href="https://www.janoshik.com/verify/" target="_blank">Verificar: H2YBDFJG9UGP →</a></div>
       <a class="vml" href="/peptide_detail?p=nad">Ver información detallada →</a>
       <div class="p-foot">
-        <div class="p-price">$1,100<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('NAD+','500 mg · Alta concentración',1100)">Agregar</button>
+        <div class="p-price">$1,190<small>MXN por vial</small></div>
+        <button class="btn-add" onclick="openModal('NAD+','500 mg · Alta concentración',1190)">Agregar</button>
       </div>
     </div>
 
@@ -641,8 +643,8 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <p class="p-desc">Derivado del ADN mitocondrial humano. Investigado en regulación del metabolismo energético y sensibilidad a la insulina en tejido muscular.</p>
       <a class="vml" href="/peptide_detail?p=motsc">Ver información detallada →</a>
       <div class="p-foot">
-        <div class="p-price">$1,350<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('Mots-C','10 mg · Polvo liofilizado',1350)">Agregar</button>
+        <div class="p-price">$1,799<small>MXN por vial</small></div>
+        <button class="btn-add" onclick="openModal('Mots-C','10 mg · Polvo liofilizado',1799)">Agregar</button>
       </div>
     </div>
 
@@ -672,9 +674,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <p class="p-desc">Agonista dual GIP/GLP-1 de segunda generación. Investigado en modelos de regulación metabólica y composición corporal.</p>
       <div class="var-btns">
         <button class="vb sel" id="tb10" onclick="selTirze(10)">10 mg</button>
-        <button class="vb" id="tb20" onclick="selTirze(20)">20 mg</button>
         <button class="vb" id="tb30" onclick="selTirze(30)">30 mg</button>
-        <button class="vb" id="tb50" onclick="selTirze(50)">50 mg</button>
       </div>
       <div class="coa" id="tirze-coa">
         <div class="cr"><span class="ck">Lab</span><span class="cv" id="tc-lab">Krause Analytical</span></div>
@@ -751,140 +751,8 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <a class="vml" href="/peptide_detail?p=semax">Ver información detallada →</a>
       <a class="vml" style="color:var(--gold);font-weight:500" href="javascript:void(0)">🛒 Ver catálogo →</a>
       <div class="p-foot">
-        <div class="p-price">$900<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('Semax','10 mg · Polvo liofilizado',900)">Agregar</button>
-      </div>
-    </div>
-
-    <!-- TB-500 -->
-    <div class="card fade-in" id="card-tb500">
-      <div class="p-cat">Regeneración tisular · Actina</div>
-      <div class="p-name">TB-500</div>
-      <div class="p-dose">10 mg · Polvo liofilizado</div>
-      <div class="out-of-stock"></div>
-      <div class="low-stock"></div>
-      <p class="p-desc">Péptido sintético derivado de la Timosina Beta-4. Promueve la reparación muscular, angiogénesis y migración celular. Estudiado en modelos de recuperación tisular sistémica.</p>
-      <div class="coa">
-        <div class="cr"><span class="ck">Lab</span><span class="cv">Krause Analytical</span></div>
-        <div class="cr"><span class="ck">Pureza</span><span class="cv">>99%</span></div>
-        <div class="cr"><span class="ck">Lote</span><span class="cv">tb5-2026a</span></div>
-        <div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div>
-        <a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: tb5-2026a →</a>
-      </div>
-      <a class="vml" href="/peptide_detail?p=tb500">Ver información detallada →</a>
-      <div class="p-foot">
-        <div class="p-price"> $950<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('TB-500','10 mg · Polvo liofilizado',950)">Agregar</button>
-      </div>
-    </div>
-
-    <!-- EPITHALON -->
-    <div class="card fade-in" id="card-epithalon">
-      <div class="p-cat">Longevidad · Telomerasa</div>
-      <div class="p-name">Epithalon</div>
-      <div class="p-dose">50 mg · Polvo liofilizado</div>
-      <div class="out-of-stock"></div>
-      <div class="low-stock"></div>
-      <p class="p-desc">Tetrapéptido derivado de la glándula pineal. Investigado por su capacidad de activar la telomerasa y modular la expresión génica asociada al envejecimiento celular.</p>
-      <div class="coa">
-        <div class="cr"><span class="ck">Lab</span><span class="cv">Krause Analytical</span></div>
-        <div class="cr"><span class="ck">Pureza</span><span class="cv">>99%</span></div>
-        <div class="cr"><span class="ck">Lote</span><span class="cv">epi-2026a</span></div>
-        <div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div>
-        <a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: epi-2026a →</a>
-      </div>
-      <a class="vml" href="/peptide_detail?p=epithalon">Ver información detallada →</a>
-      <div class="p-foot">
-        <div class="p-price">$1,899<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('Epithalon','50 mg · Polvo liofilizado',1899)">Agregar</button>
-      </div>
-    </div>
-
-    <!-- PINEALON -->
-    <div class="card fade-in" id="card-pinealon">
-      <div class="p-cat">Longevidad · Neuroprotección</div>
-      <div class="p-name">Pinealon</div>
-      <div class="p-dose">20 mg · Polvo liofilizado</div>
-      <div class="out-of-stock"></div>
-      <div class="low-stock"></div>
-      <p class="p-desc">Tripéptido biorregulador del tejido cerebral. Investigado por su efecto neuroprotector, modulación del estrés oxidativo y mejora de la función cognitiva en modelos animales.</p>
-      <div class="coa">
-        <div class="cr"><span class="ck">Lab</span><span class="cv">Krause Analytical</span></div>
-        <div class="cr"><span class="ck">Pureza</span><span class="cv">>99%</span></div>
-        <div class="cr"><span class="ck">Lote</span><span class="cv">pin-2026a</span></div>
-        <div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div>
-        <a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: pin-2026a →</a>
-      </div>
-      <a class="vml" href="/peptide_detail?p=pinealon">Ver información detallada →</a>
-      <div class="p-foot">
-        <div class="p-price">$1,299<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('Pinealon','20 mg · Polvo liofilizado',1299)">Agregar</button>
-      </div>
-    </div>
-
-    <!-- THYMOSIN ALPHA 1 -->
-    <div class="card fade-in" id="card-thymosin">
-      <div class="p-cat">Inmunología · Timo</div>
-      <div class="p-name">Thymosin Alpha 1</div>
-      <div class="p-dose">5 mg · Polvo liofilizado</div>
-      <div class="out-of-stock"></div>
-      <div class="low-stock"></div>
-      <p class="p-desc">Péptido inmunomodulador derivado del timo. Investigado por su capacidad de potenciar la respuesta inmune adaptativa, activar células T y NK en modelos de inmunodeficiencia.</p>
-      <div class="coa">
-        <div class="cr"><span class="ck">Lab</span><span class="cv">Krause Analytical</span></div>
-        <div class="cr"><span class="ck">Pureza</span><span class="cv">>99%</span></div>
-        <div class="cr"><span class="ck">Lote</span><span class="cv">ta1-2026a</span></div>
-        <div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div>
-        <a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: ta1-2026a →</a>
-      </div>
-      <a class="vml" href="/peptide_detail?p=thymosin">Ver información detallada →</a>
-      <div class="p-foot">
         <div class="p-price">$1,399<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('Thymosin Alpha 1','5 mg · Polvo liofilizado',1399)">Agregar</button>
-      </div>
-    </div>
-
-    <!-- KPV -->
-    <div class="card fade-in" id="card-kpv">
-      <div class="p-cat">Antiinflamatorio · Intestinal</div>
-      <div class="p-name">KPV</div>
-      <div class="p-dose">10 mg · Polvo liofilizado</div>
-      <div class="out-of-stock"></div>
-      <div class="low-stock"></div>
-      <p class="p-desc">Tripéptido antiinflamatorio derivado de la α-MSH. Investigado en modelos de inflamación intestinal, autoinmunidad y reparación de mucosa gastrointestinal.</p>
-      <div class="coa">
-        <div class="cr"><span class="ck">Lab</span><span class="cv">Krause Analytical</span></div>
-        <div class="cr"><span class="ck">Pureza</span><span class="cv">>99%</span></div>
-        <div class="cr"><span class="ck">Lote</span><span class="cv">kpv-2026a</span></div>
-        <div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div>
-        <a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: kpv-2026a →</a>
-      </div>
-      <a class="vml" href="/peptide_detail?p=kpv">Ver información detallada →</a>
-      <div class="p-foot">
-        <div class="p-price">$1,199<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('KPV','10 mg · Polvo liofilizado',1199)">Agregar</button>
-      </div>
-    </div>
-
-    <!-- KISSPEPTIN -->
-    <div class="card fade-in" id="card-kisspeptin">
-      <div class="p-cat">Endocrinología · Eje HPG</div>
-      <div class="p-name">Kisspeptin</div>
-      <div class="p-dose">5 mg · Polvo liofilizado</div>
-      <div class="out-of-stock"></div>
-      <div class="low-stock"></div>
-      <p class="p-desc">Neuropéptido regulador del eje hipotálamo-hipófisis-gónadas. Investigado en modelos de fertilidad, pubertad y función reproductiva a través de la estimulación de GnRH.</p>
-      <div class="coa">
-        <div class="cr"><span class="ck">Lab</span><span class="cv">Krause Analytical</span></div>
-        <div class="cr"><span class="ck">Pureza</span><span class="cv">>99%</span></div>
-        <div class="cr"><span class="ck">Lote</span><span class="cv">ksp-2026a</span></div>
-        <div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div>
-        <a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: ksp-2026a →</a>
-      </div>
-      <a class="vml" href="/peptide_detail?p=kisspeptin">Ver información detallada →</a>
-      <div class="p-foot">
-        <div class="p-price">$1,299<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('Kisspeptin','5 mg · Polvo liofilizado',1299)">Agregar</button>
+        <button class="btn-add" onclick="openModal('Semax','10 mg · Polvo liofilizado',1399)">Agregar</button>
       </div>
     </div>
 
@@ -1015,6 +883,12 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     <div class="ft-brand">AURUM PEPTIDES</div>
     <div class="ft-tag">Longevity · Science · Precision</div>
     <div class="ft-copy">aurumpeptides.mx · México · 2026</div>
+    <div class="ft-social">
+      <a href="https://www.instagram.com/aurum.peptides?igsh=bTdpZDFkYmZicDQz" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        @aurum.peptides
+      </a>
+    </div>
   </div>
   <div class="ft-col">
     <h4>Catálogo</h4>
@@ -1240,11 +1114,12 @@ function claimPromo() {
 }
 
 function getCartTotals() {
-  var raw=cart.reduce(function(s,i){return s+i.price*i.qty;},0);
-  var SC=250,FT=4000,disc=0,code=null;
-  if(activePromoCode&&activePromoDiscount>0){disc=Math.round(raw*activePromoDiscount);code=activePromoCode;}
-  var sub=raw-disc,ship=sub>=FT?0:SC;
-  return{raw:raw,discount:disc,total:sub+ship,subtotal:sub,shipping:ship,code:code};
+  var raw = cart.reduce(function(s,i){ return s+i.price*i.qty; },0);
+  if (activePromoCode && activePromoDiscount>0) {
+    var disc = Math.round(raw*activePromoDiscount);
+    return {raw:raw, discount:disc, total:raw-disc, code:activePromoCode};
+  }
+  return {raw:raw, discount:0, total:raw, code:null};
 }
 
 // Init promo
@@ -1610,7 +1485,6 @@ document.addEventListener('DOMContentLoaded',function(){ setGrid(); applyInvento
 var retaData = {
   10: {price:1699, dose:'10 mg · Polvo liofilizado', label:'Retatrutide 10 mg'},
   15: {price:2499, dose:'15 mg · Polvo liofilizado', label:'Retatrutide 15 mg'},
-  20: {price:3199, dose:'20 mg · Polvo liofilizado', label:'Retatrutide 20 mg'},
   30: {price:3399, dose:'30 mg · Polvo liofilizado', label:'Retatrutide 30 mg'}
 };
 var retaSel = 10;
@@ -1619,7 +1493,7 @@ function selReta(mg) {
   var d = retaData[mg];
   document.getElementById('reta-dose').textContent = d.dose;
   document.getElementById('reta-price').textContent = '$' + d.price.toLocaleString('es-MX');
-  [10,15,20,30].forEach(function(v) {
+  [10,15,30].forEach(function(v) {
     document.getElementById('rb'+v).className = 'vb' + (v===mg?' sel':'');
   });
   updateRetaBtn();
@@ -1659,9 +1533,7 @@ document.getElementById('reta-add').addEventListener('click', function() {
 // ── TIRZEPATIDE ──
 var tirzeData = {
   10: {price:1099, dose:'10 mg · Polvo liofilizado', label:'Tirzepatide 10 mg', lab:'Krause Analytical', pur:'>99.9%', lot:'j9f35yh', date:'FEB 2026', id:'j9f35yh'},
-  20: {price:2099, dose:'20 mg · Polvo liofilizado', label:'Tirzepatide 20 mg', lab:'Krause Analytical', pur:'>99.9%', lot:'j9f35yh', date:'FEB 2026', id:'j9f35yh'},
-  30: {price:3199, dose:'30 mg · Polvo liofilizado', label:'Tirzepatide 30 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'},
-  50: {price:4999, dose:'50 mg · Polvo liofilizado', label:'Tirzepatide 50 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'}
+  30: {price:3199, dose:'30 mg · Polvo liofilizado', label:'Tirzepatide 30 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'}
 };
 var tirzeSel = 10;
 function selTirze(mg) {
@@ -1669,7 +1541,7 @@ function selTirze(mg) {
   var d = tirzeData[mg];
   document.getElementById('tirze-dose').textContent = d.dose;
   document.getElementById('tirze-price').textContent = '$' + d.price.toLocaleString('es-MX');
-  [10,20,30,50].forEach(function(v) {
+  [10,30].forEach(function(v) {
     document.getElementById('tb'+v).className = 'vb' + (v===mg?' sel':'');
   });
   document.getElementById('tc-lab').textContent = d.lab;
@@ -1952,16 +1824,16 @@ async function proceedToPayment(shipping) {
   var btn = document.querySelector('.btn-checkout');
   if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; btn.style.opacity = '0.7'; }
   var orderRef = 'AURUM-' + Date.now();
-  var T2=getCartTotals(),total=T2.total,shC=T2.shipping;
-  // Guardado en Sheets server-side; WA se envía desde success.html post-pago
-  try{ localStorage.setItem('aurum_pending_order', JSON.stringify({shipping:shipping,orderRef:orderRef,items:cart.map(function(i){return {name:i.name,dose:i.dose,qty:i.qty,price:i.price};}),total:total,shippingCost:shC,email:shipping.email||''})); }catch(e){}
+  var total = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
+  saveOrderToSheets(shipping, orderRef, total);
+  notifyWhatsApp(shipping, orderRef);
   try {
     var itemsPayload = cart.map(function(item){return {name:item.name,dose:item.dose,qty:item.qty,price:item.price};});
     var buyerEmail = null;
     try { buyerEmail = localStorage.getItem('aurum_client_email'); } catch(e) {}
     var response = await fetch(NETLIFY_FUNCTION_URL + '/.netlify/functions/create-preference', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail, promoCode:activePromoCode, shipping:shC, orderRef:orderRef, shippingData:shipping}),
+      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail, promoCode:activePromoCode}),
     });
     if (!response.ok) throw new Error('Error servidor: '+response.status);
     var data = await response.json();
@@ -2064,8 +1936,6 @@ var observer = new IntersectionObserver(function(entries) {
   });
 }, {threshold:0.08});
 document.querySelectorAll('.fade-in').forEach(function(el){ observer.observe(el); });
-// Asegurar visibilidad inmediata de cards del catálogo
-document.querySelectorAll('#catalogo .fade-in, #main-grid .fade-in').forEach(function(el){ el.classList.add('vis'); });
 
 // ── HERO FADE ON LOAD ──
 window.addEventListener('load', function() {

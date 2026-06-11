@@ -163,6 +163,10 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 .ft-brand{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);letter-spacing:3px;margin-bottom:8px}
 .ft-tag{font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:16px}
 .ft-copy{font-size:11px;color:var(--muted)}
+.ft-social{display:flex;gap:12px;margin-top:16px}
+.ft-social a{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:6px 12px;border-radius:2px;transition:color .2s,border-color .2s}
+.ft-social a:hover{color:var(--gold);border-color:var(--gold)}
+.ft-social svg{width:14px;height:14px;fill:currentColor;flex-shrink:0}
 .ft-col h4{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);margin-bottom:14px}
 .ft-col a{display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px;transition:color .2s}
 .ft-col a:hover{color:var(--gold)}
@@ -173,11 +177,11 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 .cart-overlay.open{opacity:1;pointer-events:all}
 .cart-drawer{position:fixed;top:0;right:-100%;width:min(400px,100%);height:100%;background:var(--black2);border-left:1px solid var(--border);z-index:301;display:flex;flex-direction:column;transition:right .3s ease}
 .cart-drawer.open{right:0}
-.cart-hdr{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.cart-hdr{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .cart-hdr-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300}
 .cart-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:22px;line-height:1;transition:color .2s}
 .cart-close:hover{color:var(--cream)}
-.cart-items{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;padding:16px;min-height:120px;-webkit-overflow-scrolling:touch}
+.cart-items{flex:1;overflow-y:auto;padding:16px}
 .cart-empty{text-align:center;padding:60px 24px;color:var(--muted);font-size:14px}
 .ci{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
 .ci-info{flex:1;min-width:0}
@@ -187,7 +191,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 .ci-price{font-size:14px;color:var(--gold)}
 .ci-rm{background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;transition:color .2s}
 .ci-rm:hover{color:#E07070}
-.cart-ftr{padding:20px 24px;border-top:1px solid var(--border);flex-shrink:1;overflow-y:auto;-webkit-overflow-scrolling:touch;max-height:55vh}
+.cart-ftr{padding:20px 24px;border-top:1px solid var(--border)}
 
 /* ── PROMO CODE ── */
 .promo-wrap{margin-bottom:14px}
@@ -542,13 +546,13 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
 
 <!-- MOBILE MENU -->
 <div class="mob-menu" id="mob-menu">
-  <a href="/catalogo" onclick="closeMenu()">Catálogo</a>
+  <a href="#catalogo" onclick="closeMenu()">Catálogo</a>
   <a href="#nosotros" onclick="closeMenu()">Nosotros</a>
   <a href="#faq" onclick="closeMenu()">FAQ</a>
   <a href="#recursos" onclick="closeMenu()">Recursos</a>
   <a href="/blog" onclick="closeMenu()">Blog</a>
   <a href="/mis-pedidos" onclick="closeMenu()" style="color:var(--gold)">Mi Cuenta</a>
-  <button class="mob-cta" onclick="closeMenu();window.location.href='/catalogo'">Ver péptidos</button>
+  <button class="mob-cta" onclick="closeMenu();document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver péptidos</button>
 </div>
 
 <!-- HERO -->
@@ -559,22 +563,22 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     <polygon points="300,90 500,205 500,395 300,510 100,395 100,205" stroke="#C9A84C" stroke-width="0.5"></polygon>
   </svg>
   <div class="hero-inner fade-in vis">
-    <div class="hero-tag">Verificado por laboratorio independiente</div>
-    <h1>El péptido más avanzado.<br><em>En tu laboratorio</em><br>en 48 horas.</h1>
-    <p class="hero-sub">Retatrutide, Tirzepatide, BPC-157 y 10 compuestos más — todos con COA público verificable. Pureza 99.5%+. Envío a toda la república.</p>
+    <div class="hero-tag">Investigación científica de vanguardia</div>
+    <h1>Aurum<br><em>Peptides</em></h1>
+    <p class="hero-sub">Péptidos de alta pureza para investigación científica. Verificados por laboratorios independientes. Entrega a toda la república.</p>
     <div class="hero-btns">
-      <a href="/catalogo" class="btn-g">Ver catálogo →</a>
-      <a href="https://finnrick.com/verify" target="_blank" class="btn-o">Verificar pureza</a>
+      <a href="#catalogo" class="btn-g">Ver catálogo</a>
+      <a href="#recursos" class="btn-o">Recursos científicos</a>
     </div>
   </div>
 </section>
 
 <!-- TRUST BAR -->
 <div class="trust">
-  <div class="ti"><div class="ti-icon">⚗️</div><div><div class="ti-t">Pureza 99.5%+</div><div class="ti-s">COA público · lote a lote</div></div></div>
-  <div class="ti"><div class="ti-icon">🚚</div><div><div class="ti-t">48h en CDMX</div><div class="ti-s">2–5 días resto del país</div></div></div>
-  <div class="ti"><div class="ti-icon">🔒</div><div><div class="ti-t">SPEI · OXXO · Tarjeta</div><div class="ti-s">Pago seguro Mercado Pago</div></div></div>
-  <div class="ti"><div class="ti-icon">🧪</div><div><div class="ti-t">HPLC/MS verificado</div><div class="ti-s">Análisis independiente</div></div></div>
+  <div class="ti"><div class="ti-icon">⚗️</div><div><div class="ti-t">Pureza 99%+</div><div class="ti-s">COA por cada lote</div></div></div>
+  <div class="ti"><div class="ti-icon">🚚</div><div><div class="ti-t">Envío gratis +$3,000</div><div class="ti-s">Toda la república · 2–5 días</div></div></div>
+  <div class="ti"><div class="ti-icon">🔒</div><div><div class="ti-t">Pago seguro</div><div class="ti-s">Mercado Pago · SPEI</div></div></div>
+  <div class="ti"><div class="ti-icon">📋</div><div><div class="ti-t">Research Use Only</div><div class="ti-s">Uso exclusivo científico</div></div></div>
 </div>
 
 <!-- CATÁLOGO -->
@@ -598,7 +602,6 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <div class="var-btns">
         <button class="vb sel" id="rb10" onclick="selReta(10)">10 mg</button>
         <button class="vb" id="rb15" onclick="selReta(15)">15 mg</button>
-        <button class="vb" id="rb20" onclick="selReta(20)">20 mg</button>
         <button class="vb" id="rb30" onclick="selReta(30)">30 mg</button>
       </div>
       <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">BTLabs</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.5%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">WTSBX5G</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: wtsbx5g →</a></div>
@@ -617,9 +620,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <p class="p-desc">Agonista dual GIP/GLP-1 de segunda generación. Investigado en modelos de regulación metabólica y composición corporal.</p>
       <div class="var-btns">
         <button class="vb sel" id="tb10" onclick="selTirze(10)">10 mg</button>
-        <button class="vb" id="tb20" onclick="selTirze(20)">20 mg</button>
         <button class="vb" id="tb30" onclick="selTirze(30)">30 mg</button>
-        <button class="vb" id="tb50" onclick="selTirze(50)">50 mg</button>
       </div>
       <div class="coa" id="tirze-coa">
         <div class="cr"><span class="ck">Lab</span><span class="cv" id="tc-lab">Krause Analytical</span></div>
@@ -645,7 +646,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <a class="vml" href="/peptide_detail?p=nad">Ver información detallada →</a>
       <div class="p-foot">
         <div class="p-price">$1,190<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('NAD+','500 mg · Alta concentración',1100)">Agregar</button>
+        <button class="btn-add" onclick="openModal('NAD+','500 mg · Alta concentración',1190)">Agregar</button>
       </div>
     </div>
     <div class="card fade-in vis" id="card-motsc">
@@ -658,7 +659,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <a class="vml" href="/peptide_detail?p=motsc">Ver información detallada →</a>
       <div class="p-foot">
         <div class="p-price">$1,799<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('Mots-C','10 mg · Polvo liofilizado',1350)">Agregar</button>
+        <button class="btn-add" onclick="openModal('Mots-C','10 mg · Polvo liofilizado',1799)">Agregar</button>
       </div>
     </div>
   </div><!-- end grid -->
@@ -668,68 +669,10 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
   
 
   <div style="text-align:center;margin-top:44px">
-    <a href="/catalogo" onmouseout="this.style.background=\" transparent\''="" onmouseover="this.style.background=\" rgba(201,168,76,0.08)\''="" style="display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid rgba(201,168,76,0.3);padding:14px 32px;border-radius:2px;transition:all .2s">Ver catálogo completo — 19 péptidos →</a>
+    <a href="/catalogo" onmouseout="this.style.background=\" transparent\''="" onmouseover="this.style.background=\" rgba(201,168,76,0.08)\''="" style="display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid rgba(201,168,76,0.3);padding:14px 32px;border-radius:2px;transition:all .2s">Ver catálogo completo — 12 péptidos →</a>
     <p style="font-size:11px;color:var(--muted);margin-top:10px;letter-spacing:1px">Ipamorelin · GHK-Cu · SS-31 · CJC-1295 · Tesamorelin · BPC-157 · Semax</p>
   </div>
 
-</section>
-
-<!-- TESTIMONIOS -->
-<section class="sec" id="testimonios" style="background:var(--black)">
-  <div style="max-width:960px;margin:0 auto">
-    <div class="sec-tag">Investigadores que confían en Aurum</div>
-    <div class="sec-title">Lo que dicen<br>nuestros <em style="font-style:italic;color:var(--gold)">clientes</em></div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:8px">
-
-      <div style="background:var(--black2);border:1px solid var(--border);padding:28px 24px;position:relative">
-        <div style="font-size:32px;color:var(--gold);opacity:0.4;font-family:'Cormorant Garamond',serif;line-height:1;margin-bottom:12px">"</div>
-        <p style="font-size:14px;color:var(--lite);line-height:1.75;margin-bottom:20px">El Retatrutide llegó en 48h, perfectamente empacado y con el COA adjunto. Verifiqué el lote en Finnrick y todo cuadró al 100%. La mejor experiencia de compra que he tenido con péptidos en México.</p>
-        <div style="display:flex;align-items:center;gap:12px;border-top:1px solid var(--border);padding-top:16px">
-          <div style="width:40px;height:40px;border-radius:50%;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold);flex-shrink:0">R</div>
-          <div>
-            <div style="font-size:13px;color:var(--cream);font-weight:500">Ricardo M.</div>
-            <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase">Guadalajara, Jal.</div>
-          </div>
-          <div style="margin-left:auto;font-size:12px;color:var(--gold);letter-spacing:1px">★★★★★</div>
-        </div>
-      </div>
-
-      <div style="background:var(--black2);border:1px solid var(--border);padding:28px 24px;position:relative">
-        <div style="font-size:32px;color:var(--gold);opacity:0.4;font-family:'Cormorant Garamond',serif;line-height:1;margin-bottom:12px">"</div>
-        <p style="font-size:14px;color:var(--lite);line-height:1.75;margin-bottom:20px">Llevo 3 pedidos con Aurum y cada vez la calidad es consistente. El BPC-157 y el NAD+ son los que más uso en mi investigación. Lo que más valoro es poder verificar el COA públicamente — eso no lo ofrece nadie más aquí.</p>
-        <div style="display:flex;align-items:center;gap:12px;border-top:1px solid var(--border);padding-top:16px">
-          <div style="width:40px;height:40px;border-radius:50%;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold);flex-shrink:0">A</div>
-          <div>
-            <div style="font-size:13px;color:var(--cream);font-weight:500">Andrea L.</div>
-            <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase">Ciudad de México</div>
-          </div>
-          <div style="margin-left:auto;font-size:12px;color:var(--gold);letter-spacing:1px">★★★★★</div>
-        </div>
-      </div>
-
-      <div style="background:var(--black2);border:1px solid var(--border);padding:28px 24px;position:relative">
-        <div style="font-size:32px;color:var(--gold);opacity:0.4;font-family:'Cormorant Garamond',serif;line-height:1;margin-bottom:12px">"</div>
-        <p style="font-size:14px;color:var(--lite);line-height:1.75;margin-bottom:20px">Dudé al principio porque es una tienda nueva, pero el nivel de transparencia con los COAs me convenció. El Tirzepatide llegó en tiempo, bien refrigerado. Precios muy competitivos vs importar del extranjero.</p>
-        <div style="display:flex;align-items:center;gap:12px;border-top:1px solid var(--border);padding-top:16px">
-          <div style="width:40px;height:40px;border-radius:50%;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold);flex-shrink:0">C</div>
-          <div>
-            <div style="font-size:13px;color:var(--cream);font-weight:500">Carlos V.</div>
-            <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase">Monterrey, N.L.</div>
-          </div>
-          <div style="margin-left:auto;font-size:12px;color:var(--gold);letter-spacing:1px">★★★★★</div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Nota de reemplazo para ti (solo visible en código) -->
-    <!-- ⚠️ REEMPLAZA estos testimonios con reales en cuanto los tengas.
-         Pide a tus primeros clientes por WhatsApp:
-         "¿Me podrías dejar una reseña de 2-3 líneas sobre tu experiencia?
-         La pondré en la página con tu nombre y ciudad (o iniciales si prefieres)."
-         Un testimonio real con nombre completo vale 10x más que uno genérico. -->
-
-  </div>
 </section>
 
 <!-- WHY -->
@@ -876,7 +819,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
   <h2>Investigación sin<br><em style="font-style:italic;color:var(--gold)">compromisos</em></h2>
   <p>Péptidos verificados, entrega rápida, soporte técnico. Todo lo que necesitas para tu investigación.</p>
   <div class="cta-btns">
-    <a href="/catalogo" class="btn-g">Ver catálogo completo</a>
+    <a href="#catalogo" class="btn-g">Ver catálogo completo</a>
     <a href="https://wa.me/526572844902" target="_blank" class="btn-o">Contactar por WhatsApp</a>
   </div>
 </section>
@@ -887,12 +830,18 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     <div class="ft-brand">AURUM PEPTIDES</div>
     <div class="ft-tag">Longevity · Science · Precision</div>
     <div class="ft-copy">aurumpeptides.mx · México · 2026</div>
+    <div class="ft-social">
+      <a href="https://www.instagram.com/aurum.peptides?igsh=bTdpZDFkYmZicDQz" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        @aurum.peptides
+      </a>
+    </div>
   </div>
   <div class="ft-col">
     <h4>Catálogo</h4>
-    <a href="/catalogo">Retatrutide</a>
-    <a href="/catalogo">Tirzepatide</a>
-    <a href="/catalogo">BPC-157</a>
+    <a href="#catalogo">Retatrutide</a>
+    <a href="#catalogo">Tirzepatide</a>
+    <a href="#catalogo">BPC-157</a>
     <a href="#catalogo">NAD+</a>
     <a href="#catalogo">Ver todos</a>
   </div>
@@ -940,9 +889,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
       <span class="cart-discount-lbl">Descuento (<span id="discount-pct"></span>)</span>
       <span class="cart-discount-v" id="discount-amt"></span>
     </div>
-    <div class="cart-sub" id="cart-subtotal-row" style="display:none"><span style="color:var(--muted);font-size:13px">Subtotal</span><span class="cart-sub-v" id="cart-subtotal-val" style="font-size:13px;color:var(--muted)">$0</span></div>
-    <div class="cart-sub" id="cart-shipping-row" style="display:none"><span style="color:var(--muted);font-size:13px">Envío</span><span class="cart-sub-v" id="cart-shipping-val" style="font-size:13px;color:var(--muted)">$250</span></div>
-    <div class="cart-sub" style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px"><span style="font-weight:500">Total</span><span class="cart-sub-v" id="cart-total" style="font-weight:500">$0</span></div>
+    <div class="cart-sub"><span>Total</span><span class="cart-sub-v" id="cart-total">$0</span></div>
     <button class="btn-checkout" onclick="checkout()">Proceder al pago</button>
     <button class="btn-wa" onclick="sendWhatsApp()">Pedir por WhatsApp</button>
   </div>
@@ -1091,7 +1038,7 @@ function closeMenu() {
 // GOOGLE SHEETS CONFIG
 // ══════════════════════════════════════
 var SHEETS_CONFIG = {
-  webAppUrl: 'https://script.google.com/macros/s/AKfycbxay66mRRs4QZPCvMK0c4Digkv2LTHkoIZfuJ6Gh5nxlLcjxVjqvUrIeZE1igDXjZ4I/exec',
+  webAppUrl: 'https://script.google.com/macros/s/AKfycbwIYuMzIQNVVeOi3R73ZhYH6ayW6vIW5vC6Gh66iDvE-3w6tPOaeH5L2-2Ch0N6V5qM/exec',
   sheetName: 'Clientes',
   secretKey: 'aurum2026secret'
 };
@@ -1183,11 +1130,12 @@ function claimPromo() {
 }
 
 function getCartTotals() {
-  var raw=cart.reduce(function(s,i){return s+i.price*i.qty;},0);
-  var SC=250,FT=4000,disc=0,code=null;
-  if(activePromoCode&&activePromoDiscount>0){disc=Math.round(raw*activePromoDiscount);code=activePromoCode;}
-  var sub=raw-disc,ship=sub>=FT?0:SC;
-  return{raw:raw,discount:disc,total:sub+ship,subtotal:sub,shipping:ship,code:code};
+  var raw = cart.reduce(function(s,i){ return s+i.price*i.qty; },0);
+  if (activePromoCode && activePromoDiscount>0) {
+    var disc = Math.round(raw*activePromoDiscount);
+    return {raw:raw, discount:disc, total:raw-disc, code:activePromoCode};
+  }
+  return {raw:raw, discount:0, total:raw, code:null};
 }
 
 // Init promo
@@ -1504,11 +1452,11 @@ function updateShippingBar() {
   if(!bar) return;
   if(!cart.length){ bar.style.display='none'; return; }
   bar.style.display='block';
-  var pct=Math.min(100,Math.round(t.raw/4000*100));
+  var pct=Math.min(100,Math.round(t.raw/3000*100));
   fill.style.width=pct+'%';
-  if(t.raw>=4000){ msg.innerHTML='🎉 <span style="color:var(--gold)">¡Envío gratis desbloqueado!</span>'; }
+  if(t.raw>=3000){ msg.innerHTML='🎉 <span style="color:var(--gold)">¡Envío gratis desbloqueado!</span>'; }
   else{
-    var falta=(4000-t.raw).toLocaleString('es-MX');
+    var falta=(3000-t.raw).toLocaleString('es-MX');
     msg.innerHTML='Agrega <strong style="color:var(--cream)">$'+falta+' MXN</strong> más para <span style="color:var(--gold)">envío gratis</span>';
   }
   // Discount row
@@ -1553,7 +1501,6 @@ document.addEventListener('DOMContentLoaded',function(){ setGrid(); applyInvento
 var retaData = {
   10: {price:1699, dose:'10 mg · Polvo liofilizado', label:'Retatrutide 10 mg'},
   15: {price:2499, dose:'15 mg · Polvo liofilizado', label:'Retatrutide 15 mg'},
-  20: {price:3199, dose:'20 mg · Polvo liofilizado', label:'Retatrutide 20 mg'},
   30: {price:3399, dose:'30 mg · Polvo liofilizado', label:'Retatrutide 30 mg'}
 };
 var retaSel = 10;
@@ -1562,7 +1509,7 @@ function selReta(mg) {
   var d = retaData[mg];
   document.getElementById('reta-dose').textContent = d.dose;
   document.getElementById('reta-price').textContent = '$' + d.price.toLocaleString('es-MX');
-  [10,15,20,30].forEach(function(v) {
+  [10,15,30].forEach(function(v) {
     document.getElementById('rb'+v).className = 'vb' + (v===mg?' sel':'');
   });
   updateRetaBtn();
@@ -1602,9 +1549,7 @@ document.getElementById('reta-add').addEventListener('click', function() {
 // ── TIRZEPATIDE ──
 var tirzeData = {
   10: {price:1099, dose:'10 mg · Polvo liofilizado', label:'Tirzepatide 10 mg', lab:'Krause Analytical', pur:'>99.9%', lot:'j9f35yh', date:'FEB 2026', id:'j9f35yh'},
-  20: {price:1350, dose:'20 mg · Polvo liofilizado', label:'Tirzepatide 20 mg', lab:'Krause Analytical', pur:'>99.9%', lot:'j9f35yh', date:'FEB 2026', id:'j9f35yh'},
-  30: {price:3199, dose:'30 mg · Polvo liofilizado', label:'Tirzepatide 30 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'},
-  50: {price:4999, dose:'50 mg · Polvo liofilizado', label:'Tirzepatide 50 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'}
+  30: {price:3199, dose:'30 mg · Polvo liofilizado', label:'Tirzepatide 30 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'}
 };
 var tirzeSel = 10;
 function selTirze(mg) {
@@ -1612,7 +1557,7 @@ function selTirze(mg) {
   var d = tirzeData[mg];
   document.getElementById('tirze-dose').textContent = d.dose;
   document.getElementById('tirze-price').textContent = '$' + d.price.toLocaleString('es-MX');
-  [10,20,30,50].forEach(function(v) {
+  [10,30].forEach(function(v) {
     document.getElementById('tb'+v).className = 'vb' + (v===mg?' sel':'');
   });
   document.getElementById('tc-lab').textContent = d.lab;
@@ -1766,14 +1711,7 @@ function updateCartUI() {
   var cc = document.getElementById('cart-count');
   cc.textContent = count;
   cc.style.display = count > 0 ? 'flex' : 'none';
-  var sR=document.getElementById('cart-subtotal-row'),sV=document.getElementById('cart-subtotal-val');
-  var shR=document.getElementById('cart-shipping-row'),shV=document.getElementById('cart-shipping-val');
-  var LCX=['es','-','MX'].join('');
-  if(sR)sR.style.display=cart.length?'flex':'none';
-  if(sV)sV.textContent='$'+t.subtotal.toLocaleString(LCX);
-  if(shR)shR.style.display=cart.length?'flex':'none';
-  if(shV)shV.textContent=t.shipping===0?'ENVIO GRATIS':'$'+t.shipping.toLocaleString(LCX);
-  document.getElementById('cart-total').textContent='$'+t.total.toLocaleString(LCX);
+  document.getElementById('cart-total').textContent = '$' + t.total.toLocaleString('es-MX');
   // Discount row
   var dr = document.getElementById('cart-discount-row');
   var dv = document.getElementById('cart-discount-val');
@@ -1806,8 +1744,8 @@ function updateCartUI() {
     '</div>';
   }).join('');
 }
-function openCart() { document.getElementById('cart-overlay').classList.add('open'); document.getElementById('cart-drawer').classList.add('open'); document.body.style.overflow='hidden'; document.body.style.position='fixed'; document.body.style.width='100%'; }
-function closeCart() { document.getElementById('cart-overlay').classList.remove('open'); document.getElementById('cart-drawer').classList.remove('open'); document.body.style.overflow=''; document.body.style.position=''; document.body.style.width=''; }
+function openCart() { document.getElementById('cart-overlay').classList.add('open'); document.getElementById('cart-drawer').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeCart() { document.getElementById('cart-overlay').classList.remove('open'); document.getElementById('cart-drawer').classList.remove('open'); document.body.style.overflow=''; }
 
 function sendWhatsApp() {
   if (cart.length === 0) { showToast('El carrito está vacío'); return; }
@@ -1851,7 +1789,6 @@ function confirmShipping() {
   var ok = true;
   ok = validateShipField('ship-nombre','err-nombre',function(v){return v.length>2;}) && ok;
   ok = validateShipField('ship-tel','err-tel',function(v){return /^[0-9]{10}$/.test(v);}) && ok;
-  ok = validateShipField('ship-email','err-email',function(v){return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);}) && ok;
   ok = validateShipField('ship-calle','err-calle',function(v){return v.length>3;}) && ok;
   ok = validateShipField('ship-colonia','err-colonia',function(v){return v.length>2;}) && ok;
   ok = validateShipField('ship-cp','err-cp',function(v){return /^[0-9]{5}$/.test(v);}) && ok;
@@ -1860,7 +1797,6 @@ function confirmShipping() {
   if (!ok) { showToast('Por favor completa todos los campos'); return; }
   var shipping = {
     nombre: document.getElementById('ship-nombre').value.trim(),
-    email: document.getElementById('ship-email').value.trim(),
     tel: document.getElementById('ship-tel').value.trim(),
     calle: document.getElementById('ship-calle').value.trim(),
     colonia: document.getElementById('ship-colonia').value.trim(),
@@ -1876,21 +1812,20 @@ function confirmShipping() {
   proceedToPayment(shipping);
 }
 
-function saveOrderToSheets(shipping,orderRef,total,shC) {
+function saveOrderToSheets(shipping, orderRef, total) {
   if (typeof SHEETS_CONFIG === 'undefined' || SHEETS_CONFIG.webAppUrl.includes('TU_GOOGLE')) return;
-  var payload = JSON.stringify({
-    action:'addOrder', secret: SHEETS_CONFIG.secretKey || 'aurum2026secret', sheet:'Pedidos',
-    ref: orderRef, fecha: new Date().toLocaleDateString(['es','-','MX'].join('')),
-    nombre: shipping.nombre, email: shipping.email||'', tel: shipping.tel, calle: shipping.calle,
-    colonia: shipping.colonia, cp: shipping.cp, ciudad: shipping.ciudad, estado: shipping.estado,
-    total:total, envio:shC||0, items:cart.map(function(i){return i.name+' x'+i.qty;}).join(', ')
-  });
-  // Apps Script requiere mode no-cors — respuesta opaca pero el POST sí llega
-  fetch(SHEETS_CONFIG.webAppUrl, {
-    method:'POST', mode:'no-cors',
-    headers:{'Content-Type':'text/plain'},
-    body: payload
-  }).catch(function(e){ console.warn('Sheets error:', e); });
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', SHEETS_CONFIG.webAppUrl, true);
+    xhr.setRequestHeader('Content-Type','application/json');
+    xhr.send(JSON.stringify({
+      action:'addOrder', secret: SHEETS_CONFIG.secretKey || 'aurum2026secret', sheet:'Pedidos',
+      ref: orderRef, fecha: new Date().toLocaleDateString('es-MX'),
+      nombre: shipping.nombre, tel: shipping.tel, calle: shipping.calle,
+      colonia: shipping.colonia, cp: shipping.cp, ciudad: shipping.ciudad, estado: shipping.estado,
+      total: total, items: cart.map(function(i){return i.name+' x'+i.qty;}).join(', ')
+    }));
+  } catch(e) {}
 }
 
 function notifyWhatsApp(shipping, orderRef) {
@@ -1905,17 +1840,16 @@ async function proceedToPayment(shipping) {
   var btn = document.querySelector('.btn-checkout');
   if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; btn.style.opacity = '0.7'; }
   var orderRef = 'AURUM-' + Date.now();
-  var T2=getCartTotals(),total=T2.total,shC=T2.shipping;
-  // Guardado en Sheets ahora ocurre server-side en create-preference
-  // WA se envía desde success.html después de confirmar pago
-  try{ localStorage.setItem('aurum_pending_order', JSON.stringify({shipping:shipping,orderRef:orderRef,items:cart.map(function(i){return {name:i.name,dose:i.dose,qty:i.qty,price:i.price};}),total:total,shippingCost:shC,email:shipping.email||''})); }catch(e){}
+  var total = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
+  saveOrderToSheets(shipping, orderRef, total);
+  notifyWhatsApp(shipping, orderRef);
   try {
     var itemsPayload = cart.map(function(item){return {name:item.name,dose:item.dose,qty:item.qty,price:item.price};});
     var buyerEmail = null;
     try { buyerEmail = localStorage.getItem('aurum_client_email'); } catch(e) {}
     var response = await fetch((typeof NETLIFY_FUNCTION_URL !== 'undefined' ? NETLIFY_FUNCTION_URL : '') + '/.netlify/functions/create-preference', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail, promoCode:(typeof activePromoCode !== "undefined" ? activePromoCode : null),shipping:shC, orderRef:orderRef, shippingData:shipping}),
+      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail, promoCode:(typeof activePromoCode !== "undefined" ? activePromoCode : null)}),
     });
     if (!response.ok) throw new Error('Error servidor: '+response.status);
     var data = await response.json();
@@ -2066,12 +2000,7 @@ window.addEventListener('load', function() {
     </div>
     <div class="ship-modal-body">
       <div class="ship-field"><label>Nombre completo *</label><input type="text" id="ship-nombre" placeholder="Ej: Juan Garcia Lopez" autocomplete="name"><div class="ship-err-msg" id="err-nombre">Campo requerido</div></div>
-      <div class="ship-field"><label>Telefono *</label><input type="tel" id="ship-tel" placeholder="Ej: 6141234567" maxlength="10" autocomplete="tel"><div class="ship-err-msg" id="err-tel">Ingresa un telefono de 10 digitos</div>
-  <div class="ship-field">
-    <label>Correo electrónico</label>
-    <input id="ship-email" type="email" placeholder="Ej: correo@email.com">
-    <span class="ship-err" id="err-email"></span>
-  </div></div>
+      <div class="ship-field"><label>Telefono *</label><input type="tel" id="ship-tel" placeholder="Ej: 6141234567" maxlength="10" autocomplete="tel"><div class="ship-err-msg" id="err-tel">Ingresa un telefono de 10 digitos</div></div>
       <div class="ship-field"><label>Calle y numero *</label><input type="text" id="ship-calle" placeholder="Ej: Av. Insurgentes 1234 Int. 5" autocomplete="street-address"><div class="ship-err-msg" id="err-calle">Campo requerido</div></div>
       <div class="ship-row">
         <div class="ship-field"><label>Colonia *</label><input type="text" id="ship-colonia" placeholder="Ej: Centro" autocomplete="address-level3"><div class="ship-err-msg" id="err-colonia">Campo requerido</div></div>
