@@ -1,4 +1,6 @@
 const MP_ACCESS_TOKEN = process.env.MP_ACCESS_TOKEN;
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxay66mRRs4QZPCvMK0c4Digkv2LTHkoIZfuJ6Gh5nxlLcjxVjqvUrIeZE1igDXjZ4I/exec';
+const GAS_SECRET = 'aurum2026secret';
 const BASE_URL = process.env.BASE_URL || 'https://aurumpeptides.mx';
 const SUCCESS_URL = BASE_URL + '/success.html';
 const FAILURE_URL = BASE_URL + '/failure.html';
@@ -24,7 +26,7 @@ exports.handler = async function (event) {
   }
 
   try {
-    const { items, buyerEmail, promoCode, shipping, orderRef } = JSON.parse(event.body || '{}');
+    const { items, buyerEmail, promoCode, shipping, orderRef, shippingData } = JSON.parse(event.body || '{}');
 
     if (!items || !items.length) {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'Carrito vacio' }) };
@@ -58,6 +60,8 @@ exports.handler = async function (event) {
       });
     }
 
+    const totalAmount = mpItems.reduce(function(s, it){ return s + it.unit_price * it.quantity; }, 0);
+
     const preference = {
       items: mpItems,
       ...(buyerEmail && { payer: { email: buyerEmail } }),
@@ -89,6 +93,27 @@ exports.handler = async function (event) {
     }
 
     const mpData = await mpResponse.json();
+
+    // Guardar pedido en Sheets desde el servidor (sin CORS, confiable)
+    try {
+      const sh = (typeof shippingData === 'object' && shippingData) ? shippingData : {};
+      const itemsTxt = items.map(function(i){ return i.name + ' ' + (i.dose||'') + ' x' + i.qty; }).join(', ');
+      await fetch(GAS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'addOrder', secret: GAS_SECRET, sheet: 'Pedidos',
+          ref: orderRef || ('AURUM-' + Date.now()),
+          fecha: new Date().toLocaleDateString('es-MX', { timeZone: 'America/Ciudad_Juarez' }),
+          nombre: sh.nombre || '', email: sh.email || '', tel: sh.tel || '',
+          calle: sh.calle || '', colonia: sh.colonia || '', cp: sh.cp || '',
+          ciudad: sh.ciudad || '', estado: sh.estado || '',
+          total: totalAmount, envio: shippingCost,
+          items: itemsTxt, itemsStr: itemsTxt,
+          statusPago: 'pending', paymentId: mpData.id || ''
+        }),
+      });
+    } catch (e) { console.error('Sheets save error:', e.message); }
 
     return {
       statusCode: 200,
