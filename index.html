@@ -1906,7 +1906,7 @@ async function proceedToPayment(shipping) {
   if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; btn.style.opacity = '0.7'; }
   var orderRef = 'AURUM-' + Date.now();
   var T2=getCartTotals(),total=T2.total,shC=T2.shipping;
-  saveOrderToSheets(shipping,orderRef,total,shC);
+  // Guardado en Sheets ahora ocurre server-side en create-preference
   // WA se envía desde success.html después de confirmar pago
   try{ localStorage.setItem('aurum_pending_order', JSON.stringify({shipping:shipping,orderRef:orderRef,items:cart.map(function(i){return {name:i.name,dose:i.dose,qty:i.qty,price:i.price};}),total:total,shippingCost:shC,email:shipping.email||''})); }catch(e){}
   try {
@@ -1915,7 +1915,7 @@ async function proceedToPayment(shipping) {
     try { buyerEmail = localStorage.getItem('aurum_client_email'); } catch(e) {}
     var response = await fetch((typeof NETLIFY_FUNCTION_URL !== 'undefined' ? NETLIFY_FUNCTION_URL : '') + '/.netlify/functions/create-preference', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail, promoCode:(typeof activePromoCode !== "undefined" ? activePromoCode : null),shipping:shC}),
+      body: JSON.stringify({items:itemsPayload, buyerEmail:buyerEmail, promoCode:(typeof activePromoCode !== "undefined" ? activePromoCode : null),shipping:shC, orderRef:orderRef, shippingData:shipping}),
     });
     if (!response.ok) throw new Error('Error servidor: '+response.status);
     var data = await response.json();
