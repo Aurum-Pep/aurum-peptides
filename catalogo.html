@@ -996,6 +996,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     <div class="ship-modal-body">
       <div class="ship-field"><label>Nombre completo *</label><input type="text" id="ship-nombre" placeholder="Ej: Juan Garcia Lopez" autocomplete="name"><div class="ship-err-msg" id="err-nombre">Campo requerido</div></div>
       <div class="ship-field"><label>Telefono *</label><input type="tel" id="ship-tel" placeholder="Ej: 6141234567" maxlength="10" autocomplete="tel"><div class="ship-err-msg" id="err-tel">Ingresa un telefono de 10 digitos</div></div>
+      <div class="ship-field"><label>Correo electrónico *</label><input type="email" id="ship-email" placeholder="Ej: correo@email.com" autocomplete="email"><div class="ship-err-msg" id="err-email">Ingresa un correo válido</div></div>
       <div class="ship-field"><label>Calle y numero *</label><input type="text" id="ship-calle" placeholder="Ej: Av. Insurgentes 1234 Int. 5" autocomplete="street-address"><div class="ship-err-msg" id="err-calle">Campo requerido</div></div>
       <div class="ship-row">
         <div class="ship-field"><label>Colonia *</label><input type="text" id="ship-colonia" placeholder="Ej: Centro" autocomplete="address-level3"><div class="ship-err-msg" id="err-colonia">Campo requerido</div></div>
@@ -1911,6 +1912,7 @@ function confirmShipping() {
   var ok = true;
   ok = validateShipField('ship-nombre','err-nombre',function(v){return v.length>2;}) && ok;
   ok = validateShipField('ship-tel','err-tel',function(v){return /^[0-9]{10}$/.test(v);}) && ok;
+  ok = validateShipField('ship-email','err-email',function(v){return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);}) && ok;
   ok = validateShipField('ship-calle','err-calle',function(v){return v.length>3;}) && ok;
   ok = validateShipField('ship-colonia','err-colonia',function(v){return v.length>2;}) && ok;
   ok = validateShipField('ship-cp','err-cp',function(v){return /^[0-9]{5}$/.test(v);}) && ok;
@@ -1919,6 +1921,7 @@ function confirmShipping() {
   if (!ok) { showToast('Por favor completa todos los campos'); return; }
   var shipping = {
     nombre: document.getElementById('ship-nombre').value.trim(),
+    email: document.getElementById('ship-email').value.trim(),
     tel: document.getElementById('ship-tel').value.trim(),
     calle: document.getElementById('ship-calle').value.trim(),
     colonia: document.getElementById('ship-colonia').value.trim(),
