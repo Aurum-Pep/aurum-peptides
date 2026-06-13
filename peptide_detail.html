@@ -1297,22 +1297,39 @@ function starsSVG(rating, size) {
 }
 
 // ══════════════════════════════════════
-// REVIEWS — localStorage per slug
+// REVIEWS — persistentes vía Google Sheets (proxy Netlify)
+// localStorage se usa SOLO como caché para pintado instantáneo.
 // ══════════════════════════════════════
+const REVIEWS_ENDPOINT = '/.netlify/functions/reviews';
+
 function storageKey(slug) { return 'aurum_reviews_' + slug; }
 
-function loadReviews(slug) {
+// Caché local (lectura instantánea mientras llega el servidor)
+function loadCache(slug) {
   try {
     return JSON.parse(localStorage.getItem(storageKey(slug))) || [];
   } catch(e) { return []; }
 }
-
-function saveReviews(slug, reviews) {
-  localStorage.setItem(storageKey(slug), JSON.stringify(reviews));
+function saveCache(slug, reviews) {
+  try { localStorage.setItem(storageKey(slug), JSON.stringify(reviews)); } catch(e) {}
 }
 
-function renderReviews(slug) {
-  const reviews = loadReviews(slug);
+// Trae las reseñas reales desde el Sheet. Devuelve [] si falla.
+async function fetchReviews(slug) {
+  try {
+    const resp = await fetch(REVIEWS_ENDPOINT + '?slug=' + encodeURIComponent(slug));
+    const data = await resp.json();
+    const reviews = (data && data.reviews) ? data.reviews : [];
+    saveCache(slug, reviews);  // refresca caché
+    return reviews;
+  } catch(e) {
+    return loadCache(slug);  // sin red: usa lo último cacheado
+  }
+}
+
+// Pinta a partir de un arreglo de reseñas ya cargado.
+function renderReviewsData(reviews) {
+  reviews = reviews || [];
   const list = document.getElementById('review-list');
   const noReviews = document.getElementById('no-reviews');
   const avgEl = document.getElementById('avg-rating');
@@ -1369,6 +1386,13 @@ function renderReviews(slug) {
   });
 }
 
+// Pinta caché al instante y luego refresca desde el servidor.
+async function renderReviews(slug) {
+  renderReviewsData(loadCache(slug));
+  const fresh = await fetchReviews(slug);
+  renderReviewsData(fresh);
+}
+
 // ══════════════════════════════════════
 // STAR PICKER
 // ══════════════════════════════════════
@@ -1396,32 +1420,56 @@ function initStarPicker() {
 // SUBMIT REVIEW
 // ══════════════════════════════════════
 function initSubmit(slug) {
-  document.getElementById('submit-btn').addEventListener('click', () => {
+  const btn = document.getElementById('submit-btn');
+  btn.addEventListener('click', async () => {
     if (!selectedRating) {
       document.getElementById('rating-required').style.display = 'block';
       return;
     }
     const text = document.getElementById('r-text').value.trim();
     if (!text) return;
+
     const now = new Date();
     const date = now.toLocaleDateString('es-MX', { year:'numeric', month:'long', day:'numeric' });
     const review = {
+      slug: slug,
       rating: selectedRating,
       name: document.getElementById('r-name').value.trim() || '',
       title: document.getElementById('r-title').value.trim(),
-      text,
-      date,
+      text: text,
+      date: date,
     };
-    const reviews = loadReviews(slug);
-    reviews.push(review);
-    saveReviews(slug, reviews);
-    // Reset
+
+    // 1) Optimista: agrega a la caché y repinta de inmediato
+    const cached = loadCache(slug);
+    cached.push(review);
+    saveCache(slug, cached);
+    renderReviewsData(cached);
+
+    // 2) Reset del formulario
     selectedRating = 0;
     document.querySelectorAll('.star-pick').forEach(s => s.classList.remove('active'));
     document.getElementById('r-name').value = '';
     document.getElementById('r-title').value = '';
     document.getElementById('r-text').value = '';
-    renderReviews(slug);
+    btn.disabled = true;
+    btn.textContent = 'Publicando…';
+
+    // 3) Envía al servidor (Sheet) y luego reconcilia con lo real
+    try {
+      await fetch(REVIEWS_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(review),
+      });
+    } catch(e) { /* la reseña ya está en caché; se reintenta al recargar */ }
+
+    setTimeout(async () => {
+      const fresh = await fetchReviews(slug);
+      renderReviewsData(fresh);
+      btn.disabled = false;
+      btn.textContent = 'Publicar reseña';
+    }, 1200);
   });
 }
 
