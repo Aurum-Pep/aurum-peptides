@@ -2093,9 +2093,8 @@ window.addEventListener('load', function() {
   var lastY=window.scrollY,ticking=false;
   function upd(){
     var y=window.scrollY;
-    if(y<80){nav.style.transform='translateY(0)';nav.style.boxShadow='none';}
-    else if(y>lastY+5){nav.style.transform='translateY(-200%)';}
-    else if(y<lastY-5){nav.style.transform='translateY(0)';nav.style.boxShadow='0 4px 32px rgba(0,0,0,0.5)';}
+    nav.style.transform='translateY(0)';            // siempre visible, no se esconde
+    nav.style.boxShadow = y>80 ? '0 4px 32px rgba(0,0,0,0.5)' : 'none';
     lastY=y;ticking=false;
   }
   window.addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(upd);ticking=true;}},{passive:true});
