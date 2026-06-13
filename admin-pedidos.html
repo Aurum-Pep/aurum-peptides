@@ -346,6 +346,7 @@ nav{height:60px;display:flex;align-items:center;justify-content:space-between;pa
 // ── CONFIG ──
 var ADMIN_PASS = 'AurumPeptides2026';
 var SECRET    = 'aurum2026secret';
+var GAS_URL   = 'https://script.google.com/macros/s/AKfycbwIYuMzIQNVVeOi3R73ZhYH6ayW6vIW5vC6Gh66iDvE-3w6tPOaeH5L2-2Ch0N6V5qM/exec';
 
 // ── AUTH ──
 var isAuth = false;
@@ -561,7 +562,7 @@ function saveOrder(ref) {
 
   fetch(GAS_URL, {
     method: 'POST',
-    headers: {'Content-Type':'application/json'},
+    headers: {'Content-Type':'text/plain;charset=utf-8'},
     body: JSON.stringify(body),
   })
   .then(function(r){ return r.json(); })
@@ -663,7 +664,7 @@ function processBulk() {
   var promises = updates.map(function(u) {
     return fetch(GAS_URL, {
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
       body:JSON.stringify({action:'updateOrder',secret:SECRET,ref:u.ref,guia:u.guia,carrier:u.carrier,status:u.status}),
     }).then(function(r){ return r.json(); });
   });
