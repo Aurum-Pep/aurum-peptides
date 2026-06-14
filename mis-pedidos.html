@@ -365,8 +365,10 @@ function checkUrlParams() {
       if (ship) order.shipping = ship;
     } catch(e) {}
     upsertOrder(order);
+    shownRefs = [ref];
     window.history.replaceState({}, '', 'mis-pedidos.html');
     showToast('✓ Pedido guardado en tu historial');
+    renderOrders();
     // Also fetch from GAS to get latest tracking
     fetchOrderFromGAS(ref);
   }
@@ -399,7 +401,7 @@ function searchOrders() {
   // Check local first
   var orders = getOrders();
   var local = orders.find(function(o){ return o.ref === ref || o.ref.includes(ref); });
-  if (local) { btn.textContent = 'Buscar'; btn.disabled = false; scrollToOrder(local.ref); return; }
+  if (local) { btn.textContent = 'Buscar'; btn.disabled = false; shownRefs = [local.ref]; renderOrders(); setTimeout(function(){ scrollToOrder(local.ref); }, 100); return; }
   
   // Fetch from GAS
   var url = GAS_URL + '?action=getOrder&ref=' + encodeURIComponent(ref);
@@ -409,6 +411,7 @@ function searchOrders() {
       btn.textContent = 'Buscar'; btn.disabled = false;
       if (data && data.ref) {
         upsertOrder(data);
+        shownRefs = [data.ref];
         renderOrders();
         showToast('✓ Pedido encontrado');
         setTimeout(function(){ scrollToOrder(data.ref); }, 200);
@@ -418,6 +421,7 @@ function searchOrders() {
         if (!isNaN(ts) && ts > 1000000000000) {
           var newOrder = { ref:ref, date:new Date(ts).toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'}), dateTs:ts, status:'unknown', items:[], total:0, guia:'', carrier:'' };
           upsertOrder(newOrder);
+          shownRefs = [ref];
           renderOrders();
           showToast('✓ Referencia registrada');
           setTimeout(function(){ scrollToOrder(ref); }, 200);
@@ -438,13 +442,18 @@ function scrollToOrder(ref) {
 }
 
 // ── RENDER ──
+// Privacidad: solo se muestran los pedidos cuya referencia esté en shownRefs.
+// shownRefs se llena al buscar un pedido o al volver de Mercado Pago.
+// En una carga normal está vacío, así que NO se muestra ningún pedido
+// hasta que el cliente lo busque con su número de referencia.
+var shownRefs = [];
 function renderOrders() {
-  var orders = getOrders();
   var container = document.getElementById('orders-container');
+  var orders = getOrders().filter(function(o){ return shownRefs.indexOf(o.ref) >= 0; });
   if (!orders.length) {
-    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🧪</div>' +
-      '<div class="empty-title">Sin pedidos registrados</div>' +
-      '<div class="empty-sub">Tus órdenes aparecerán aquí automáticamente.<br>También puedes buscar con tu número de referencia.</div>' +
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🔒</div>' +
+      '<div class="empty-title">Consulta tu pedido en privado</div>' +
+      '<div class="empty-sub">Por tu privacidad, los pedidos no se muestran aquí.<br>Ingresa tu número de referencia arriba para ver el tuyo.</div>' +
       '<a href="index.html" class="btn-gold">Ver catálogo</a></div>';
     return;
   }
@@ -542,14 +551,11 @@ function showToast(msg) {
 }
 
 // ── INIT ──
+// Por privacidad NO se muestran pedidos al cargar. checkUrlParams() solo muestra
+// el pedido recién pagado (cuando se llega desde Mercado Pago con la referencia).
+// En cualquier otra carga, renderOrders() mostrará el estado vacío de privacidad.
 checkUrlParams();
 renderOrders();
-
-// Refresh tracking for any 'enviado' orders
-setTimeout(function(){
-  getOrders().filter(function(o){ return o.guia && o.status === 'enviado'; })
-    .forEach(function(o){ fetchOrderFromGAS(o.ref); });
-}, 1000);
 </script>
 </body>
 </html>
