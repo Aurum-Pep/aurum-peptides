@@ -374,16 +374,48 @@ function checkUrlParams() {
   }
 }
 
+// ── NORMALIZAR PEDIDO DE GOOGLE SHEETS ──
+// getOrder devuelve {success, order:{...}}. Lo convertimos a la forma que usa la
+// tarjeta, sin pisar datos locales útiles (como los productos con precio).
+function gasOrderToPatch(o) {
+  if (!o || !o.ref) return null;
+  var patch = { ref: o.ref };
+  if (o.guia != null)    patch.guia      = String(o.guia || '');
+  if (o.carrier != null) patch.carrier   = o.carrier || '';
+  if (o.status)          patch.status    = o.status;
+  if (o.total)           patch.total     = o.total;
+  if (o.paymentId)       patch.paymentId = o.paymentId;
+  // Fecha: la más confiable viene del timestamp de la referencia (AURUM-<ts>)
+  var ts = parseInt(String(o.ref).replace('AURUM-',''), 10);
+  if (!isNaN(ts) && ts > 1000000000000) {
+    patch.date = new Date(ts).toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'});
+  } else if (o.fecha) {
+    var d = new Date(o.fecha);
+    if (!isNaN(d.getTime())) patch.date = d.toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'});
+  }
+  // Productos: solo si no hay detalle local (con precios). Derivamos de itemsStr.
+  var ex = getOrders().find(function(x){ return x.ref === o.ref; });
+  if ((!ex || !ex.items || !ex.items.length) && o.itemsStr) {
+    patch.items = String(o.itemsStr).split(',').map(function(s){
+      s = s.trim();
+      var qty = 1; var m = s.match(/x\s*(\d+)\s*$/i);
+      if (m) { qty = parseInt(m[1],10); s = s.replace(/x\s*\d+\s*$/i,'').trim(); }
+      var parts = s.split('·');
+      return { name:(parts[0]||s).trim(), dose:(parts[1]||'').trim(), qty:qty };
+    });
+  }
+  return patch;
+}
+
 // ── FETCH ORDER FROM GOOGLE SHEETS ──
 function fetchOrderFromGAS(ref) {
   var url = GAS_URL + '?action=getOrder&ref=' + encodeURIComponent(ref);
   fetch(url)
     .then(function(r){ return r.json(); })
     .then(function(data) {
-      if (data && data.ref) {
-        upsertOrder(data);
-        renderOrders();
-      }
+      var o = (data && data.order) ? data.order : data;
+      var patch = gasOrderToPatch(o);
+      if (patch) { upsertOrder(patch); renderOrders(); }
     })
     .catch(function(){});
 }
@@ -394,30 +426,35 @@ function searchOrders() {
   var errEl = document.getElementById('search-error');
   errEl.classList.remove('show');
   if (!ref) { showToast('Ingresa un número de referencia'); return; }
-  
+
   var btn = document.querySelector('.search-btn');
   btn.textContent = 'Buscando...'; btn.disabled = true;
-  
-  // Check local first
-  var orders = getOrders();
-  var local = orders.find(function(o){ return o.ref === ref || o.ref.includes(ref); });
-  if (local) { btn.textContent = 'Buscar'; btn.disabled = false; shownRefs = [local.ref]; renderOrders(); setTimeout(function(){ scrollToOrder(local.ref); }, 100); return; }
-  
-  // Fetch from GAS
-  var url = GAS_URL + '?action=getOrder&ref=' + encodeURIComponent(ref);
+
+  // Si hay copia local, la mostramos al instante como adelanto...
+  var local = getOrders().find(function(o){ return o.ref === ref || o.ref.includes(ref); });
+  var searchRef = local ? local.ref : ref;
+  if (local) { shownRefs = [local.ref]; renderOrders(); }
+
+  // ...pero SIEMPRE consultamos a GAS para traer lo más reciente (guía, estatus, etc.)
+  var url = GAS_URL + '?action=getOrder&ref=' + encodeURIComponent(searchRef);
   fetch(url)
     .then(function(r){ return r.json(); })
     .then(function(data) {
       btn.textContent = 'Buscar'; btn.disabled = false;
-      if (data && data.ref) {
-        upsertOrder(data);
-        shownRefs = [data.ref];
+      var o = (data && data.order) ? data.order : data;
+      var patch = gasOrderToPatch(o);
+      if (patch) {
+        upsertOrder(patch);
+        shownRefs = [patch.ref];
         renderOrders();
-        showToast('✓ Pedido encontrado');
-        setTimeout(function(){ scrollToOrder(data.ref); }, 200);
+        showToast(local ? '✓ Pedido actualizado' : '✓ Pedido encontrado');
+        setTimeout(function(){ scrollToOrder(patch.ref); }, 200);
+      } else if (local) {
+        showToast('Mostrando tu copia guardada');
+        setTimeout(function(){ scrollToOrder(local.ref); }, 100);
       } else {
-        // Try local parse from timestamp in ref
-        var ts = parseInt(ref.replace('AURUM-',''));
+        // Referencia con timestamp válido: registrar aunque no esté en el backend
+        var ts = parseInt(ref.replace('AURUM-',''), 10);
         if (!isNaN(ts) && ts > 1000000000000) {
           var newOrder = { ref:ref, date:new Date(ts).toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'}), dateTs:ts, status:'unknown', items:[], total:0, guia:'', carrier:'' };
           upsertOrder(newOrder);
@@ -432,7 +469,8 @@ function searchOrders() {
     })
     .catch(function() {
       btn.textContent = 'Buscar'; btn.disabled = false;
-      errEl.classList.add('show');
+      if (local) { setTimeout(function(){ scrollToOrder(local.ref); }, 100); }
+      else { errEl.classList.add('show'); }
     });
 }
 
@@ -471,7 +509,11 @@ function buildCard(o, i) {
   var itemsHtml = '';
   if (o.items && o.items.length) {
     itemsHtml = o.items.map(function(it){
-      return '<div class="item-row"><div><div class="item-name">'+esc(it.name)+'</div><div class="item-dose">'+esc(it.dose||'')+'</div></div><div class="item-price">$'+Number(it.price).toLocaleString('es-MX')+'<div class="item-qty">x'+(it.qty||1)+'</div></div></div>';
+      var hasPrice = it.price && Number(it.price) > 0;
+      var priceHtml = hasPrice
+        ? '<div class="item-price">$'+Number(it.price).toLocaleString('es-MX')+'<div class="item-qty">x'+(it.qty||1)+'</div></div>'
+        : '<div class="item-price"><div class="item-qty">x'+(it.qty||1)+'</div></div>';
+      return '<div class="item-row"><div><div class="item-name">'+esc(it.name)+'</div><div class="item-dose">'+esc(it.dose||'')+'</div></div>'+priceHtml+'</div>';
     }).join('');
   } else {
     itemsHtml = '<div style="font-size:12px;color:var(--muted);padding:8px 0">Detalle de productos no disponible.</div>';
