@@ -153,5 +153,48 @@ h1 em{font-style:italic;color:var(--gold)}
   } catch(e) { console.error('WA post-pago:', e); }
 })();
 </script>
+
+<script>
+// ── DESCUENTO DE INVENTARIO ──
+// Cuando el pago es APROBADO, descuenta del inventario los productos comprados.
+// Solo corre una vez por pedido (candado en localStorage) y solo si el estatus es 'approved'
+// (los pagos pendientes —OXXO/efectivo— NO descuentan hasta confirmarse).
+(function(){
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var st = params.get('collection_status') || params.get('status') || '';
+    if (st !== 'approved') return; // solo pagos aprobados
+
+    var raw = localStorage.getItem('aurum_pending_order');
+    if (!raw) return;
+    var order = JSON.parse(raw);
+    if (!order || !order.items || !order.items.length) return;
+
+    var orderRef = order.orderRef || params.get('ref') || '';
+    var key = 'aurum_inv_deducted_' + orderRef;
+    if (localStorage.getItem(key)) return; // ya se descontó este pedido
+
+    // Construye el id de inventario igual que la hoja "Inventario": nombre sin símbolos + '-' + mg + 'mg'
+    function invId(name, dose){
+      var mg = (String(dose||'').match(/(\d+)\s*mg/i) || [])[1];
+      if (!mg) return null; // productos sin "mg" (ej. agua bacteriostática) no se rastrean en inventario
+      return String(name||'').toLowerCase().replace(/[^a-z0-9]/g,'') + '-' + mg + 'mg';
+    }
+    var items = order.items.map(function(it){
+      return { id: invId(it.name, it.dose), qty: Number(it.qty) || 1 };
+    }).filter(function(x){ return x.id; });
+    if (!items.length) return;
+
+    fetch('/.netlify/functions/inventory', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: items })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(d){ if (d && d.success) { localStorage.setItem(key, '1'); } })
+    .catch(function(e){ console.error('Inventario descuento:', e); });
+  } catch(e) { console.error('Inventario:', e); }
+})();
+</script>
 </body>
 </html>
