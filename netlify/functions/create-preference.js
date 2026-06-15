@@ -62,9 +62,13 @@ exports.handler = async function (event) {
 
     const totalAmount = mpItems.reduce(function(s, it){ return s + it.unit_price * it.quantity; }, 0);
 
+    // Correo del comprador: usar el del checkout (shippingData.email) si no vino buyerEmail.
+    // Sin esto, Mercado Pago no tiene a quién enviar el recibo de pago.
+    const payerEmail = buyerEmail || (shippingData && shippingData.email) || null;
+
     const preference = {
       items: mpItems,
-      ...(buyerEmail && { payer: { email: buyerEmail } }),
+      ...(payerEmail && { payer: { email: payerEmail } }),
       back_urls: {
         success: SUCCESS_URL + '?ref=' + encodeURIComponent(orderRef || '') + '&status=approved',
         failure: FAILURE_URL,
