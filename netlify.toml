@@ -11,3 +11,14 @@
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Methods = "POST, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type"
+
+# Páginas dinámicas (panel y portal): siempre cargar la última versión, sin caché
+[[headers]]
+  for = "/admin-pedidos.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/mis-pedidos.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
