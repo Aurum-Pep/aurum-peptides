@@ -75,6 +75,7 @@ exports.handler = async function (event) {
         pending: SUCCESS_URL + '?status=pending',
       },
       auto_return: 'approved',
+      notification_url: BASE_URL + '/.netlify/functions/mp-webhook',
       external_reference: JSON.stringify({ ref: orderRef || ('AURUM-'+Date.now()), shipping: shipping || null }),
       statement_descriptor: 'AURUM PEPTIDES',
       expires: true,
