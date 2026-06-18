@@ -68,7 +68,7 @@ exports.handler = async function (event) {
     await fetch(GAS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'notifyPaid', secret: GAS_SECRET, ref: ref }),
+      body: JSON.stringify({ action: 'notifyPaid', secret: GAS_SECRET, ref: ref, paymentId: paymentId }),
     });
 
     return { statusCode: 200, body: 'ok' };
