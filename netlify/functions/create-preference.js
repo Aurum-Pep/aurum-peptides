@@ -107,7 +107,7 @@ exports.handler = async function (event) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'addOrder', secret: GAS_SECRET, sheet: 'Pedidos',
+          action: 'stageOrder', secret: GAS_SECRET,
           ref: orderRef || ('AURUM-' + Date.now()),
           fecha: new Date().toLocaleDateString('es-MX', { timeZone: 'America/Ciudad_Juarez' }),
           nombre: sh.nombre || '', email: sh.email || '', tel: sh.tel || '',
