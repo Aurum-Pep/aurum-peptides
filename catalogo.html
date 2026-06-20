@@ -678,6 +678,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
         <button class="vb sel" id="tb10" onclick="selTirze(10)">10 mg</button>
         <button class="vb" id="tb20" onclick="selTirze(20)">20 mg</button>
         <button class="vb" id="tb30" onclick="selTirze(30)">30 mg</button>
+        <button class="vb" id="tb40" onclick="selTirze(40)">40 mg</button>
         <button class="vb" id="tb50" onclick="selTirze(50)">50 mg</button>
       </div>
       <div class="coa" id="tirze-coa">
@@ -1289,6 +1290,9 @@ var DEFAULT_INVENTORY = {
   'ss31':           {name:'SS-31 10mg',       qty:10,low:3},
   'tirzepatide-10': {name:'Tirzepatide 10mg', qty:20,low:5},
   'tirzepatide-30': {name:'Tirzepatide 30mg', qty:10,low:3},
+  'tirzepatide-20': {name:'Tirzepatide 20mg', qty:0,low:3},
+  'tirzepatide-40': {name:'Tirzepatide 40mg', qty:0,low:3},
+  'tirzepatide-50': {name:'Tirzepatide 50mg', qty:0,low:3},
   'cjc1295':        {name:'CJC-1295 5mg',     qty:15,low:5},
   'tesamorelin':    {name:'Tesamorelin 10mg', qty:10,low:3},
   'bpc157':         {name:'BPC-157 5mg',      qty:25,low:8},
@@ -1305,7 +1309,7 @@ var CARD_INV_MAP = {
   'card-ghkcu':       ['ghkcu'],
   'card-motsc':       ['motsc'],
   'card-ss31':        ['ss31'],
-  'card-tirzepatide': ['tirzepatide-10','tirzepatide-30'],
+  'card-tirzepatide': ['tirzepatide-10','tirzepatide-20','tirzepatide-30','tirzepatide-40','tirzepatide-50'],
   'card-cjc1295':     ['cjc1295'],
   'card-tesamorelin': ['tesamorelin'],
   'card-bpc157':      ['bpc157'],
@@ -1326,6 +1330,9 @@ var SHEETS_ID_MAP = {
   'retatrutide-30mg': 'retatrutide-30',
   'tirzepatide-10mg': 'tirzepatide-10',
   'tirzepatide-30mg': 'tirzepatide-30',
+  'tirzepatide-20mg': 'tirzepatide-20',
+  'tirzepatide-40mg': 'tirzepatide-40',
+  'tirzepatide-50mg': 'tirzepatide-50',
   'ipamorelin-5mg':   'ipamorelin',
   'nad-500mg':        'nad',
   'ghkcu-50mg':       'ghkcu',
@@ -1342,6 +1349,9 @@ var VARIANT_BTN_MAP = {
   'retatrutide-30mg': {card:'card-retatrutide', btn:'rb30', mg:30, sel:'selReta'},
   'tirzepatide-10mg': {card:'card-tirzepatide', btn:'tb10', mg:10, sel:'selTirze'},
   'tirzepatide-30mg': {card:'card-tirzepatide', btn:'tb30', mg:30, sel:'selTirze'},
+  'tirzepatide-20mg': {card:'card-tirzepatide', btn:'tb20', mg:20, sel:'selTirze'},
+  'tirzepatide-40mg': {card:'card-tirzepatide', btn:'tb40', mg:40, sel:'selTirze'},
+  'tirzepatide-50mg': {card:'card-tirzepatide', btn:'tb50', mg:50, sel:'selTirze'},
 };
 
 function applyVariantStock() {
@@ -1671,8 +1681,8 @@ document.getElementById('reta-add').addEventListener('click', function() {
 var tirzeData = {
   10: {price:1099, dose:'10 mg · Polvo liofilizado', label:'Tirzepatide 10 mg', lab:'Krause Analytical', pur:'>99.9%', lot:'j9f35yh', date:'FEB 2026', id:'j9f35yh'},
   20: {price:2099, dose:'20 mg · Polvo liofilizado', label:'Tirzepatide 20 mg', lab:'Krause Analytical', pur:'>99.9%', lot:'j9f35yh', date:'FEB 2026', id:'j9f35yh'},
-  30: {price:2999, dose:'30 mg · Polvo liofilizado', label:'Tirzepatide 30 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'},
-  50: {price:4899, dose:'50 mg · Polvo liofilizado', label:'Tirzepatide 50 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'}
+  30: {price:2999, dose:'30 mg · Polvo liofilizado', label:'Tirzepatide 30 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'}, 40: {price:3899, dose:'40 mg · Polvo liofilizado', label:'Tirzepatide 40 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'},
+  50: {price:4499, dose:'50 mg · Polvo liofilizado', label:'Tirzepatide 50 mg', lab:'BTLabs', pur:'99.9%', lot:'P6PYQ5E', date:'NOV 2025', id:'p6pyq5e'}
 };
 var tirzeSel = 10;
 function selTirze(mg) {
@@ -1680,7 +1690,7 @@ function selTirze(mg) {
   var d = tirzeData[mg];
   document.getElementById('tirze-dose').textContent = d.dose;
   document.getElementById('tirze-price').textContent = '$' + d.price.toLocaleString('es-MX');
-  [10,20,30,50].forEach(function(v) {
+  [10,20,30,40,50].forEach(function(v) {
     document.getElementById('tb'+v).className = 'vb' + (v===mg?' sel':'');
   });
   document.getElementById('tc-lab').textContent = d.lab;
