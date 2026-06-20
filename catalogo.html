@@ -1282,6 +1282,7 @@ function getCartTotals() {
 var DEFAULT_INVENTORY = {
   'retatrutide-10': {name:'Retatrutide 10mg',qty:20,low:5},
   'retatrutide-15': {name:'Retatrutide 15mg',qty:15,low:5},
+  'retatrutide-20': {name:'Retatrutide 20mg',qty:0,low:5},
   'retatrutide-30': {name:'Retatrutide 30mg',qty:10,low:3},
   'ipamorelin':     {name:'Ipamorelin 5mg',  qty:25,low:5},
   'nad':            {name:'NAD+ 500mg',       qty:20,low:5},
@@ -1303,7 +1304,7 @@ var DEFAULT_INVENTORY = {
 };
 
 var CARD_INV_MAP = {
-  'card-retatrutide': ['retatrutide-10','retatrutide-15','retatrutide-30'],
+  'card-retatrutide': ['retatrutide-10','retatrutide-15','retatrutide-20','retatrutide-30'],
   'card-ipamorelin':  ['ipamorelin'],
   'card-nad':         ['nad'],
   'card-ghkcu':       ['ghkcu'],
@@ -1327,6 +1328,7 @@ function saveInventory(inv) { localStorage.setItem('aurum_inventory',JSON.string
 var SHEETS_ID_MAP = {
   'retatrutide-10mg': 'retatrutide-10',
   'retatrutide-15mg': 'retatrutide-15',
+  'retatrutide-20mg': 'retatrutide-20',
   'retatrutide-30mg': 'retatrutide-30',
   'tirzepatide-10mg': 'tirzepatide-10',
   'tirzepatide-30mg': 'tirzepatide-30',
@@ -1346,6 +1348,7 @@ var SHEETS_ID_MAP = {
 var VARIANT_BTN_MAP = {
   'retatrutide-10mg': {card:'card-retatrutide', btn:'rb10', mg:10, sel:'selReta'},
   'retatrutide-15mg': {card:'card-retatrutide', btn:'rb15', mg:15, sel:'selReta'},
+  'retatrutide-20mg': {card:'card-retatrutide', btn:'rb20', mg:20, sel:'selReta'},
   'retatrutide-30mg': {card:'card-retatrutide', btn:'rb30', mg:30, sel:'selReta'},
   'tirzepatide-10mg': {card:'card-tirzepatide', btn:'tb10', mg:10, sel:'selTirze'},
   'tirzepatide-30mg': {card:'card-tirzepatide', btn:'tb30', mg:30, sel:'selTirze'},
