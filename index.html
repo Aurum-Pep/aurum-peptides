@@ -2184,7 +2184,7 @@ window.addEventListener('load', function() {
       h+='</div>';
       h+='<div class="pm-note">Realiza el pago con el concepto <b>Compra</b> y el monto exacto. Despu\u00e9s env\u00edanos tu comprobante por WhatsApp.</div>';
     }
-    h+='<button class="pm-paid" onclick="payDone()">Ya pagu\u00e9 \u2014 enviar comprobante por WhatsApp</button>';
+    h+='<button class="pm-paid" onclick="payDone()">'+(m.hey?'Requerir link de pago por WhatsApp':'Ya pagu\u00e9 \u2014 enviar comprobante por WhatsApp')+'</button>';
     h+='<button class="pm-back" onclick="renderBack()">Cambiar m\u00e9todo de pago</button>';
     document.getElementById('pm-body').innerHTML=h;
   };
@@ -2204,7 +2204,7 @@ window.addEventListener('load', function() {
     stageOrder();
     var mlabel=(METHODS[ctx.method]&&METHODS[ctx.method].label)||'';
     var items=(window.cart||[]).map(function(i){return '%E2%80%A2 '+encodeURIComponent(i.name+' x'+i.qty);}).join('%0A');
-    var msg='Hola, ya realic'+'\u00e9'+' el pago de mi pedido *'+ctx.ref+'*%0AM%C3%A9todo: '+encodeURIComponent(mlabel)+'%0ATotal: '+encodeURIComponent(money(ctx.total))+'%0A%0AProductos:%0A'+items+'%0A%0AAdjunto mi comprobante de pago.';
+    var msg;if(ctx.method==='hey'){msg='Hola, quiero pagar con Hey Pago. Por favor env\u00edame el link de pago de mi pedido *'+ctx.ref+'*%0ATotal: '+encodeURIComponent(money(ctx.total))+'%0A%0AProductos:%0A'+items;}else{msg='Hola, ya realic\u00e9 el pago de mi pedido *'+ctx.ref+'*%0AM%C3%A9todo: '+encodeURIComponent(mlabel)+'%0ATotal: '+encodeURIComponent(money(ctx.total))+'%0A%0AProductos:%0A'+items+'%0A%0AAdjunto mi comprobante de pago.';}
     try{window.open('https://wa.me/'+WA+'?text='+msg,'_blank','noopener');}catch(e){}
     try{if(window.cart){window.cart.length=0;}localStorage.setItem('aurum_cart_v2','[]');if(typeof renderCart==='function')renderCart();if(typeof updateCartCount==='function')updateCartCount();}catch(e){}
     var h='<div class="pm-done"><div class="big">\u2705</div><h3 style="font-family:\'Cormorant Garamond\',serif;font-weight:300;margin:0 0 6px">\u00a1Gracias por tu compra!</h3><div class="pm-note">Tu pedido <b>'+ctx.ref+'</b> qued\u00f3 registrado y est\u00e1 en revisi\u00f3n. En cuanto confirmemos tu pago, te enviaremos la confirmaci\u00f3n por correo.</div><button class="pm-back" onclick="closePayModal()">Cerrar</button></div>';
