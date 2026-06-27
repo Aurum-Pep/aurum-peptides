@@ -405,9 +405,10 @@ function loadOrders(showSpinner) {
 
 // ── STATS ──
 function updateStats() {
-  var total = allOrders.length;
-  var revenue = allOrders.reduce(function(s,o){ return s + (parseFloat(o.total)||0); }, 0);
-  var pending = allOrders.filter(function(o){ return !o.guia || o.guia === ''; }).length;
+  var active = allOrders.filter(function(o){ return o.status !== 'cancelado'; });
+  var total = active.length;
+  var revenue = active.reduce(function(s,o){ return s + (parseFloat(o.total)||0); }, 0);
+  var pending = active.filter(function(o){ return !o.guia || o.guia === ''; }).length;
   var shipped = allOrders.filter(function(o){ return o.status === 'enviado'; }).length;
   var delivered = allOrders.filter(function(o){ return o.status === 'entregado'; }).length;
   var cancelled = allOrders.filter(function(o){ return o.status === 'cancelado'; }).length;
