@@ -2142,10 +2142,10 @@ window.addEventListener('load', function() {
   var WA='526572844902';
   var GAS='https://script.google.com/macros/s/AKfycbwIYuMzIQNVVeOi3R73ZhYH6ayW6vIW5vC6Gh66iDvE-3w6tPOaeH5L2-2Ch0N6V5qM/exec';
   var METHODS={
-    spei:{label:'Transferencia SPEI',icon:'\uD83C\uDFE6',sub:'Banregio',lines:[['Banco','Banregio',0],['CLABE','167150000085575592',1],['Beneficiario','Eder Arturo Rosales Nu\u00f1ez',0]]},
+    spei:{label:'Transferencia SPEI',icon:'\uD83C\uDFE6',sub:'Te enviamos la CLABE por WhatsApp',req:true,note:'Por tu privacidad no mostramos la CLABE en la p\u00e1gina. Da clic abajo y te enviamos los datos de transferencia por WhatsApp.',btn:'Solicitar CLABE por WhatsApp',msg:'Hola, quiero pagar por transferencia SPEI. Por favor env\u00edame la CLABE para la transferencia de mi pedido'},
     dimo:{label:'DiMo',icon:'\uD83D\uDCF2',sub:'Pago con n\u00famero de celular',lines:[['N\u00famero DiMo','6563229631',1]]},
     paypal:{label:'PayPal',icon:'\uD83D\uDCB3',sub:'Bienes y servicios',lines:[['Correo','earosales5@gmail.com',1],['Tipo','Bienes y servicios',0]]},
-    hey:{label:'Hey Pago',icon:'\uD83D\uDD17',sub:'Te enviamos el link por WhatsApp',hey:true}
+    hey:{label:'Hey Pago',icon:'\uD83D\uDD17',sub:'Te enviamos el link por WhatsApp',req:true,note:'Te enviaremos tu link de pago de Hey por WhatsApp. Da clic en el bot\u00f3n de abajo para solicitarlo.',btn:'Requerir link de pago por WhatsApp',msg:'Hola, quiero pagar con Hey Pago. Por favor env\u00edame el link de pago de mi pedido'}
   };
   var ORDER=['spei','dimo','hey','paypal'];
   var ctx={shipping:null,total:0,ref:null,method:null};
@@ -2173,18 +2173,18 @@ window.addEventListener('load', function() {
     var m=METHODS[k]; if(!m)return; ctx.method=k;
     document.getElementById('pm-title').textContent=m.label;
     var h='<div class="pm-total"><div class="l">Pago de compra</div><div class="v">'+money(ctx.total)+'</div></div>';
-    if(m.hey){
-      h+='<div class="pm-ins"><div class="pm-line"><span class="k">M\u00e9todo</span><span class="vv">Hey Pago</span></div><div class="pm-line"><span class="k">Concepto</span><span class="vv">Compra</span></div><div class="pm-line"><span class="k">Monto</span><span class="vv">'+money(ctx.total)+'</span></div></div>';
-      h+='<div class="pm-note">Te enviaremos tu link de pago de Hey por WhatsApp. Da clic en el bot\u00f3n de abajo para solicitarlo.</div>';
+    h+='<div class="pm-ins">';
+    if(m.req){
+      h+='<div class="pm-line"><span class="k">M\u00e9todo</span><span class="vv">'+m.label+'</span></div>';
     } else {
-      h+='<div class="pm-ins">';
       m.lines.forEach(function(l){h+='<div class="pm-line"><span class="k">'+l[0]+'</span><span class="vv">'+l[1]+(l[2]?'<button class="pm-copy" onclick="pmCopy(this,\''+l[1]+'\')">Copiar</button>':'')+'</span></div>';});
-      h+='<div class="pm-line"><span class="k">Concepto</span><span class="vv">Compra</span></div>';
-      h+='<div class="pm-line"><span class="k">Monto</span><span class="vv">'+money(ctx.total)+'</span></div>';
-      h+='</div>';
-      h+='<div class="pm-note">Realiza el pago con el concepto <b>Compra</b> y el monto exacto. Despu\u00e9s env\u00edanos tu comprobante por WhatsApp.</div>';
     }
-    h+='<button class="pm-paid" onclick="payDone()">'+(m.hey?'Requerir link de pago por WhatsApp':'Ya pagu\u00e9 \u2014 enviar comprobante por WhatsApp')+'</button>';
+    h+='<div class="pm-line"><span class="k">Concepto</span><span class="vv">Compra</span></div>';
+    h+='<div class="pm-line"><span class="k">Monto</span><span class="vv">'+money(ctx.total)+'</span></div>';
+    h+='</div>';
+    if(m.req){ h+='<div class="pm-note">'+m.note+'</div>'; }
+    else { h+='<div class="pm-note">Realiza el pago con el concepto <b>Compra</b> y el monto exacto. Despu\u00e9s env\u00edanos tu comprobante por WhatsApp.</div>'; }
+    h+='<button class="pm-paid" onclick="payDone()">'+(m.req?m.btn:'Ya pagu\u00e9 \u2014 enviar comprobante por WhatsApp')+'</button>';
     h+='<button class="pm-back" onclick="renderBack()">Cambiar m\u00e9todo de pago</button>';
     document.getElementById('pm-body').innerHTML=h;
   };
@@ -2202,12 +2202,14 @@ window.addEventListener('load', function() {
   }
   window.payDone=function(){
     stageOrder();
-    var mlabel=(METHODS[ctx.method]&&METHODS[ctx.method].label)||'';
+    var m=METHODS[ctx.method]||{}; var mlabel=m.label||'';
     var items=(window.cart||[]).map(function(i){return '%E2%80%A2 '+encodeURIComponent(i.name+' x'+i.qty);}).join('%0A');
-    var msg;if(ctx.method==='hey'){msg='Hola, quiero pagar con Hey Pago. Por favor env\u00edame el link de pago de mi pedido *'+ctx.ref+'*%0ATotal: '+encodeURIComponent(money(ctx.total))+'%0A%0AProductos:%0A'+items;}else{msg='Hola, ya realic\u00e9 el pago de mi pedido *'+ctx.ref+'*%0AM%C3%A9todo: '+encodeURIComponent(mlabel)+'%0ATotal: '+encodeURIComponent(money(ctx.total))+'%0A%0AProductos:%0A'+items+'%0A%0AAdjunto mi comprobante de pago.';}
+    var msg;
+    if(m.req){ msg=m.msg+' *'+ctx.ref+'*%0ATotal: '+encodeURIComponent(money(ctx.total))+'%0A%0AProductos:%0A'+items; }
+    else { msg='Hola, ya realic\u00e9 el pago de mi pedido *'+ctx.ref+'*%0AM%C3%A9todo: '+encodeURIComponent(mlabel)+'%0ATotal: '+encodeURIComponent(money(ctx.total))+'%0A%0AProductos:%0A'+items+'%0A%0AAdjunto mi comprobante de pago.'; }
     try{window.open('https://wa.me/'+WA+'?text='+msg,'_blank','noopener');}catch(e){}
     try{if(window.cart){window.cart.length=0;}localStorage.setItem('aurum_cart_v2','[]');if(typeof renderCart==='function')renderCart();if(typeof updateCartCount==='function')updateCartCount();}catch(e){}
-    var h='<div class="pm-done"><div class="big">\u2705</div><h3 style="font-family:\'Cormorant Garamond\',serif;font-weight:300;margin:0 0 6px">\u00a1Gracias por tu compra!</h3><div class="pm-note">Tu pedido <b>'+ctx.ref+'</b> qued\u00f3 registrado y est\u00e1 en revisi\u00f3n. En cuanto confirmemos tu pago, te enviaremos la confirmaci\u00f3n por correo.</div><button class="pm-back" onclick="closePayModal()">Cerrar</button></div>';
+    var h='<div class="pm-done"><div class="big">\u2705</div><h3 style="font-family:\'Cormorant Garamond\',serif;font-weight:300;margin:0 0 6px">\u00a1Gracias!</h3><div class="pm-note">Tu pedido <b>'+ctx.ref+'</b> qued\u00f3 registrado. Contin\u00faa en WhatsApp para completar tu pago; en cuanto lo confirmemos, te enviamos la confirmaci\u00f3n por correo.</div><button class="pm-back" onclick="closePayModal()">Cerrar</button></div>';
     document.getElementById('pm-body').innerHTML=h;
     document.getElementById('pm-title').textContent='Pedido recibido';
   };
