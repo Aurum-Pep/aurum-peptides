@@ -537,6 +537,14 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     </button>
   </div>
 </nav>
+<div class="mob-menu" id="mob-menu">
+  <a href="/catalogo.html" onclick="closeMenu()">Catálogo</a>
+  <a href="/#nosotros" onclick="closeMenu()">Nosotros</a>
+  <a href="/#faq" onclick="closeMenu()">FAQ</a>
+  <a href="/#recursos" onclick="closeMenu()">Recursos</a>
+  <a href="/blog" onclick="closeMenu()">Blog</a>
+  <a href="/mis-pedidos" onclick="closeMenu()">Mi Cuenta</a>
+</div>
 
 <section class="sec" id="catalogo" style="padding-top:100px">
   <div class="sec-hdr">
@@ -547,6 +555,27 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     <div class="prod-count">13 productos disponibles</div>
   </div>
 
+  <div style="margin-bottom:24px">
+    <input id="cat-search" type="text" placeholder="Buscar péptido…" oninput="filterCatalog(this.value)" autocomplete="off" style="width:100%;max-width:440px;padding:13px 16px;background:var(--black2);border:1px solid var(--border);color:var(--cream);font-family:'Outfit',sans-serif;font-size:13px;letter-spacing:1px;outline:none">
+    <div id="cat-noresults" style="display:none;color:var(--muted);font-size:12px;letter-spacing:1px;margin-top:14px">Sin resultados para tu búsqueda.</div>
+  </div>
+  <script>
+  function filterCatalog(q){
+    q=(q||'').trim().toLowerCase();
+    var grid=document.getElementById('main-grid');
+    if(!grid) return;
+    var cards=grid.querySelectorAll(':scope > .card');
+    var shown=0;
+    for(var i=0;i<cards.length;i++){
+      var t=(cards[i].textContent||'').toLowerCase();
+      var ok=(q===''||t.indexOf(q)!==-1);
+      cards[i].style.display=ok?'':'none';
+      if(ok)shown++;
+    }
+    var nr=document.getElementById('cat-noresults');
+    if(nr)nr.style.display=(shown===0&&q!=='')?'block':'none';
+  }
+  </script>
   <div class="grid" id="main-grid" style="grid-template-columns: repeat(3, 1fr);">
 
     <!-- RETATRUTIDE FEATURED -->
@@ -562,7 +591,7 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
         <button class="vb" id="rb20" onclick="selReta(20)">20 mg</button>
         <button class="vb" id="rb30" onclick="selReta(30)">30 mg</button>
       </div>
-      <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">BTLabs</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.5%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">WTSBX5G</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">ENE 2026</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: wtsbx5g →</a></div>
+      <div class="coa" id="reta-coa"><div class="cr"><span class="ck">Lab</span><span class="cv" id="rc-lab">BTLabs</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv" id="rc-pur">99.5%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv" id="rc-lot">WTSBX5G</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv" id="rc-date">ENE 2026</span></div><a class="cl" id="rc-link" href="https://finnrick.com/verify" target="_blank">Verificar: wtsbx5g →</a></div>
       <a class="vml" href="/peptide_detail?p=retatrutide">Ver información detallada →</a>
       <div class="p-foot">
         <div class="p-price"><span id="reta-price">$1,699</span><small>MXN por vial</small></div>
@@ -1355,7 +1384,7 @@ var DEFAULT_INVENTORY = {
   'cjc-ipa':        {name:'CJC-1295 no DAC + Ipamorelin', qty:15,low:5},
   'retatrutide-10': {name:'Retatrutide 10mg',qty:20,low:5},
   'retatrutide-15': {name:'Retatrutide 15mg',qty:15,low:5},
-  'retatrutide-20': {name:'Retatrutide 20mg',qty:0,low:5},
+  'retatrutide-20': {name:'Retatrutide 20mg',qty:10,low:5},
   'retatrutide-30': {name:'Retatrutide 30mg',qty:10,low:3},
   'ipamorelin':     {name:'Ipamorelin 5mg',  qty:25,low:5},
   'nad':            {name:'NAD+ 500mg',       qty:20,low:5},
@@ -1715,10 +1744,10 @@ document.addEventListener('DOMContentLoaded',function(){ setGrid(); applyInvento
 
 // ── RETATRUTIDE ──
 var retaData = {
-  10: {price:1699, dose:'10 mg · Polvo liofilizado', label:'Retatrutide 10 mg'},
-  15: {price:2499, dose:'15 mg · Polvo liofilizado', label:'Retatrutide 15 mg'},
-  20: {price:3199, dose:'20 mg · Polvo liofilizado', label:'Retatrutide 20 mg'},
-  30: {price:4099, dose:'30 mg · Polvo liofilizado', label:'Retatrutide 30 mg'}
+  10: {price:1699, dose:'10 mg · Polvo liofilizado', label:'Retatrutide 10 mg', coa:{lab:'BTLabs',pur:'99.5%',lot:'WTSBX5G',date:'ENE 2026',id:'wtsbx5g',url:'https://finnrick.com/verify'}},
+  15: {price:2499, dose:'15 mg · Polvo liofilizado', label:'Retatrutide 15 mg', coa:null},
+  20: {price:3199, dose:'20 mg · Polvo liofilizado', label:'Retatrutide 20 mg', coa:{lab:'Janoshik',pur:'99.610%',lot:'Reta20mg51091',date:'2026',id:'8MIB6Q92KYIM',url:'https://www.janoshik.com/verify/'}},
+  30: {price:4099, dose:'30 mg · Polvo liofilizado', label:'Retatrutide 30 mg', coa:{lab:'Janoshik',pur:'99.768%',lot:'N/D',date:'2026',id:'6W2ANUZLQKSW',url:'https://www.janoshik.com/verify/'}}
 };
 var retaSel = 10;
 function selReta(mg) {
@@ -1726,6 +1755,19 @@ function selReta(mg) {
   var d = retaData[mg];
   document.getElementById('reta-dose').textContent = d.dose;
   document.getElementById('reta-price').textContent = '$' + d.price.toLocaleString('es-MX');
+  var _rc = document.getElementById('reta-coa');
+  if (_rc) {
+    if (d.coa) {
+      _rc.style.display = '';
+      document.getElementById('rc-lab').textContent = d.coa.lab;
+      document.getElementById('rc-pur').textContent = d.coa.pur;
+      document.getElementById('rc-lot').textContent = d.coa.lot;
+      document.getElementById('rc-date').textContent = d.coa.date;
+      var _rl = document.getElementById('rc-link');
+      _rl.textContent = 'Verificar: ' + d.coa.id + ' →';
+      _rl.href = d.coa.url;
+    } else { _rc.style.display = 'none'; }
+  }
   [10,15,20,30].forEach(function(v) {
     document.getElementById('rb'+v).className = 'vb' + (v===mg?' sel':'');
   });
