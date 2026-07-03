@@ -652,29 +652,25 @@ footer{padding:48px 24px;border-top:1px solid var(--border);display:grid;grid-te
     <div class="card fade-in" id="card-ghkcu">
       <div class="p-cat">Regeneración · Péptido de cobre</div>
       <div class="p-name">GHK-Cu</div>
-      <div class="p-dose">50 mg · Polvo liofilizado</div>
+      <div class="p-dose" id="ghk-dose">50 mg · Polvo liofilizado</div>
       <div class="out-of-stock">⛔ Agotado temporalmente</div>
       <div class="low-stock"></div>
       <p class="p-desc">Complejo tripeptídico cobre-péptido. Investigado en síntesis de colágeno, regeneración tisular y actividad antioxidante.</p>
-      <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Krause Analytical</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">&gt;99.9%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">kmbxy76</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">2025</span></div><a class="cl" href="https://finnrick.com/verify" target="_blank">Verificar: kmbxy76 →</a></div>
+      <div class="var-btns">
+        <button class="vb sel" id="gb50" onclick="selGhk(50)">50 mg</button>
+        <button class="vb" id="gb100" onclick="selGhk(100)">100 mg</button>
+      </div>
+      <div class="coa" id="ghk-coa">
+        <div class="cr"><span class="ck">Lab</span><span class="cv" id="gc-lab">Krause Analytical</span></div>
+        <div class="cr"><span class="ck">Pureza</span><span class="cv" id="gc-pur">&gt;99.9%</span></div>
+        <div class="cr"><span class="ck">Lote</span><span class="cv" id="gc-lot">kmbxy76</span></div>
+        <div class="cr"><span class="ck">Fecha</span><span class="cv" id="gc-date">2025</span></div>
+        <a class="cl" id="gc-link" href="https://finnrick.com/verify" target="_blank">Verificar: kmbxy76 →</a>
+      </div>
       <a class="vml" href="/peptide_detail?p=ghkcu">Ver información detallada →</a>
       <div class="p-foot">
-        <div class="p-price">$699<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('GHK-Cu','50 mg · Polvo liofilizado',699)">Agregar</button>
-      </div>
-    </div>
-
-    <!-- GHK-Cu 100mg -->
-    <div class="card fade-in" id="card-ghkcu100">
-      <div class="p-cat">Regeneración · Péptido de cobre</div>
-      <div class="p-name">GHK-Cu 100 mg</div>
-      <div class="p-dose">100 mg · Polvo liofilizado</div>
-      <div class="low-stock"></div>
-      <p class="p-desc">Complejo cobre-péptido de alta concentración (100 mg). Investigado en síntesis de colágeno, regeneración tisular y actividad antioxidante.</p>
-      <div class="coa"><div class="cr"><span class="ck">Lab</span><span class="cv">Janoshik</span></div><div class="cr"><span class="ck">Pureza</span><span class="cv">99.456%</span></div><div class="cr"><span class="ck">Lote</span><span class="cv">GHK6469</span></div><div class="cr"><span class="ck">Fecha</span><span class="cv">MAY 2026</span></div><a class="cl" href="https://www.janoshik.com/verify/" target="_blank">Verificar: T3BE6QDVZSRH →</a></div>
-      <div class="p-foot">
-        <div class="p-price">$1,199<small>MXN por vial</small></div>
-        <button class="btn-add" onclick="openModal('GHK-Cu 100 mg','100 mg · Polvo liofilizado',1199)">Agregar</button>
+        <div class="p-price"><span id="ghk-price">$699</span><small>MXN por vial</small></div>
+        <button class="btn-add" id="ghk-add">Agregar</button>
       </div>
     </div>
 
@@ -1409,12 +1405,11 @@ var CARD_INV_MAP = {
   'card-glow':      ['glow'],
   'card-klow':      ['klow'],
   'card-dsip':      ['dsip'],
-  'card-ghkcu100':  ['ghkcu-100'],
   'card-cjcipa':    ['cjc-ipa'],
   'card-retatrutide': ['retatrutide-10','retatrutide-15','retatrutide-20','retatrutide-30'],
   'card-ipamorelin':  ['ipamorelin'],
   'card-nad':         ['nad'],
-  'card-ghkcu':       ['ghkcu'],
+  'card-ghkcu':       ['ghkcu','ghkcu-100'],
   'card-motsc':       ['motsc'],
   'card-ss31':        ['ss31'],
   'card-tirzepatide': ['tirzepatide-10','tirzepatide-20','tirzepatide-30','tirzepatide-40','tirzepatide-50'],
@@ -1473,6 +1468,7 @@ function applyVariantStock() {
   // Actualizar botón Agregar según variante seleccionada
   if (typeof updateRetaBtn === 'function') updateRetaBtn();
   if (typeof updateTirzeBtn === 'function') updateTirzeBtn();
+  if (typeof updateGhkBtn === 'function') updateGhkBtn();
 }
 
 function loadLiveInventory() {
@@ -1857,6 +1853,62 @@ document.getElementById('tirze-add').addEventListener('click', function() {
   var stock = inv[key] ? inv[key].qty : 99;
   if (stock <= 0) return;
   var d = tirzeData[tirzeSel];
+  openModal(d.label, d.dose, d.price);
+});
+
+// ── GHK-CU ──
+var ghkData = {
+  50:  {price:699,  dose:'50 mg · Polvo liofilizado',  label:'GHK-Cu 50 mg',  invKey:'ghkcu',     lab:'Krause Analytical', pur:'>99.9%',  lot:'kmbxy76', date:'2025',     id:'kmbxy76',      url:'https://finnrick.com/verify'},
+  100: {price:1199, dose:'100 mg · Polvo liofilizado', label:'GHK-Cu 100 mg', invKey:'ghkcu-100', lab:'Janoshik',          pur:'99.456%', lot:'GHK6469', date:'MAY 2026', id:'T3BE6QDVZSRH', url:'https://www.janoshik.com/verify/'}
+};
+var ghkSel = 50;
+function selGhk(mg) {
+  ghkSel = mg;
+  var d = ghkData[mg];
+  document.getElementById('ghk-dose').textContent = d.dose;
+  document.getElementById('ghk-price').textContent = '$' + d.price.toLocaleString('es-MX');
+  [50,100].forEach(function(v) {
+    document.getElementById('gb'+v).className = 'vb' + (v===mg?' sel':'');
+  });
+  document.getElementById('gc-lab').textContent = d.lab;
+  document.getElementById('gc-pur').textContent = d.pur;
+  document.getElementById('gc-lot').textContent = d.lot;
+  document.getElementById('gc-date').textContent = d.date;
+  var lk = document.getElementById('gc-link');
+  lk.textContent = 'Verificar: ' + d.id + ' →';
+  lk.href = d.url;
+  updateGhkBtn();
+}
+function updateGhkBtn() {
+  var btn = document.getElementById('ghk-add');
+  if (!btn) return;
+  var inv = getInventory();
+  var key = ghkData[ghkSel].invKey;
+  var stock = inv[key] ? inv[key].qty : 99;
+  if (stock <= 0) {
+    btn.textContent = '⛔ Agotado temporalmente';
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+    btn.style.cursor = 'not-allowed';
+    btn.style.background = 'rgba(224,112,112,0.2)';
+    btn.style.color = '#E07070';
+    btn.style.border = '1px solid rgba(224,112,112,0.3)';
+  } else {
+    btn.textContent = 'Agregar';
+    btn.disabled = false;
+    btn.style.opacity = '';
+    btn.style.cursor = '';
+    btn.style.background = '';
+    btn.style.color = '';
+    btn.style.border = '';
+  }
+}
+document.getElementById('ghk-add').addEventListener('click', function() {
+  var inv = getInventory();
+  var key = ghkData[ghkSel].invKey;
+  var stock = inv[key] ? inv[key].qty : 99;
+  if (stock <= 0) return;
+  var d = ghkData[ghkSel];
   openModal(d.label, d.dose, d.price);
 });
 
